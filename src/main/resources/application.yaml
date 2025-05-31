@@ -1,0 +1,4 @@
+material:
+  elasticity:
+    E1: 65600
+    E2: 70000

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Welcome to the World of Facade</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="container">
+    <!-- Left: Form with Logo -->
+    <div class="form-container">
+        <img class="logo" src="https://img.freepik.com/free-psd/real-estate-logo-design_23-2151249787.jpg?w=740" alt="Logo" />
+        <h2>Glazing Load Input</h2>
+        <form th:action="@{/calculate}" method="post" th:object="${input}">
+            <label for="typeOfGlazing">Type of Glazing</label>
+            <select id="typeOfGlazing" name="typeOfGlazing" th:value="*{typeOfGlazing}" required>
+                <option value="SLIDING WINDOW">SLIDING WINDOW</option>
+                <option value="IN TO IN SEMI UNITIZED">IN TO IN SEMI UNITIZED</option>
+                <option value="SINGLE BRACKET SEMI UNITIZED">SINGLE BRACKET SEMI UNITIZED</option>
+                <option value="DOUBLE BRACKET SEMI UNITIZED">DOUBLE BRACKET SEMI UNITIZED</option>
+            </select>
+
+            <label for="unsupportedLength">Unsupported Length (mm)</label>
+            <input type="number" id="unsupportedLength" name="unsupportedLength" th:value="*{unsupportedLength}" required />
+
+            <label for="gridLength">Grid Length (mm)</label>
+            <input type="number" id="gridLength" name="gridLength" th:value="*{gridLength}" required />
+
+            <label for="windPressure">Wind Pressure (kN/m²)</label>
+            <input type="number" id="windPressure" name="windPressure" th:value="*{windPressure}" step="0.01" required />
+
+            <label for="stackBracket">Stack Bracket (mm)</label>
+            <input type="number" id="stackBracket" name="stackBracket" th:value="*{stackBracket}" required />
+
+            <button type="submit">Calculate</button>
+        </form>
+    </div>
+
+    <!-- Right: Result -->
+    <div class="result-wrapper" th:if="${Ixx != null}">
+    <div class="result-container">
+        <h2>
+            Calculated Result for Glazing Type:
+            <span style="color: #FF5733;" th:text="${glazingType}"></span>
+        </h2>
+        <p th:text="'Required Ixx: ' + ${Ixx} + ' ×10¹⁰ mm⁴'"></p>
+        <p th:text="'Allowable deflection: ' + ${df} + ' mm'"></p>
+        <p th:text="'Bending Moment: ' + ${bm} + ' kN·m'"></p>
+    </div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,114 @@
+/* Global Styles */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    padding: 0;
+    background: url('https://virginia-duran.com/wp-content/uploads/2013/04/virginia-duran-blog-unusual-facades-endesa-pavillion-barcelona.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container Layout */
+.container {
+    display: flex;
+    gap: 20px;
+    background-color: rgba(255, 255, 255, 0.5); /* increased transparency */
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    max-width: 1000px;
+    width: 100%;
+    justify-content: space-between;
+}
+
+
+/* Form Styles */
+.form-container {
+    flex: 1;
+    padding-right: 15px;
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+label {
+    font-weight: 600;
+    margin-top: 12px;
+    display: block;
+    color: #444;
+}
+
+input[type="number"],
+select {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+button {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    border: none;
+    color: white;
+    font-size: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Result Box */
+.result-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.glazing-type {
+    color: #FF5733;
+    font-weight: bold;
+}
+
+.result-container {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    width: 100%;
+}
+
+.result-container h2 {
+    text-align: center;
+    color: #007BFF;
+    margin-bottom: 10px;
+}
+
+.result-container p {
+    font-size: 15px;
+    color: #333;
+    margin: 8px 0;
+}
+
+/* Logo Styling */
+.logo {
+    max-width: 60px;
+    display: block;
+    margin: 0 auto 10px auto;
+}

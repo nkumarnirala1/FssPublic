@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Calculation Result</title>
+</head>
+<body>
+<h2>Calculated  Result</h2>
+<p th:text="'Required Ixx: ' + ${Ixx} + ' kN/m²'"></p>
+<p th:text="'Allowable deflection: ' + ${df} "></p>
+<p th:text="'calculated deflection : ' + ${cf} "></p>
+
+<a th:href="@{/}">Back</a>
+</body>
+</html>
