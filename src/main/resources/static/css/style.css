@@ -105,6 +105,19 @@ button:hover {
     color: #333;
     margin: 8px 0;
 }
+.error-box {
+    background-color: rgba(248, 215, 218, 0.6); /* semi-transparent light red */
+    color: #721c24; /* dark red text */
+    padding: 20px 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    max-width: 300px;
+    margin: 8px auto 0 auto; /* center horizontally */
+}
+
 
 /* Logo Styling */
 .logo {
