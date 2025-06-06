@@ -7,11 +7,11 @@
 </head>
 <body>
 <div class="container">
-    <!-- Left: Form with Logo -->
+    <!-- Left Panel: Form -->
     <div class="form-container">
-        <img class="logo" src="https://img.freepik.com/free-psd/real-estate-logo-design_23-2151249787.jpg?w=740"
-             alt="Logo"/>
+        <img class="logo" src="https://img.freepik.com/free-psd/real-estate-logo-design_23-2151249787.jpg?w=740" alt="Logo"/>
         <h2>Glazing Load Input</h2>
+
         <form th:action="@{/calculate}" method="post" th:object="${input}">
             <label for="typeOfGlazing">Type of Glazing</label>
             <select id="typeOfGlazing" name="typeOfGlazing" th:value="*{typeOfGlazing}" required>
@@ -22,34 +22,31 @@
             </select>
 
             <label for="unsupportedLength">Unsupported Length (mm)</label>
-            <input type="number" id="unsupportedLength" name="unsupportedLength" th:value="*{unsupportedLength}"
-                   required/>
-            <p th:if="${#fields.hasErrors('unsupportedLength')}" th:errors="*{unsupportedLength}"
-               style="color:red;"></p>
+            <input type="number" id="unsupportedLength" name="unsupportedLength" th:value="*{unsupportedLength}" required/>
+            <p th:if="${#fields.hasErrors('unsupportedLength')}" th:errors="*{unsupportedLength}" class="error-box"></p>
 
             <label for="gridLength">Grid Length (mm)</label>
             <input type="number" id="gridLength" name="gridLength" th:value="*{gridLength}" required/>
-            <p th:if="${#fields.hasErrors('gridLength')}" th:errors="*{gridLength}" style="color:red;"></p>
+            <p th:if="${#fields.hasErrors('gridLength')}" th:errors="*{gridLength}" class="error-box"></p>
 
             <label for="windPressure">Wind Pressure (kN/m²)</label>
             <input type="number" id="windPressure" name="windPressure" th:value="*{windPressure}" step="0.01" required/>
-            <p th:if="${#fields.hasErrors('windPressure')}" th:errors="*{windPressure}" style="color:red;"></p>
+            <p th:if="${#fields.hasErrors('windPressure')}" th:errors="*{windPressure}" class="error-box"></p>
 
             <label for="stackBracket">Stack Bracket (mm)</label>
             <input type="number" id="stackBracket" name="stackBracket" th:value="*{stackBracket}" required/>
-            <p th:if="${#fields.hasErrors('stackBracket')}" th:errors="*{stackBracket}" style="color:red;"></p>
-
+            <p th:if="${#fields.hasErrors('stackBracket')}" th:errors="*{stackBracket}" class="error-box"></p>
 
             <button type="submit">Calculate</button>
         </form>
     </div>
 
-    <!-- Right: Result -->
+    <!-- Right Panel: Results -->
     <div class="result-wrapper" th:if="${Ixx != null}">
         <div class="result-container">
             <h2>
                 Calculated Result for Glazing Type:
-                <span style="color: #FF5733;" th:text="${glazingType}"></span>
+                <span class="glazing-type" th:text="${glazingType}"></span>
             </h2>
             <p th:text="'Required Ixx: ' + ${Ixx} + ' ×10¹⁰ mm⁴'"></p>
             <p th:text="'Allowable deflection: ' + ${df} + ' mm'"></p>
@@ -57,10 +54,10 @@
         </div>
     </div>
 
+    <!-- Error Message -->
     <div th:if="${error}" class="error-box">
         <p th:text="${error}"></p>
     </div>
-
 </div>
 </body>
 </html>
