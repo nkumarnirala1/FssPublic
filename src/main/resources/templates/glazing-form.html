@@ -45,8 +45,7 @@
     <div class="result-wrapper" th:if="${Ixx != null}">
         <div class="result-container">
             <h2>
-                Calculated Result for Glazing Type:
-                <span class="glazing-type" th:text="${glazingType}"></span>
+                Calculated Result for given input -
             </h2>
             <p th:text="'Required Ixx: ' + ${Ixx} + ' ×10¹⁰ mm⁴'"></p>
             <p th:text="'Allowable deflection: ' + ${df} + ' mm'"></p>

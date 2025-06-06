@@ -46,7 +46,6 @@ public class HomeController {
         model.addAttribute("Ixx", Ixx);
         model.addAttribute("df", df);
         model.addAttribute("bm", roundedMoment);
-        model.addAttribute("glazingType", input.getTypeOfGlazing());
 
         return "glazing-form";
     }
