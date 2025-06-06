@@ -51,7 +51,7 @@ public class HomeController {
         return "glazing-form";
     }
 
-    @GetMapping("/home")
+    @GetMapping({"/home", "/", "/calculate"})
     public String showForm(Model model) {
 
         GlazingInput input = new GlazingInput();
