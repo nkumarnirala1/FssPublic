@@ -14,7 +14,7 @@
 
         <form th:action="@{/calculate}" method="post" th:object="${input}">
             <label for="typeOfGlazing">Type of Glazing</label>
-            <select id="typeOfGlazing" name="typeOfGlazing" th:value="*{typeOfGlazing}" required>
+            <select id="typeOfGlazing" th:field="*{typeOfGlazing}" required>
                 <option value="SLIDING WINDOW">SLIDING WINDOW</option>
                 <option value="IN TO IN SEMI UNITIZED">IN TO IN SEMI UNITIZED</option>
                 <option value="SINGLE BRACKET SEMI UNITIZED">SINGLE BRACKET SEMI UNITIZED</option>
