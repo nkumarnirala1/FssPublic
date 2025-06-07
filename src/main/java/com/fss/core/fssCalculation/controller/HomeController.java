@@ -4,6 +4,7 @@ import com.fss.core.fssCalculation.modal.GlazingInput;
 import com.fss.core.fssCalculation.service.BendingMomentCal;
 import com.fss.core.fssCalculation.service.DeflectionCal;
 import com.fss.core.fssCalculation.service.IxxCal;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,11 +20,23 @@ import java.math.RoundingMode;
 @Controller
 public class HomeController {
 
+    @GetMapping({"/home", "/", "/calculate","/calculate-deflection"})
+    public String showForm(Model model) {
+
+        GlazingInput input = new GlazingInput();
+        input.setUnsupportedLength(3000.0);
+        input.setGridLength(1200.0);
+        input.setWindPressure(2.35);
+        input.setStackBracket(0.0);
+        model.addAttribute("input", input);
+        return "glazing-form";
+    }
+
 
     @PostMapping("/calculate")
     public String calculate(@Valid @ModelAttribute("input") GlazingInput input,
                             BindingResult bindingResult,
-                            Model model) {
+                            Model model, HttpSession session) {
 
         if (bindingResult.hasErrors()) {
             return "glazing-form"; // Return form with validation errors
@@ -46,20 +59,57 @@ public class HomeController {
         model.addAttribute("Ixx", Ixx);
         model.addAttribute("df", df);
         model.addAttribute("bm", roundedMoment);
+        model.addAttribute("userIxx",Ixx);
+
+        session.setAttribute("typeOfGlazing", input.getTypeOfGlazing());
+        session.setAttribute("unsupportedLength", input.getUnsupportedLength());
+        session.setAttribute("gridLength", input.getGridLength());
+        session.setAttribute("windPressure", input.getWindPressure());
+        session.setAttribute("stackBracket", input.getStackBracket());
+        session.setAttribute("Ixx", Ixx);
+        session.setAttribute("df", df);
+        session.setAttribute("bm", roundedMoment);
 
         return "glazing-form";
     }
 
-    @GetMapping({"/home", "/", "/calculate"})
-    public String showForm(Model model) {
+    @PostMapping("/calculate-deflection")
+    public String calculateDeflectionFromUserIxx(@RequestParam double userIxx,
+                                                 Model model,
+                                                 HttpSession session) {
+        // Retrieve last used input values (gridLength, windPressure, unsupportedLength)
+        //calculateDeflection(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket(), Ixx);
+        String typeOfGlazing = (String) session.getAttribute("typeOfGlazing");
+        Double gridLength = (Double) session.getAttribute("gridLength");
+        Double windPressure = (Double) session.getAttribute("windPressure");
+        Double unsupportedLength = (Double) session.getAttribute("unsupportedLength");
+        Double stackBracket = (Double) session.getAttribute("stackBracket");
 
         GlazingInput input = new GlazingInput();
-        input.setUnsupportedLength(3000.0);
-        input.setGridLength(1200.0);
-        input.setWindPressure(2.35);
-        input.setStackBracket(0.0);
+        input.setUnsupportedLength(unsupportedLength);
+        input.setGridLength(gridLength);
+        input.setWindPressure(windPressure);
+        input.setStackBracket(stackBracket);
         model.addAttribute("input", input);
+
+        double cf = DeflectionCal.calculateDeflection(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket, userIxx);
+
+
+        if (gridLength == null || windPressure == null || unsupportedLength == null) {
+            model.addAttribute("error", "Please perform the initial Ixx calculation first.");
+            return "glazing-form";
+        }
+
+
+
+
+        model.addAttribute("cf", String.format("%.2f", cf));
+        model.addAttribute("Ixx", session.getAttribute("Ixx"));
+        model.addAttribute("df", session.getAttribute("df"));
+        model.addAttribute("bm", session.getAttribute("bm"));
+        model.addAttribute("userIxx", userIxx);
         return "glazing-form";
     }
+
 
 }

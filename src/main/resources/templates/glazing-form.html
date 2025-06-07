@@ -42,14 +42,30 @@
     </div>
 
     <!-- Right Panel: Results -->
+    <!-- RIGHT PANEL: Results and Additional Deflection -->
     <div class="result-wrapper" th:if="${Ixx != null}">
-        <div class="result-container">
-            <h2>
-                Calculated Result for given input -
-            </h2>
-            <p th:text="'Required Ixx: ' + ${Ixx} + ' ×10¹⁰ mm⁴'"></p>
-            <p th:text="'Allowable deflection: ' + ${df} + ' mm'"></p>
-            <p th:text="'Bending Moment: ' + ${bm} + ' kN·m'"></p>
+        <div style="width: 100%;">
+            <!-- Main Result -->
+            <div class="result-container">
+                <h2>Calculated Result for given input -</h2>
+                <p th:text="'Required Ixx: ' + ${Ixx} + ' ×10¹⁰ mm⁴'"></p>
+                <p th:text="'Allowable deflection: ' + ${df} + ' mm'"></p>
+                <p th:text="'Bending Moment: ' + ${bm} + ' kN·m'"></p>
+            </div>
+
+            <!-- Form to Calculate Custom Deflection -->
+            <form th:action="@{/calculate-deflection}" method="post" style="margin-top: 20px; text-align: center;">
+                <label for="userIxx" style="font-weight: bold; display: block; margin-top: 15px;">Enter Custom Ixx (×10¹⁰ mm⁴):</label>
+                <input type="number" id="userIxx" name="userIxx" step="0.01" th:value="*{userIxx}"
+                       required style="width: 70%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; margin: 10px 0;"/>
+
+                <button type="submit">Calculate Deflection</button>
+            </form>
+
+            <!-- Display Calculated Deflection -->
+            <div class="result-container-deflection" th:if="${cf != null}">
+                <p th:text="'Calculated Deflection for entered Ixx: ' + ${cf} + ' mm'"></p>
+            </div>
         </div>
     </div>
 
