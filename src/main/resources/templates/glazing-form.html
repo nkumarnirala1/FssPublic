@@ -5,11 +5,16 @@
     <title>Welcome to the World of Facade</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
+<div class="company-header">
+    <img src="/images/fss_heading.jpeg" alt="Company Heading"/>
+</div>
+<div class="page-wrapper">
+
 <div class="container">
     <!-- Left Panel: Form -->
     <div class="form-container">
-        <img class="logo" src="https://img.freepik.com/free-psd/real-estate-logo-design_23-2151249787.jpg?w=740" alt="Logo"/>
         <h2>Glazing Load Input</h2>
 
         <form th:action="@{/calculate}" method="post" th:object="${input}">
@@ -22,7 +27,8 @@
             </select>
 
             <label for="unsupportedLength">Unsupported Length (mm)</label>
-            <input type="number" id="unsupportedLength" name="unsupportedLength" th:value="*{unsupportedLength}" required/>
+            <input type="number" id="unsupportedLength" name="unsupportedLength" th:value="*{unsupportedLength}"
+                   required/>
             <p th:if="${#fields.hasErrors('unsupportedLength')}" th:errors="*{unsupportedLength}" class="error-box"></p>
 
             <label for="gridLength">Grid Length (mm)</label>
@@ -55,9 +61,11 @@
 
             <!-- Form to Calculate Custom Deflection -->
             <form th:action="@{/calculate-deflection}" method="post" style="margin-top: 20px; text-align: center;">
-                <label for="userIxx" style="font-weight: bold; display: block; margin-top: 15px;">Enter Custom Ixx (×10¹⁰ mm⁴):</label>
+                <label for="userIxx" style="font-weight: bold; display: block; margin-top: 15px;">Enter Custom Ixx
+                    (×10¹⁰ mm⁴):</label>
                 <input type="number" id="userIxx" name="userIxx" step="0.01" th:value="*{userIxx}"
-                       required style="width: 70%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; margin: 10px 0;"/>
+                       required
+                       style="width: 70%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; margin: 10px 0;"/>
 
                 <button type="submit">Calculate Deflection</button>
             </form>
@@ -76,5 +84,8 @@
         </div>
     </div>
 </div>
+
+</div>
+
 </body>
 </html>

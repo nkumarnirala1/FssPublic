@@ -1,14 +1,12 @@
 /* Global Styles */
 body {
     font-family: 'Segoe UI', sans-serif;
-    margin: 0;
-    padding: 0;
-    background: url('/images/virginia-duran-blog-unusual-facades-endesa-pavillion-barcelona.jpg') no-repeat center center fixed;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+       margin: 0;
+       padding: 0;
+       background: url('/images/background_1.jpeg') no-repeat center center fixed;
+       background-size: cover;
+       min-height: 100vh;
+       display: block;
 }
 
 @keyframes fadeInBody {
@@ -26,6 +24,7 @@ body {
     max-width: 1000px;
     width: 100%;
     justify-content: space-between;
+    align-items: flex-start;  👈 e
 }
 
 
@@ -91,22 +90,25 @@ button:hover {
 
 .result-wrapper {
    flex: 1;
-       display: flex;
-       align-items: center;
-       justify-content: center;
-       flex-direction: column;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch; /* or center */
+      justify-content: flex-start;
+
 }
 
 .result-container {
      font-size: 16px;
         color: #000;
         font-weight: bold;
-        background-color: #fffa8b;
+        background-color: #FFF1A8;
         padding: 6px 12px;
         border-radius: 6px;
         margin: 10px 0;
         box-shadow: inset 0 0 4px rgba(255, 255, 0, 0.5);
     animation: floatFade 3s ease-in-out infinite alternate; /* ✅ Only here */
+
+
 }
 
 .result-container-deflection {
@@ -145,14 +147,6 @@ button:hover {
     margin: 10px 0;
 }
 
-
-.logo {
-    max-width: 70px;
-    display: block;
-    margin: 0 auto 12px auto;
-    border-radius: 10px;
-}
-
 .error-icon
 {
  max-width: 70px;
@@ -163,15 +157,14 @@ button:hover {
 
 /* Error Box */
 .error-box {
-     width: 100%; /* match container width */
-         font-size: 16px;
-         color: #000;
-         font-weight: bold;
-         background-color: #fffa8b;
-         padding: 24px; /* consistent with result-container */
-         border-radius: 12px;
-         margin: 10px 0;
-         box-shadow: inset 0 0 4px rgba(255, 255, 0, 0.5), 0 6px 15px rgba(0, 0, 0, 0.1);
+      font-size: 16px;
+             color: #000;
+             font-weight: bold;
+             background-color: #FFF1A8;
+             padding: 6px 12px;
+             border-radius: 6px;
+             margin: 10px 0;
+             box-shadow: inset 0 0 4px rgba(255, 255, 0, 0.5);
          animation: fadeInError 0.6s ease-out forwards;
          text-align: center;
 
@@ -232,4 +225,31 @@ button:hover {
     from { transform: translateY(0px); }
         to { transform: translateY(-4px); }
 }
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.company-header {
+    width: 100%;
+    text-align: center;
+    padding: 20px 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Optional: gives contrast if background image is too busy */
+}
+
+.company-header img {
+    width: 100%;
+    max-width: 1000px;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    border-radius: 12px;
+}
+
+
+
+
 
