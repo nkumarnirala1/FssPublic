@@ -85,6 +85,31 @@ public class HomeController {
         Double unsupportedLength = (Double) session.getAttribute("unsupportedLength");
         Double stackBracket = (Double) session.getAttribute("stackBracket");
 
+        if (gridLength == null || windPressure == null || unsupportedLength == null ) {
+            //model.addAttribute("error", "Please perform the initial Ixx calculation first.");
+            GlazingInput input2 = new GlazingInput();
+            input2.setUnsupportedLength(3000.0);
+            input2.setGridLength(1200.0);
+            input2.setWindPressure(2.35);
+            input2.setStackBracket(0.0);
+            model.addAttribute("input", input2);
+
+            return "glazing-form";
+        }
+
+        if(userIxx==0)
+        {
+            model.addAttribute("error", "Please perform the initial Ixx calculation first.");
+            GlazingInput input2 = new GlazingInput();
+            input2.setUnsupportedLength(3000.0);
+            input2.setGridLength(1200.0);
+            input2.setWindPressure(2.35);
+            input2.setStackBracket(0.0);
+            model.addAttribute("input", input2);
+
+            return "glazing-form";
+        }
+
         GlazingInput input = new GlazingInput();
         input.setUnsupportedLength(unsupportedLength);
         input.setGridLength(gridLength);
@@ -93,14 +118,6 @@ public class HomeController {
         model.addAttribute("input", input);
 
         double cf = DeflectionCal.calculateDeflection(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket, userIxx);
-
-
-        if (gridLength == null || windPressure == null || unsupportedLength == null) {
-            model.addAttribute("error", "Please perform the initial Ixx calculation first.");
-            return "glazing-form";
-        }
-
-
 
 
         model.addAttribute("cf", String.format("%.2f", cf));
