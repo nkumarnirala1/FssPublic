@@ -141,21 +141,28 @@ button:hover {
     border-radius: 10px;
 }
 
+.error-icon
+{
+ max-width: 70px;
+    display: block;
+    margin: 0 auto 12px auto;
+    border-radius: 10px;
+}
+
 /* Error Box */
 .error-box {
-    background-color: rgba(248, 215, 218, 0.85);
-    color: #721c24;
-    padding: 10px 18px;
-    border-radius: 10px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    font-size: 14px;
-    font-style: italic;
-    line-height: 1.3;
-    max-width: 260px;
-    margin: 16px auto 0 auto;
-    position: relative;
-    animation: fadeIn 0.6s ease-out forwards;
+     width: 100%; /* match container width */
+         font-size: 16px;
+         color: #000;
+         font-weight: bold;
+         background-color: #fffa8b;
+         padding: 24px; /* consistent with result-container */
+         border-radius: 12px;
+         margin: 10px 0;
+         box-shadow: inset 0 0 4px rgba(255, 255, 0, 0.5), 0 6px 15px rgba(0, 0, 0, 0.1);
+         animation: fadeInError 0.6s ease-out forwards;
+         text-align: center;
+
 }
 
 .error-box::before {
@@ -193,5 +200,24 @@ button:hover {
     color: #FF5733;
     font-weight: 700;
     font-size: 17px;
+}
+
+.error-box p {
+     font-size: 22px;
+         font-weight: 800;
+         color: #d35400;
+         background: linear-gradient(to right, #ffec99, #ffd54f);
+         padding: 10px 16px;
+         border-radius: 10px;
+         box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+         text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+         border: 2px dashed #f39c12;
+         margin-bottom: 0;
+         display: inline-block;
+}
+
+@keyframes fadeInError {
+    from { transform: translateY(0px); }
+        to { transform: translateY(-4px); }
 }
 

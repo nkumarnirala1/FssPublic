@@ -53,9 +53,11 @@
         </div>
     </div>
 
-    <!-- Error Message -->
-    <div th:if="${error}" class="error-box">
-        <p th:text="${error}"></p>
+    <div class="result-wrapper" th:if="${error}">
+        <div class="error-box">
+            <img class="error-icon" src="/images/img.png" alt="Error Icon">
+            <p th:text="${error}"></p>
+        </div>
     </div>
 </div>
 </body>
