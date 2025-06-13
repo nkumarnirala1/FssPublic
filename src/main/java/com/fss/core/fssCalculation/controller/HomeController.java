@@ -6,6 +6,7 @@ import com.fss.core.fssCalculation.service.DeflectionCal;
 import com.fss.core.fssCalculation.service.IxxCal;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,6 +20,11 @@ import java.math.RoundingMode;
 
 @Controller
 public class HomeController {
+
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
+    }
 
     @GetMapping({"/home", "/", "/calculate","/calculate-deflection"})
     public String showForm(Model model) {

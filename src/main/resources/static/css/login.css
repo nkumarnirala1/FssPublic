@@ -1,0 +1,107 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: url('/images/background_virginia.jpg') no-repeat center center fixed;
+  background-size: cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #ffffff;
+  position: relative;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 0;
+}
+
+
+h1 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+  color: #e0e0e0;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 6px;
+  background-color: #2c2c2c;
+  color: #fff;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background-color: #03dac5;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #00c4a7;
+}
+
+.message {
+  margin-top: 15px;
+  text-align: center;
+  color: #ff6b6b;
+}
+
+.logout-message {
+  color: #80cbc4;
+}
+
+.login-wrapper {
+  display: flex;
+  width: 90%;
+  max-width: 900px;
+  background-color: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+.login-image {
+  flex: 1;
+  background-color: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  max-height: 100%;
+}
+
+.login-container {
+  flex: 1;
+  padding: 40px;
+  background-color: rgba(31, 31, 31, 0.95);
+}
