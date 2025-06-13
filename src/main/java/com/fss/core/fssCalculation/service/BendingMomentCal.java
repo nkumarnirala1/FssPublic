@@ -11,18 +11,11 @@ import org.springframework.stereotype.Component;
 public class BendingMomentCal {
 
     @Value("${material.elasticity.E1:65600}")
-    private double configuredElasticity;
+    private double E;
 
-    public static double E;
+    public GlazingType glazingType;
 
-    @PostConstruct
-    public void init() {
-        E = configuredElasticity;
-    }
-
-    public static GlazingType glazingType;
-
-    public static double calculateBendingMoment(String typeOfGlazing,
+    public double calculateBendingMoment(String typeOfGlazing,
                                                 double unsupportedLength,
                                                 double gridLength, double windPressure, double stackBracket) {
         double udlWindLoad = CalculatedElements.calculateUDLDueToWindLoad(gridLength, unsupportedLength, windPressure);

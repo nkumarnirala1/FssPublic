@@ -6,6 +6,7 @@ import com.fss.core.fssCalculation.service.DeflectionCal;
 import com.fss.core.fssCalculation.service.IxxCal;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,12 +22,22 @@ import java.math.RoundingMode;
 @Controller
 public class HomeController {
 
+    @Autowired
+    IxxCal ixxCal;
+
+    @Autowired
+    DeflectionCal deflectionCal;
+
+
+    @Autowired
+    BendingMomentCal bendingMomentCal;
+
     @GetMapping("/login")
     public String loginPage() {
         return "login";
     }
 
-    @GetMapping({"/home", "/", "/calculate","/calculate-deflection"})
+    @GetMapping({"/home", "/", "/calculate", "/calculate-deflection"})
     public String showForm(Model model) {
 
         GlazingInput input = new GlazingInput();
@@ -56,16 +67,16 @@ public class HomeController {
         }
 
         // Continue with calculation
-        double Ixx = IxxCal.calculateRequiredIxx(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket());
-        double df = DeflectionCal.calculateDeflection(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket(), Ixx);
-        double bendingMoment = BendingMomentCal.calculateBendingMoment(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket());
+        double Ixx = ixxCal.calculateRequiredIxx(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket());
+        double df = deflectionCal.calculateDeflection(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket(), Ixx);
+        double bendingMoment = bendingMomentCal.calculateBendingMoment(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket());
 
         BigDecimal roundedMoment = new BigDecimal(bendingMoment).setScale(2, RoundingMode.HALF_UP);
 
         model.addAttribute("Ixx", Ixx);
         model.addAttribute("df", df);
         model.addAttribute("bm", roundedMoment);
-        model.addAttribute("userIxx",Ixx);
+        model.addAttribute("userIxx", Ixx);
 
         session.setAttribute("typeOfGlazing", input.getTypeOfGlazing());
         session.setAttribute("unsupportedLength", input.getUnsupportedLength());
@@ -91,7 +102,7 @@ public class HomeController {
         Double unsupportedLength = (Double) session.getAttribute("unsupportedLength");
         Double stackBracket = (Double) session.getAttribute("stackBracket");
 
-        if (gridLength == null || windPressure == null || unsupportedLength == null ) {
+        if (gridLength == null || windPressure == null || unsupportedLength == null) {
             //model.addAttribute("error", "Please perform the initial Ixx calculation first.");
             GlazingInput input2 = new GlazingInput();
             input2.setUnsupportedLength(3000.0);
@@ -103,8 +114,7 @@ public class HomeController {
             return "glazing-form";
         }
 
-        if(userIxx==0)
-        {
+        if (userIxx == 0) {
             model.addAttribute("error", "Please perform the initial Ixx calculation first.");
             GlazingInput input2 = new GlazingInput();
             input2.setUnsupportedLength(3000.0);
@@ -123,7 +133,7 @@ public class HomeController {
         input.setStackBracket(stackBracket);
         model.addAttribute("input", input);
 
-        double cf = DeflectionCal.calculateDeflection(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket, userIxx);
+        double cf = deflectionCal.calculateDeflection(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket, userIxx);
 
 
         model.addAttribute("cf", String.format("%.2f", cf));

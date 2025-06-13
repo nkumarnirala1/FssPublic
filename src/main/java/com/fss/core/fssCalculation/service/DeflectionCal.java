@@ -3,6 +3,7 @@ package com.fss.core.fssCalculation.service;
 import com.fss.core.fssCalculation.constants.GlazingType;
 import com.fss.core.fssCalculation.service.elements.CalculatedElements;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,18 +13,14 @@ import java.math.RoundingMode;
 @Component
 public class DeflectionCal {
     @Value("${material.elasticity.E1:65600}")
-    private double configuredElasticity;
+    private double E;
 
-    public static double E;
+    @Autowired
+    private  BendingMomentCal bendingMomentCal;
 
-    @PostConstruct
-    public void init() {
-        E = configuredElasticity;
-    }
+    public GlazingType glazingType;
 
-    public static GlazingType glazingType;
-
-    public static double calculateDeflection(String typeOfGlazing,
+    public double calculateDeflection(String typeOfGlazing,
                                              double unsupportedLength,
                                              double gridLength, double windPressure, double stackBracket, double givenIxx) {
 
@@ -31,7 +28,7 @@ public class DeflectionCal {
         double udlWindLoad = CalculatedElements.calculateUDLDueToWindLoad(gridLength, unsupportedLength, windPressure);
         double effectiveLength = CalculatedElements.calculateEffectiveLength(gridLength, unsupportedLength);
 
-        double bendingMoment = BendingMomentCal.calculateBendingMoment(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket);
+        double bendingMoment = bendingMomentCal.calculateBendingMoment(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket);
 
         double L = unsupportedLength / 1000.0; // Convert mm to meters
         double result = 0;
