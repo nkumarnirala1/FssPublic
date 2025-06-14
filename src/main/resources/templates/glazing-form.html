@@ -12,91 +12,97 @@
 </div>
 <div class="page-wrapper">
 
-<div class="container">
-    <!-- Left Panel: Form -->
-    <div class="form-container">
-        <h2>Glazing Load Input</h2>
+    <div class="container">
+        <!-- Left Panel: Form -->
+        <div class="form-container">
+            <h2>Glazing Load Input</h2>
 
-        <form th:action="@{/calculate}" method="post" th:object="${input}">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            <label for="typeOfGlazing">Type of Glazing</label>
-            <select id="typeOfGlazing" th:field="*{typeOfGlazing}" required>
-                <option value="SLIDING WINDOW">SLIDING WINDOW</option>
-                <option value="IN TO IN SEMI UNITIZED">IN TO IN SEMI UNITIZED</option>
-                <option value="SINGLE BRACKET SEMI UNITIZED">SINGLE BRACKET SEMI UNITIZED</option>
-                <option value="DOUBLE BRACKET SEMI UNITIZED">DOUBLE BRACKET SEMI UNITIZED</option>
-            </select>
+            <form th:action="@{/calculate}" method="post" th:object="${input}">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <label for="typeOfGlazing">Type of Glazing</label>
+                <select id="typeOfGlazing" th:field="*{typeOfGlazing}" required>
+                    <option value="SLIDING WINDOW">SLIDING WINDOW</option>
+                    <option value="IN TO IN SEMI UNITIZED">IN TO IN SEMI UNITIZED</option>
+                    <option value="SINGLE BRACKET SEMI UNITIZED">SINGLE BRACKET SEMI UNITIZED</option>
+                    <option value="DOUBLE BRACKET SEMI UNITIZED">DOUBLE BRACKET SEMI UNITIZED</option>
+                </select>
 
-            <label for="unsupportedLength">Unsupported Length (mm)</label>
-            <input type="number" id="unsupportedLength" name="unsupportedLength" th:value="*{unsupportedLength}"
-                   required/>
-            <p th:if="${#fields.hasErrors('unsupportedLength')}" th:errors="*{unsupportedLength}" class="error-box"></p>
+                <label for="unsupportedLength">Unsupported Length (mm)</label>
+                <input type="number" id="unsupportedLength" name="unsupportedLength" th:value="*{unsupportedLength}"
+                       required/>
+                <p th:if="${#fields.hasErrors('unsupportedLength')}" th:errors="*{unsupportedLength}"
+                   class="error-box"></p>
 
-            <label for="gridLength">Grid Length (mm)</label>
-            <input type="number" id="gridLength" name="gridLength" th:value="*{gridLength}" required/>
-            <p th:if="${#fields.hasErrors('gridLength')}" th:errors="*{gridLength}" class="error-box"></p>
+                <label for="gridLength">Grid Length (mm)</label>
+                <input type="number" id="gridLength" name="gridLength" th:value="*{gridLength}" required/>
+                <p th:if="${#fields.hasErrors('gridLength')}" th:errors="*{gridLength}" class="error-box"></p>
 
-            <label for="windPressure">Wind Pressure (kN/m²)</label>
-            <input type="number" id="windPressure" name="windPressure" th:value="*{windPressure}" step="0.01" required/>
-            <p th:if="${#fields.hasErrors('windPressure')}" th:errors="*{windPressure}" class="error-box"></p>
+                <label for="windPressure">Wind Pressure (kN/m²)</label>
+                <input type="number" id="windPressure" name="windPressure" th:value="*{windPressure}" step="0.01"
+                       required/>
+                <p th:if="${#fields.hasErrors('windPressure')}" th:errors="*{windPressure}" class="error-box"></p>
 
-            <label for="stackBracket">Stack Bracket (mm)</label>
-            <input type="number" id="stackBracket" name="stackBracket" th:value="*{stackBracket}" required/>
-            <p th:if="${#fields.hasErrors('stackBracket')}" th:errors="*{stackBracket}" class="error-box"></p>
+                <label for="stackBracket">Stack Bracket (mm)</label>
+                <input type="number" id="stackBracket" name="stackBracket" th:value="*{stackBracket}" required/>
+                <p th:if="${#fields.hasErrors('stackBracket')}" th:errors="*{stackBracket}" class="error-box"></p>
 
-            <button type="submit">Calculate</button>
-        </form>
-    </div>
-
-    <!-- Right Panel: Results -->
-    <!-- RIGHT PANEL: Results and Additional Deflection -->
-    <div class="result-wrapper" th:if="${Ixx != null}">
-        <div style="width: 100%;">
-            <!-- Main Result -->
-            <div class="result-container">
-                <h2>Calculated Result for given input -</h2>
-                <p th:text="'Required Ixx: ' + ${Ixx} + ' ×10¹⁰ mm⁴'"></p>
-                <p th:text="'Allowable deflection: ' + ${df} + ' mm'"></p>
-                <p th:text="'Bending Moment: ' + ${bm} + ' kN·m'"></p>
-            </div>
-
-            <!-- Form to Calculate Custom Deflection -->
-            <form th:action="@{/calculate-deflection}" method="post" style="margin-top: 20px; text-align: center;">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <label for="userIxx" style="font-weight: bold; display: block; margin-top: 15px;">Enter Custom Ixx
-                    (×10¹⁰ mm⁴):</label>
-                <input type="number" id="userIxx" name="userIxx" step="0.01" th:value="*{userIxx}"
-                       required
-                       style="width: 70%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; margin: 10px 0;"/>
-
-                <button type="submit">Calculate Deflection</button>
+                <button type="submit">Calculate</button>
             </form>
+        </div>
+
+        <!-- Right Panel: Results -->
+        <!-- RIGHT PANEL: Results and Additional Deflection -->
+        <div class="result-wrapper" th:if="${Ixx != null}">
+            <div style="width: 100%;">
+                <!-- Main Result -->
+                <div class="result-container">
+                    <h2>Calculated Result for given input -</h2>
+                    <p th:text="'Required Ixx: ' + ${Ixx} + ' ×10¹⁰ mm⁴'"></p>
+                    <p th:text="'Allowable deflection: ' + ${df} + ' mm'"></p>
+                    <p th:text="'Bending Moment: ' + ${bm} + ' kN·m'"></p>
+                </div>
+
+                <!-- Form to Calculate Custom Deflection -->
+                <form th:action="@{/calculate-deflection}" method="post" style="margin-top: 20px; text-align: center;">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <label for="userIxx" style="font-weight: bold; display: block; margin-top: 15px;">Enter Custom Ixx
+                        (×10¹⁰ mm⁴):</label>
+                    <input type="number" id="userIxx" name="userIxx" step="0.01" th:value="*{userIxx}"
+                           required
+                           style="width: 70%; padding: 8px; border-radius: 6px; border: 1px solid #ccc; margin: 10px 0;"/>
+
+                    <button type="submit">Calculate Deflection</button>
+                </form>
 
 
+                <!-- Display Calculated Deflection -->
+                <div class="result-container-deflection" th:if="${cf != null}">
+                    <p th:text="'Calculated Deflection for entered Ixx: ' + ${cf} + ' mm'"></p>
+                </div>
+            </div>
+        </div>
 
-
-            <!-- Display Calculated Deflection -->
-            <div class="result-container-deflection" th:if="${cf != null}">
-                <p th:text="'Calculated Deflection for entered Ixx: ' + ${cf} + ' mm'"></p>
+        <div class="result-wrapper" th:if="${error}">
+            <div class="error-box">
+                <img class="error-icon" src="/images/error_img.png" alt="Error Icon">
+                <p th:text="${error}"></p>
             </div>
         </div>
     </div>
 
-    <div class="result-wrapper" th:if="${error}">
-        <div class="error-box">
-            <img class="error-icon" src="/images/error_img.png" alt="Error Icon">
-            <p th:text="${error}"></p>
-        </div>
-    </div>
 </div>
 
-</div>
+<form th:action="@{/download-pdf}" method="get">
+    <button type="submit" class="download-btn">Download PDF Report</button>
+</form>
 
 </body>
 <div class="logout-button-wrapper">
     <form th:action="@{/logout}" method="post">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
         <button class="logout-button" type="submit">Logout</button>
     </form>
 </div>
+
+
 </html>

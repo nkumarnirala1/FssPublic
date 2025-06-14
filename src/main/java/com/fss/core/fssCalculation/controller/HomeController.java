@@ -4,6 +4,8 @@ import com.fss.core.fssCalculation.modal.GlazingInput;
 import com.fss.core.fssCalculation.service.BendingMomentCal;
 import com.fss.core.fssCalculation.service.DeflectionCal;
 import com.fss.core.fssCalculation.service.IxxCal;
+import com.fss.core.fssCalculation.service.utility.PdfGenerator;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -88,9 +91,7 @@ public class HomeController {
     public String calculateDeflectionFromUserIxx(@RequestParam double userIxx,
                                                  Model model,
                                                  HttpSession session) {
-        // Retrieve last used input values (gridLength, windPressure, unsupportedLength)
-        //calculateDeflection(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket(), Ixx);
-        String typeOfGlazing = (String) session.getAttribute("typeOfGlazing");
+          String typeOfGlazing = (String) session.getAttribute("typeOfGlazing");
         Double gridLength = (Double) session.getAttribute("gridLength");
         Double windPressure = (Double) session.getAttribute("windPressure");
         Double unsupportedLength = (Double) session.getAttribute("unsupportedLength");
@@ -98,7 +99,6 @@ public class HomeController {
 
 
         if (gridLength == null || windPressure == null || unsupportedLength == null) {
-            //model.addAttribute("error", "Please perform the initial Ixx calculation first.");
 
             model.addAttribute("input", prepareDefaultInput());
 
@@ -118,7 +118,31 @@ public class HomeController {
 
         prepareModel(model, cf, session.getAttribute("Ixx"), session.getAttribute("df"), session.getAttribute("dm"), userIxx);
 
+        session.setAttribute("userIxx", userIxx);
+        session.setAttribute("cf", cf);
         return "glazing-form";
+    }
+
+    @GetMapping("/download-pdf")
+    public void downloadPdf(HttpServletResponse response, HttpSession session) throws IOException {
+        response.setContentType("application/pdf");
+        response.setHeader("Content-Disposition", "attachment; filename=glazing-result.pdf");
+
+        Object ixxObj = session.getAttribute("Ixx");
+        double Ixx = ixxObj != null ? (double) ixxObj : 0.0;
+        Object dfObj = session.getAttribute("df");
+        double df = dfObj!=null ? (double) dfObj : 0.0;
+
+        Object bmObj = session.getAttribute("bm");
+        double bm = bmObj instanceof BigDecimal ? ((BigDecimal) bmObj).doubleValue() : 0.0;
+
+        Double cf = (session.getAttribute("cf") instanceof Double) ? (Double) session.getAttribute("cf") : null;
+
+        Object userIxxObj = session.getAttribute("userIxx");
+        double userIxx = userIxxObj != null ? (double) userIxxObj : 0.0;
+
+
+        PdfGenerator.generateResultPdf(response, Ixx, df, bm, cf, userIxx);
     }
 
     public GlazingInput prepareDefaultInput() {

@@ -271,6 +271,21 @@ button:hover {
     background-color: #c82333;
 }
 
+.download-btn {
+    background-color: #28a745;
+    border: none;
+    padding: 10px 16px;
+    color: white;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+.download-btn:hover {
+    background-color: #218838;
+}
+
+
 
 
 
