@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Material Estimation</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<div class="company-header">
+    <img src="/images/fss_heading.jpeg" alt="Company Heading"/>
+</div>
+
+<div class="page-wrapper">
+    <div class="container">
+        <div class="form-container">
+            <h2>Material Cost Estimation</h2>
+            <form th:action="@{/submit-estimation}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                <label for="typeOfGlazing">Type of Glazing</label>
+                <select id="typeOfGlazing" name="typeOfGlazing" required>
+                    <option value="">-- Select Type --</option>
+                    <option value="SLIDING WINDOW" th:selected="${typeOfGlazing} == 'SLIDING WINDOW'">SLIDING WINDOW</option>
+                    <option value="IN TO IN SEMI UNITIZED" th:selected="${typeOfGlazing} == 'IN TO IN SEMI UNITIZED'">IN TO IN SEMI UNITIZED</option>
+                    <option value="SINGLE BRACKET SEMI UNITIZED" th:selected="${typeOfGlazing} == 'SINGLE BRACKET SEMI UNITIZED'">SINGLE BRACKET SEMI UNITIZED</option>
+                    <option value="DOUBLE BRACKET SEMI UNITIZED" th:selected="${typeOfGlazing} == 'DOUBLE BRACKET SEMI UNITIZED'">DOUBLE BRACKET SEMI UNITIZED</option>
+                </select>
+
+                <!-- Conditionally visible sliding window fields -->
+                <div id="slidingWindowFields" style="display: none;">
+                    <label for="slidingType">Type of Sliding Window</label>
+                    <select id="slidingType" name="slidingType">
+                        <option value="">-- Select Sliding Type --</option>
+                        <option value="2 track 2 shutter">2 Track 2 Shutter</option>
+                        <option value="3 track 3 shutter">3 Track 3 Shutter</option>
+                        <option value="4 track 4 shutter">4 Track 4 Shutter</option>
+                    </select>
+
+                    <label for="endShutterCrossSectionalArea">End Shutter Cross Sectional Area (mm²)</label>
+                    <input type="number" id="endShutterCrossSectionalArea" name="endShutterCrossSectionalArea" step="0.01"/>
+
+                    <label for="innerLockACrossSectionalArea">Inner Lock A Cross Sectional Area (mm²)</label>
+                    <input type="number" id="innerLockACrossSectionalArea" name="innerLockACrossSectionalArea" step="0.01"/>
+
+                    <label for="innerLockBCrossSectionalArea">Inner Lock B Cross Sectional Area (mm²)</label>
+                    <input type="number" id="innerLockBCrossSectionalArea" name="innerLockBCrossSectionalArea" step="0.01"/>
+
+                    <label for="outerCrossSectionalArea">Outer Cross Sectional Area (mm²)</label>
+                    <input type="number" id="outerCrossSectionalArea" name="outerCrossSectionalArea" step="0.01"/>
+                </div>
+
+                <label for="unsupportedLength">Unsupported Length (mm)</label>
+                <input type="number" id="unsupportedLength" name="unsupportedLength"
+                       th:value="${unsupportedLength}" step="0.01" required/>
+
+                <label for="gridLength">Grid Length (mm)</label>
+                <input type="number" id="gridLength" name="gridLength"
+                       th:value="${gridLength}" step="0.01" required/>
+
+                <label for="rate">Rate of Material (per mm³)</label>
+                <input type="number" id="rate" name="rate" step="0.01" required/>
+
+                <button type="submit">Estimate</button>
+            </form>
+        </div>
+
+        <div class="result-wrapper" th:if="${estimatedCost != null}">
+            <div class="result-container">
+                <h2>Estimation Result</h2>
+                <p><span class="label">Estimated Cost:</span> <span class="value" th:text="'₹' + ${estimatedCost}"></span></p>
+            </div>
+            <div class="result-wrapper" th:if="${error}">
+                <div class="error-box">
+                    <img class="error-icon" src="/images/error_img.png" alt="Error Icon">
+                    <p th:text="${error}"></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="logout-button-wrapper">
+    <form th:action="@{/logout}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+        <button class="logout-button" type="submit">Logout</button>
+    </form>
+</div>
+
+<!-- ✅ JavaScript to show/hide sliding window section -->
+<script>
+    const glazingSelect = document.getElementById('typeOfGlazing');
+    const slidingSection = document.getElementById('slidingWindowFields');
+
+    function toggleSlidingSection() {
+        const selected = glazingSelect.value;
+        slidingSection.style.display = selected === 'SLIDING WINDOW' ? 'block' : 'none';
+
+        // Optional: clear values if not sliding
+        if (selected !== 'SLIDING WINDOW') {
+            document.querySelectorAll('#slidingWindowFields input, #slidingWindowFields select').forEach(el => el.value = '');
+        }
+    }
+
+    // On load and change
+    window.onload = toggleSlidingSection;
+    glazingSelect.addEventListener('change', toggleSlidingSection);
+</script>
+
+</body>
+</html>

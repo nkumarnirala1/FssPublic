@@ -91,7 +91,7 @@ public class HomeController {
     public String calculateDeflectionFromUserIxx(@RequestParam double userIxx,
                                                  Model model,
                                                  HttpSession session) {
-          String typeOfGlazing = (String) session.getAttribute("typeOfGlazing");
+        String typeOfGlazing = (String) session.getAttribute("typeOfGlazing");
         Double gridLength = (Double) session.getAttribute("gridLength");
         Double windPressure = (Double) session.getAttribute("windPressure");
         Double unsupportedLength = (Double) session.getAttribute("unsupportedLength");
@@ -145,6 +145,7 @@ public class HomeController {
         PdfGenerator.generateResultPdf(response, Ixx, df, bm, cf, userIxx);
     }
 
+
     public GlazingInput prepareDefaultInput() {
         GlazingInput input = new GlazingInput();
         input.setUnsupportedLength(3000.0);
@@ -189,6 +190,8 @@ public class HomeController {
 
         return "glazing-form";
     }
+
+
 
 
 }

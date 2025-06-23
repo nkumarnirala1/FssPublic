@@ -1,23 +1,18 @@
 package com.fss.core.fssCalculation;
 
-import com.fss.core.fssCalculation.service.BendingMomentCal;
-import com.fss.core.fssCalculation.service.CentroidCal.RegularRectangular;
-import com.fss.core.fssCalculation.service.DeflectionCal;
-import com.fss.core.fssCalculation.service.IxxCal;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 @SpringBootApplication
 public class FssCalculationApplication {
+
 
 	public static void main(String[] args) {
 
 
 		SpringApplication.run(FssCalculationApplication.class, args);
 		//System.out.println("Your Application started successfully");
+
 
 //		String typeOfGlazing= "SLIDING WINDOW";
 //		double unsupportedLength= 3200;
