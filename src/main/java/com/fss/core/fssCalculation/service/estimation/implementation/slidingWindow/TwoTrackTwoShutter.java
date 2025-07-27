@@ -21,11 +21,15 @@ public class TwoTrackTwoShutter implements IEstimation {
         double horizontalOuter = 2;
         double verticalOuter = 2;
 
-        double outerVolume = (horizontalOuter * (2 * gridLength) + verticalOuter * unsupportedLength) * outerCrossSectionalArea;
+        double outerVolume = (horizontalOuter * (2 * gridLength) + verticalOuter * unsupportedLength) * outerCrossSectionalArea/(1000000.0);
 
-        double innerVolume = ((horizontalEndShutter * gridLength) + (verticalEndShutter * unsupportedLength)) * endShutterCrossSectionalArea + unsupportedLength * (innerLockACrossSectionalArea + innerLockBCrossSectionalArea);
+        double innerVolume = ((horizontalEndShutter * gridLength) + (verticalEndShutter * unsupportedLength)) * (endShutterCrossSectionalArea/(1000000.0)) + unsupportedLength * ((innerLockACrossSectionalArea + innerLockBCrossSectionalArea)/(1000000.0));
 
         double totalWeight = density * (innerVolume + outerVolume);
-        return totalWeight * rate;
+
+        double totalAmount= totalWeight * rate;
+
+        double totalArea = unsupportedLength * (2*gridLength);
+        return totalAmount/totalArea;
     }
 }

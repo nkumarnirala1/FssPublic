@@ -16,7 +16,7 @@
             <div class="result-container">
                 <h2>Estimation Result</h2>
                 <p><span class="label">Total Volume:</span> <span class="value" th:text="${volume} + ' mm³'"></span></p>
-                <p><span class="label">Estimated Cost:</span> <span class="value" th:text="'₹' + ${estimatedCost}"></span></p>
+                <p><span class="label">Estimated Cost:</span> <span class="value" th:text="'₹' + ${estimatedCost} + 'per m²'"></span></p>
             </div>
             <div class="result-wrapper" th:if="${error}">
                 <div class="error-box">

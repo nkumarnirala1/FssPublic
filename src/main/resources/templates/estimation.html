@@ -37,16 +37,16 @@
                     </select>
 
                     <label for="endShutterCrossSectionalArea">End Shutter Cross Sectional Area (mm²)</label>
-                    <input type="number" id="endShutterCrossSectionalArea" name="endShutterCrossSectionalArea" step="0.01"/>
+                    <input type="number" id="endShutterCrossSectionalArea" name="endShutterCrossSectionalArea" th:value="${endShutterCrossSectionalArea}" step="0.01"/>
 
                     <label for="innerLockACrossSectionalArea">Inner Lock A Cross Sectional Area (mm²)</label>
-                    <input type="number" id="innerLockACrossSectionalArea" name="innerLockACrossSectionalArea" step="0.01"/>
+                    <input type="number" id="innerLockACrossSectionalArea" name="innerLockACrossSectionalArea" th:value="${innerLockACrossSectionalArea}" step="0.01"/>
 
                     <label for="innerLockBCrossSectionalArea">Inner Lock B Cross Sectional Area (mm²)</label>
-                    <input type="number" id="innerLockBCrossSectionalArea" name="innerLockBCrossSectionalArea" step="0.01"/>
+                    <input type="number" id="innerLockBCrossSectionalArea" name="innerLockBCrossSectionalArea" th:value="${innerLockBCrossSectionalArea}" step="0.01"/>
 
                     <label for="outerCrossSectionalArea">Outer Cross Sectional Area (mm²)</label>
-                    <input type="number" id="outerCrossSectionalArea" name="outerCrossSectionalArea" step="0.01"/>
+                    <input type="number" id="outerCrossSectionalArea" name="outerCrossSectionalArea" th:value="${outerCrossSectionalArea}" step="0.01"/>
                 </div>
 
                 <label for="unsupportedLength">Unsupported Length (mm)</label>
@@ -57,7 +57,7 @@
                 <input type="number" id="gridLength" name="gridLength"
                        th:value="${gridLength}" step="0.01" required/>
 
-                <label for="rate">Rate of Material (per mm³)</label>
+                <label for="rate">Rate of Material ( per kg)</label>
                 <input type="number" id="rate" name="rate" step="0.01" required/>
 
                 <button type="submit">Estimate</button>
@@ -67,7 +67,7 @@
         <div class="result-wrapper" th:if="${estimatedCost != null}">
             <div class="result-container">
                 <h2>Estimation Result</h2>
-                <p><span class="label">Estimated Cost:</span> <span class="value" th:text="'₹' + ${estimatedCost}"></span></p>
+                <p><span class="label">Estimated Cost:</span> <span class="value" th:text="'₹' + ${estimatedCost} + ' per m²'"></span></p>
             </div>
             <div class="result-wrapper" th:if="${error}">
                 <div class="error-box">

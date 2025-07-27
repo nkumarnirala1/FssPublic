@@ -27,6 +27,11 @@ public class EstimationController {
         model.addAttribute("unsupportedLength", unsupportedLength);
         model.addAttribute("gridLength", gridLength);
         model.addAttribute("typeOfGlazing", typeOfGlazing);
+        model.addAttribute("endShutterCrossSectionalArea",1000.0);
+        model.addAttribute("innerLockACrossSectionalArea",1000.0);
+        model.addAttribute("innerLockBCrossSectionalArea",1000.0);
+        model.addAttribute("outerCrossSectionalArea",1000.0);
+
 
         return "estimation";
     }
