@@ -81,4 +81,6 @@ public class DeflectionCal {
         BigDecimal rounded = new BigDecimal(result).setScale(1, RoundingMode.HALF_UP);
         return rounded.doubleValue();
     }
+
+
 }

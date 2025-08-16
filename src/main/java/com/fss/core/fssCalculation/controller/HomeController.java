@@ -131,7 +131,7 @@ public class HomeController {
         Object ixxObj = session.getAttribute("Ixx");
         double Ixx = ixxObj != null ? (double) ixxObj : 0.0;
         Object dfObj = session.getAttribute("df");
-        double df = dfObj!=null ? (double) dfObj : 0.0;
+        double df = dfObj != null ? (double) dfObj : 0.0;
 
         Object bmObj = session.getAttribute("bm");
         double bm = bmObj instanceof BigDecimal ? ((BigDecimal) bmObj).doubleValue() : 0.0;
@@ -190,8 +190,6 @@ public class HomeController {
 
         return "glazing-form";
     }
-
-
 
 
 }

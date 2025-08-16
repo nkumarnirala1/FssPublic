@@ -94,9 +94,7 @@
 
 
 
-<form th:action="@{/estimation}" method="get">
-    <button type="submit" class="estimation-btn">Estimation</button>
-</form>
+
 
 </body>
 <div class="logout-button-wrapper">
@@ -106,6 +104,10 @@
     </form>
     <form th:action="@{/download-pdf}" method="get">
         <button type="submit" class="download-btn">Download PDF Report</button>
+    </form>
+
+    <form th:action="@{/estimation}" method="get">
+        <button type="submit" class="estimation-btn">Estimation</button>
     </form>
 </div>
 

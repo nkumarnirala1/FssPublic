@@ -30,6 +30,21 @@ public class CalculatedElements {
         return gridLength / (2 * unsupportedLength);
     }
 
+    public static Boolean checkIfDeflectionSafeForMullion(double unsupportedLength, double calculatedDeflection) {
+        double allowableDeflection;
+
+        if (unsupportedLength <= 4150) {
+            // L/175 or 19mm, whichever is lesser
+            allowableDeflection = Math.min(unsupportedLength / 175.0, 19.0);
+        } else {
+            // (L/240 + 6.35) or 25mm, whichever is lesser
+            allowableDeflection = Math.min((unsupportedLength / 240.0) + 6.35, 25.0);
+        }
+
+        return calculatedDeflection <= allowableDeflection;
+    }
+
+
 
 }
 
