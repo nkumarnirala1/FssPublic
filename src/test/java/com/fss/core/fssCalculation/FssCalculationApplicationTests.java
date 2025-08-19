@@ -14,11 +14,13 @@ import com.fss.core.fssCalculation.service.elements.transom.TransomBbyY;
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure1Transom;
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure2Transom;
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure3Transom;
+import com.fss.core.fssCalculation.service.utility.ExcelSheetGenerater;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -64,8 +66,11 @@ class FssCalculationApplicationTests {
     @Autowired
     Figure3Transom figure3Transom;
 
+    @Autowired
+    ExcelSheetGenerater excelSheetGenerater;
+
     @Test
-    void mullionStressAndDeflectionCheck() {
+    void mullionStressAndDeflectionCheck() throws IOException {
 
         String typeOfGlazing = "SLIDING WINDOW";
         String typeOfGlazingValue = "1";
@@ -156,14 +161,13 @@ class FssCalculationApplicationTests {
     @Test
     void transomStressAndDeflectionCheck() {
 
-
-        double glassThickness = 12;
         double gridLength = 1200;
         double windPressure = 2.35;
+        double glassThickness = 12;
         double transomTopPanelHeight = 1700;
         double transomBottomPanelHeight = 1500;
        // can take from daigramm
-        double depthOfSectionTransom = 101;
+        double depthOfSectionTransom = 101; //a
         double t2Transom = 2.6;
         double thicknessTaTransom_t1 = 2.6;
 
