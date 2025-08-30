@@ -1,7 +1,14 @@
 package com.fss.core.fssCalculation;
 
 
+import com.fss.core.fssCalculation.modal.ExcelElement;
+import com.fss.core.fssCalculation.service.utility.ExcelSheetGenerator;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 @Component
 public class FssRunner {
@@ -31,8 +38,15 @@ public class FssRunner {
 //    MullionBbyY mullionBbyY;
 //
 //
-//    @PostConstruct
-//    public void run() {
+     @Autowired
+    ExcelSheetGenerator excelSheetGenerator;
+
+    @PostConstruct
+    public void run() throws IOException {
+
+        //ArrayList<ExcelElement> excelElementArrayList = excelSheetGenerator.enrichElements(null);
+
+
 //
 //        String typeOfGlazing= "SLIDING WINDOW";
 //        String typeOfGlazingValue = "1";
@@ -98,5 +112,5 @@ public class FssRunner {
 //        System.out.println("calculated - c/z="+by);
 
 
-    //}
+    }
 }

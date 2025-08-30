@@ -9,7 +9,8 @@ import com.fss.core.fssCalculation.service.DeflectionCal;
 import com.fss.core.fssCalculation.service.IxxCal;
 import com.fss.core.fssCalculation.service.elements.mullion.CheckMullionProfile;
 import com.fss.core.fssCalculation.service.elements.transom.CheckTransomProfile;
-import com.fss.core.fssCalculation.service.utility.ExcelSheetGenerater;
+import com.fss.core.fssCalculation.service.utility.ExcelSheetGenerator;
+import com.fss.core.fssCalculation.service.utility.PdfGenerator;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -45,13 +46,20 @@ public class HomeController {
     BendingMomentCal bendingMomentCal;
 
     @Autowired
-    ExcelSheetGenerater excelDownloadService;
+    ExcelSheetGenerator excelDownloadService;
 
     @Autowired
     CheckMullionProfile checkMullionProfile;
 
     @Autowired
     CheckTransomProfile checkTransomProfile;
+
+    @Autowired
+    ExcelSheetGenerator excelSheetGenerator;
+
+    @Autowired
+    PdfGenerator pdfGenerator;
+
     @GetMapping("show")
     public String showMullionForm(Model model) {
         // you can add attributes if needed
@@ -302,55 +310,25 @@ public class HomeController {
 
     @GetMapping("/download-pdf")
     public ResponseEntity<byte[]> downloadPdf(HttpServletResponse response, HttpSession session) throws IOException {
-
-        Object ixxObj = session.getAttribute("Ixx");
-        double Ixx = ixxObj != null ? (double) ixxObj : 0.0;
-        Object dfObj = session.getAttribute("df");
-        double df = dfObj != null ? (double) dfObj : 0.0;
-
-        Object bmObj = session.getAttribute("bm");
-        double bm = bmObj instanceof BigDecimal ? ((BigDecimal) bmObj).doubleValue() : 0.0;
-
-        ExcelElement excelElement1 = new ExcelElement("ixx", Double.toString(Ixx), 1, 1);
-        ExcelElement excelElement2 = new ExcelElement("df", Double.toString(df), 2, 1);
-        ExcelElement excelElement3 = new ExcelElement("bm", Double.toString(bm), 3, 1);
-
-        ArrayList<ExcelElement> excelElementList = new ArrayList<>();
-//        excelElementList.add(excelElement1);
-//        excelElementList.add(excelElement2);
-//        excelElementList.add(excelElement3);
-
+        ArrayList<ExcelElement> excelElementList = excelSheetGenerator.enrichElements(session);
 
         try {
+            // Get modified Excel stream
             var bos = excelDownloadService.generateExcelReport("Typcal Structural Glazing", excelElementList);
 
+            // Convert to PDF
+            byte[] pdfBytes = pdfGenerator.convertExcelToPdf(bos);
+
+            // Return as downloadable file
             return ResponseEntity.ok()
-                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=updated.xlsx")
-                    .contentType(MediaType.APPLICATION_OCTET_STREAM)
-                    .body(bos.toByteArray());
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=updated.pdf")
+                    .contentType(MediaType.APPLICATION_PDF)
+                    .body(pdfBytes);
 
         } catch (Exception e) {
             return ResponseEntity.internalServerError()
                     .body(("Error: " + e.getMessage()).getBytes());
         }
-//        response.setContentType("application/pdf");
-//        response.setHeader("Content-Disposition", "attachment; filename=glazing-result.pdf");
-//
-//        Object ixxObj = session.getAttribute("Ixx");
-//        double Ixx = ixxObj != null ? (double) ixxObj : 0.0;
-//        Object dfObj = session.getAttribute("df");
-//        double df = dfObj != null ? (double) dfObj : 0.0;
-//
-//        Object bmObj = session.getAttribute("bm");
-//        double bm = bmObj instanceof BigDecimal ? ((BigDecimal) bmObj).doubleValue() : 0.0;
-//
-//        Double cf = (session.getAttribute("cf") instanceof Double) ? (Double) session.getAttribute("cf") : null;
-//
-//        Object userIxxObj = session.getAttribute("userIxx");
-//        double userIxx = userIxxObj != null ? (double) userIxxObj : 0.0;
-//
-//
-//        PdfGenerator.generateResultPdf(response, Ixx, df, bm, cf, userIxx);
     }
 
 

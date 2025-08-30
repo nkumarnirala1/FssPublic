@@ -14,7 +14,7 @@ import com.fss.core.fssCalculation.service.elements.transom.TransomBbyY;
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure1Transom;
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure2Transom;
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure3Transom;
-import com.fss.core.fssCalculation.service.utility.ExcelSheetGenerater;
+import com.fss.core.fssCalculation.service.utility.ExcelSheetGenerator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,7 +67,7 @@ class FssCalculationApplicationTests {
     Figure3Transom figure3Transom;
 
     @Autowired
-    ExcelSheetGenerater excelSheetGenerater;
+    ExcelSheetGenerator excelSheetGenerater;
 
     @Test
     void mullionStressAndDeflectionCheck() throws IOException {
