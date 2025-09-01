@@ -72,6 +72,27 @@ public class HomeController {
         return "login";
     }
 
+    @GetMapping("/register")
+    public String registerPage() {
+        return "register"; // loads register.html from templates
+    }
+
+    @PostMapping("/register")
+    public String handleRegistration(@RequestParam String username,
+                                     @RequestParam String email,
+                                     @RequestParam String password,
+                                     @RequestParam String confirmPassword,
+                                     Model model) {
+        // TODO: Save user in DB after validation
+        if (!password.equals(confirmPassword)) {
+            model.addAttribute("error", "Passwords do not match");
+            return "register";
+        }
+
+        // userService.saveUser(new User(username, email, password));
+        return "redirect:/login?registered";
+    }
+
     @GetMapping({"/home", "/", "/calculate", "/calculate-deflection"})
     public String showForm(Model model) {
 

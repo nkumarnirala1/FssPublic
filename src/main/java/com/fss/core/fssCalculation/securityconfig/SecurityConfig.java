@@ -1,4 +1,4 @@
-package com.fss.core.fssCalculation.sequrityconfig;
+package com.fss.core.fssCalculation.securityconfig;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,8 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-import static org.springframework.security.config.Customizer.withDefaults;
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -24,7 +22,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/css/**", "/js/**", "/images/**").permitAll()  // allow login and static
+                        .requestMatchers("/register", "/register/**","/login", "/css/**", "/js/**", "/images/**").permitAll()  // allow login and static
                         .anyRequest().authenticated()  // all other endpoints secured
                 )
                 .formLogin(form -> form
