@@ -1,40 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Login - World Facade</title>
-  <link rel="stylesheet" th:href="@{/css/login.css}">
+    <title>Login - World Facade</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
+<div class="overlay"></div>
 <div class="login-wrapper">
-  <!-- Left: Image -->
-  <div class="login-image">
-    <img src="/images/fsslogo.jpeg" alt="Facade Illustration"/>
-  </div>
+    <!-- Left: Image -->
+    <div class="login-image">
+        <img src="/images/fsslogo.jpeg" alt="Facade Illustration"/>
+    </div>
 
-  <!-- Right: Login Form -->
-  <div class="login-container">
-    <h1>Welcome to the FSS</h1>
-    <form th:action="@{/login}" method="post">
-      <div>
-        <label>Username:</label>
-        <input type="text" name="username" />
-      </div>
-      <div>
-        <label>Password:</label>
-        <input type="password" name="password" />
-      </div>
-      <div>
-        <button type="submit">Login</button>
-      </div>
-      <div th:if="${param.error}" class="message">
-        Invalid username or password.
-      </div>
-      <div th:if="${param.logout}" class="message logout-message">
-        You have been logged out.
-      </div>
-    </form>
-  </div>
+    <!-- Right: Login Form -->
+    <div class="login-container">
+        <h1>Welcome to the FSS</h1>
+        <form th:action="@{/login}" method="post">
+            <div>
+                <label>Username:</label>
+                <input type="text" name="username" required/>
+            </div>
+            <div>
+                <label>Password:</label>
+                <input type="password" name="password" required/>
+            </div>
+            <div>
+                <button type="submit">Login</button>
+            </div>
+
+            <!-- Error Messages -->
+            <div th:if="${param.error}" class="message">
+                Invalid username or password.
+            </div>
+            <div th:if="${param.logout}" class="message logout-message">
+                You have been logged out.
+            </div>
+            <div th:if="${param.registered}" class="message success-message">
+                Registration successful! Please login with your new account.
+            </div>
+        </form>
+
+        <div>
+            <a th:href="@{/register}" class="btn">Register</a>
+        </div>
+    </div>
 </div>
 </body>
-
 </html>
