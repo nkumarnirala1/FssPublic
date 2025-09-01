@@ -78,6 +78,7 @@ public class HomeController {
     }
 
 
+
     @PostMapping("/calculate")
     public String calculate(@Valid @ModelAttribute("input") GlazingInput input,
                             BindingResult bindingResult,
