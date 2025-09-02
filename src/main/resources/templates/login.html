@@ -24,8 +24,22 @@
                 <label>Password:</label>
                 <input type="password" name="password" required/>
             </div>
-            <div>
-                <button type="submit">Login</button>
+
+            <!-- Forgot password link -->
+<!--           /* <a th:href="@{/forgot-password}" class="forgot-link">Forgot Password?</a>**/-->
+<!--            <div class="forgot-password">-->
+<!--                <a th:href="@{/forgot-password}" class="forgot-link" >Forgot Password?</a>-->
+<!--            </div>-->
+
+            <!-- Forgot Password link -->
+            <div class="forgot-password">
+                <a href="forgot-password.html">Forgot Password?</a>
+            </div>
+
+            <!-- Buttons in one row -->
+            <div class="button-row">
+                <button type="submit" class="login-btn">Login</button>
+                <button type="button" class="register-btn" onclick="window.location.href='/register'">Register</button>
             </div>
 
             <!-- Error Messages -->
@@ -39,10 +53,6 @@
                 Registration successful! Please login with your new account.
             </div>
         </form>
-
-        <div>
-            <a th:href="@{/register}" class="btn">Register</a>
-        </div>
     </div>
 </div>
 </body>

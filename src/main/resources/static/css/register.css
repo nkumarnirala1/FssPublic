@@ -25,81 +25,64 @@ body {
 h1 {
     text-align: center;
     font-size: 28px;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     color: #e0e0e0;
 }
 
 label {
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
     font-weight: bold;
+    font-size: 14px;
+    color: #ddd;
 }
 
 input[type="text"],
+input[type="email"],
 input[type="password"] {
     width: 100%;
     padding: 12px;
-    margin-bottom: 10px;
+    margin-bottom: 18px;
     border: none;
     border-radius: 6px;
     background-color: #2c2c2c;
     color: #fff;
-}
-
-/* Forgot password link */
-.forgot-link {
-    display: block;
-    margin: 5px 0 15px 0;
-    text-align: right;
-    color: #ff4081;
     font-size: 14px;
-    cursor: pointer;
-    text-decoration: underline;
 }
 
-/* Buttons row (Login + Register) */
-.button-row {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.button-row button {
-    flex: 1;
+button {
+    width: 100%;
     padding: 12px;
+    background-color: #03dac5;
+    color: #000;
     border: none;
     border-radius: 6px;
     font-size: 16px;
     cursor: pointer;
+    margin-bottom: 12px;
     transition: background-color 0.3s ease;
-    font-weight: bold;
 }
 
-/* Login button */
-.login-btn {
-    background-color: #03dac5;
-    color: #000;
-}
-.login-btn:hover {
+button:hover {
     background-color: #00c4a7;
 }
 
-/* Register button */
-.register-btn {
-    background-color: #2196f3;
+button[type="button"] {
+    background-color: #444;
     color: #fff;
 }
-.register-btn:hover {
-    background-color: #1976d2;
+
+button[type="button"]:hover {
+    background-color: #666;
 }
 
 .message {
-    margin-top: 15px;
+    margin-top: 12px;
     text-align: center;
     color: #ff6b6b;
 }
 
-.logout-message {
+.success-message {
     color: #80cbc4;
 }
 
