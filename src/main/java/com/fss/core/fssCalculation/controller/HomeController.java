@@ -72,10 +72,17 @@ public class HomeController {
         return "login";
     }
 
+    @GetMapping("/forgot-password")
+    public String showForgotPasswordPage() {
+        return "forgot-password";
+    }
+
+
     @GetMapping("/register")
     public String registerPage() {
-        return "register"; // loads register.html from templates
+        return "register";
     }
+
 
     @PostMapping("/register")
     public String handleRegistration(@RequestParam String username,
