@@ -130,7 +130,7 @@ public class SecurityController {
             return "redirect:/register?error=alreadyRegistered";
         }
 
-        user.setUsername(user.getEmail());
+        user.setUsername(user.getEmail().substring(0, user.getEmail().indexOf("@")));
         user.setRole("user");
 
         userRepository.save(user);
