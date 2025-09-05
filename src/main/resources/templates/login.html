@@ -31,9 +31,8 @@
 <!--                <a th:href="@{/forgot-password}" class="forgot-link" >Forgot Password?</a>-->
 <!--            </div>-->
 
-            <!-- Forgot Password link -->
             <div class="forgot-password">
-                <a href="forgot-password.html">Forgot Password?</a>
+                <a th:href="@{/forgot-password}" class="forgot-link">Forgot Password?</a>
             </div>
 
             <!-- Buttons in one row -->
@@ -50,7 +49,7 @@
                 You have been logged out.
             </div>
             <div th:if="${param.registered}" class="message success-message">
-                Registration successful! Please login with your new account.
+                Registration successful! Please log in with your new account.
             </div>
         </form>
     </div>

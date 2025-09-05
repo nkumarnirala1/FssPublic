@@ -1,5 +1,7 @@
 package com.fss.core.fssCalculation;
 
+import com.fss.core.fssCalculation.persistance.UserRepository;
+import com.fss.core.fssCalculation.securityconfig.User;
 import com.fss.core.fssCalculation.service.utility.ExcelSheetGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -9,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class FssCalculationApplication {
 
 
-
+    private  UserRepository userRepository;
 
 	public static void main(String[] args) {
 
@@ -17,6 +19,11 @@ public class FssCalculationApplication {
 
 		SpringApplication.run(FssCalculationApplication.class, args);
 		//System.out.println("Your Application started successfully");
+
+
+
+
+
 
 		System.out.println("Your Application started successfully.");
 

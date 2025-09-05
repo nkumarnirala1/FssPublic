@@ -22,7 +22,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register", "/register/**","/login", "/css/**", "/js/**", "/images/**").permitAll()  // allow login and static
+                        .requestMatchers("/reset-password","/reset-password/**","/validate-otp","/validate-otp/**","/forgot-password","/forgot-password/**","/register", "/register/**","/login", "/css/**", "/js/**", "/images/**").permitAll()  // allow login and static
                         .anyRequest().authenticated()  // all other endpoints secured
                 )
                 .formLogin(form -> form
@@ -39,24 +39,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-
-    // User Creation
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-
-        // InMemoryUserDetailsManager setup with two users
-        UserDetails admin = User.withUsername("admin")
-                .password(encoder.encode("admin"))  // <-- Encode the password
-                .roles("ADMIN", "USER")
-                .build();
-
-        UserDetails user = User.withUsername("test")
-                .password(encoder.encode("test"))  // <-- Encode the password
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(admin, user);
-    }
 
 
     // Password Encoding

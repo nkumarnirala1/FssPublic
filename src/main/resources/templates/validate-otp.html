@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Validate OTP - World Facade</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+
+</head>
+<body>
+<div class="login-container">
+    <h1>Enter OTP</h1>
+    <p>An OTP has been sent to your email. Please enter it below.</p>
+
+    <form th:action="@{/validate-otp}" method="post">
+        <input type="hidden" name="email" th:value="${email}"/>
+
+        <label>OTP:</label>
+        <input type="text" name="otp" required/>
+
+        <button type="submit">Validate</button>
+    </form>
+
+    <div th:if="${error}">
+        <p th:text="${error}" style="color:red;"></p>
+    </div>
+</div>
+</body>
+</html>

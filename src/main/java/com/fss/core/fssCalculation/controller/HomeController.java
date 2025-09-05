@@ -4,6 +4,8 @@ import com.fss.core.fssCalculation.modal.ExcelElement;
 import com.fss.core.fssCalculation.modal.GlazingInput;
 import com.fss.core.fssCalculation.modal.MullionInput;
 import com.fss.core.fssCalculation.modal.TransomInput;
+import com.fss.core.fssCalculation.persistance.UserRepository;
+import com.fss.core.fssCalculation.securityconfig.User;
 import com.fss.core.fssCalculation.service.BendingMomentCal;
 import com.fss.core.fssCalculation.service.DeflectionCal;
 import com.fss.core.fssCalculation.service.IxxCal;
@@ -67,38 +69,6 @@ public class HomeController {
         return "transom-form";  // Thymeleaf looks for mullion-form.html
     }
 
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
-
-    @GetMapping("/forgot-password")
-    public String showForgotPasswordPage() {
-        return "forgot-password";
-    }
-
-
-    @GetMapping("/register")
-    public String registerPage() {
-        return "register";
-    }
-
-
-    @PostMapping("/register")
-    public String handleRegistration(@RequestParam String username,
-                                     @RequestParam String email,
-                                     @RequestParam String password,
-                                     @RequestParam String confirmPassword,
-                                     Model model) {
-        // TODO: Save user in DB after validation
-        if (!password.equals(confirmPassword)) {
-            model.addAttribute("error", "Passwords do not match");
-            return "register";
-        }
-
-        // userService.saveUser(new User(username, email, password));
-        return "redirect:/login?registered";
-    }
 
     @GetMapping({"/home", "/", "/calculate", "/calculate-deflection"})
     public String showForm(Model model) {
