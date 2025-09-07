@@ -1,8 +1,8 @@
-package com.fss.core.fssCalculation.service;
+package com.fss.core.fssCalculation.service.elements.deflection;
 
 import com.fss.core.fssCalculation.constants.GlazingType;
 import com.fss.core.fssCalculation.service.elements.CalculatedElements;
-import jakarta.annotation.PostConstruct;
+import com.fss.core.fssCalculation.service.elements.bendingMoment.BendingMomentCal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -16,7 +16,7 @@ public class DeflectionCal {
     private double E;
 
     @Autowired
-    private  BendingMomentCal bendingMomentCal;
+    private BendingMomentCal bendingMomentCal;
 
     public GlazingType glazingType;
 

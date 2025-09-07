@@ -7,7 +7,7 @@ import com.fss.core.fssCalculation.service.elements.CalculatedElements;
 import com.fss.core.fssCalculation.service.elements.mullion.figures.Figure1Mullion;
 import com.fss.core.fssCalculation.service.elements.mullion.figures.Figure2Mullion;
 import com.fss.core.fssCalculation.service.elements.mullion.figures.Figure3Mullion;
-import com.fss.core.fssCalculation.service.utility.Utility;
+import com.fss.core.fssCalculation.service.ReportGen.Utility;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Service;
 

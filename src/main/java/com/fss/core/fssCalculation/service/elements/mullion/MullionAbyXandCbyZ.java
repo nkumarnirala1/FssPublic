@@ -1,6 +1,6 @@
 package com.fss.core.fssCalculation.service.elements.mullion;
 
-import com.fss.core.fssCalculation.service.ZxxCal;
+import com.fss.core.fssCalculation.service.elements.momentCal.ZxxCal;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

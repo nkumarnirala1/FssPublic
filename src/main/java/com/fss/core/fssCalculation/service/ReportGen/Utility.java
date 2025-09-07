@@ -1,4 +1,4 @@
-package com.fss.core.fssCalculation.service.utility;
+package com.fss.core.fssCalculation.service.ReportGen;
 
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Component;

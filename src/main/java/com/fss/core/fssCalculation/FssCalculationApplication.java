@@ -1,9 +1,6 @@
 package com.fss.core.fssCalculation;
 
 import com.fss.core.fssCalculation.persistance.UserRepository;
-import com.fss.core.fssCalculation.securityconfig.User;
-import com.fss.core.fssCalculation.service.utility.ExcelSheetGenerator;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

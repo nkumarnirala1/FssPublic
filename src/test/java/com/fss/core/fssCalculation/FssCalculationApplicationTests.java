@@ -1,8 +1,8 @@
 package com.fss.core.fssCalculation;
 
-import com.fss.core.fssCalculation.service.BendingMomentCal;
-import com.fss.core.fssCalculation.service.DeflectionCal;
-import com.fss.core.fssCalculation.service.IxxCal;
+import com.fss.core.fssCalculation.service.elements.bendingMoment.BendingMomentCal;
+import com.fss.core.fssCalculation.service.elements.deflection.DeflectionCal;
+import com.fss.core.fssCalculation.service.elements.momentCal.IxxCal;
 import com.fss.core.fssCalculation.service.elements.CalculatedElements;
 import com.fss.core.fssCalculation.service.elements.mullion.MullionAbyXandCbyZ;
 import com.fss.core.fssCalculation.service.elements.mullion.MullionBbyY;
@@ -14,8 +14,7 @@ import com.fss.core.fssCalculation.service.elements.transom.TransomBbyY;
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure1Transom;
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure2Transom;
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure3Transom;
-import com.fss.core.fssCalculation.service.utility.ExcelSheetGenerator;
-import jakarta.servlet.ServletContext;
+import com.fss.core.fssCalculation.service.ReportGen.ExcelSheetGenerator;
 import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -26,7 +25,6 @@ import org.springframework.mock.web.MockHttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.Enumeration;
 
 @SpringBootTest
 class FssCalculationApplicationTests {

@@ -1,6 +1,6 @@
 package com.fss.core.fssCalculation.service.elements.mullion.figures;
 
-import com.fss.core.fssCalculation.service.utility.Utility;
+import com.fss.core.fssCalculation.service.ReportGen.Utility;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Component;
 

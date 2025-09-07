@@ -1,4 +1,4 @@
-package com.fss.core.fssCalculation.service.utility;
+package com.fss.core.fssCalculation.service.ReportGen;
 
 import org.springframework.stereotype.Component;
 

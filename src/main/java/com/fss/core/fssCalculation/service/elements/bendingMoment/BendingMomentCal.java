@@ -1,8 +1,7 @@
-package com.fss.core.fssCalculation.service;
+package com.fss.core.fssCalculation.service.elements.bendingMoment;
 
 import com.fss.core.fssCalculation.constants.GlazingType;
 import com.fss.core.fssCalculation.service.elements.CalculatedElements;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
