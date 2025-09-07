@@ -1,6 +1,7 @@
 package com.fss.core.fssCalculation.service.elements.mullion;
 
 import com.fss.core.fssCalculation.service.ZxxCal;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,7 @@ public class MullionAbyXandCbyZ {
         return axialForce;
     }
 
-    public double calculateUdlLoad(double gridLength, double unsupportedLength, double glassThickness) {
+    public double calculateUdlLoad(double gridLength, double unsupportedLength, double glassThickness, HttpSession session) {
         double gridLengthMeters = gridLength / 1000.0;
         double unsupportedLengthMeters = unsupportedLength / 1000.0;
         double glassThicknessMeters = glassThickness / 1000.0;
@@ -31,12 +32,15 @@ public class MullionAbyXandCbyZ {
         double area = (gridLengthMeters * unsupportedLengthMeters)
                 - 4 * (0.5 * Math.pow(gridLengthMeters, 2) / 4);
 
+        session.setAttribute("effectiveArea", area);
+
         double udlLoad = (area * glassThicknessMeters * 25) / unsupportedLengthMeters;
         return udlLoad;
     }
 
-    public double calculateMbyZ(double bendingMoment, double ixx, double boundingBox_y) {
+    public double calculateMbyZ(double bendingMoment, double ixx, double boundingBox_y, HttpSession session) {
         double zxx = zxxCal.calculateZxx(ixx, boundingBox_y);
+        session.setAttribute("zxx_mullion", zxx);
         return ((bendingMoment * 1000.0) / zxx);
     }
 

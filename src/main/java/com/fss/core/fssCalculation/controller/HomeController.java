@@ -13,6 +13,7 @@ import com.fss.core.fssCalculation.service.elements.mullion.CheckMullionProfile;
 import com.fss.core.fssCalculation.service.elements.transom.CheckTransomProfile;
 import com.fss.core.fssCalculation.service.utility.ExcelSheetGenerator;
 import com.fss.core.fssCalculation.service.utility.PdfGenerator;
+import com.fss.core.fssCalculation.service.utility.Utility;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -62,6 +63,9 @@ public class HomeController {
     @Autowired
     PdfGenerator pdfGenerator;
 
+    @Autowired
+    Utility utility;
+
     @GetMapping("show")
     public String showMullionForm(Model model) {
         // you can add attributes if needed
@@ -95,7 +99,7 @@ public class HomeController {
         }
 
         // Continue with calculation
-        double Ixx = ixxCal.calculateRequiredIxx(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket());
+        double Ixx = ixxCal.calculateRequiredIxx(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket(), session);
         double df = deflectionCal.calculateDeflection(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket(), Ixx);
         double bendingMoment = bendingMomentCal.calculateBendingMoment(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket());
 
@@ -112,7 +116,7 @@ public class HomeController {
         session.setAttribute("stackBracket", input.getStackBracket());
         session.setAttribute("Ixx", Ixx);
         session.setAttribute("df", df);
-        session.setAttribute("bm", roundedMoment);
+        session.setAttribute("bm", Utility.roundTo2Decimal(bendingMoment));
 
         model.addAttribute("showMullionForm", false);
         model.addAttribute("showTransomForm", false);
@@ -206,11 +210,12 @@ public class HomeController {
         glazingInput.setUnsupportedLength(unsupportedLength);
         glazingInput.setWindPressure(windPressure);
 
-        double bendingMoment = Double.valueOf(((BigDecimal) session.getAttribute("bm")).toString());
+        double bendingMoment = (session.getAttribute("bm") instanceof Double)
+                ? (Double) session.getAttribute("bm") : 0.0;
 
         prepareMullionDefaults(model, session, mullionInput);
         try {
-            Map<String, Boolean> mullionprofileResult = checkMullionProfile.checkForMullionprofile(mullionInput, glazingInput, bendingMoment);
+            Map<String, Boolean> mullionprofileResult = checkMullionProfile.checkForMullionprofile(mullionInput, glazingInput, bendingMoment, session);
 
             model.addAttribute("bendingStress", mullionprofileResult.get("bendingStress"));
             model.addAttribute("shearStress", mullionprofileResult.get("shearStress"));
@@ -308,11 +313,14 @@ public class HomeController {
 
     @GetMapping("/download-pdf")
     public ResponseEntity<byte[]> downloadPdf(HttpServletResponse response, HttpSession session) throws IOException {
+
+        utility.populateManualCalculatedValues(session);
+
         ArrayList<ExcelElement> excelElementList = excelSheetGenerator.enrichElements(session);
 
         try {
             // Get modified Excel stream
-            var bos = excelDownloadService.generateExcelReport("Typcal Structural Glazing", excelElementList);
+            var bos = excelDownloadService.generateExcelReport("Deflection_Check", excelElementList);
 
             // Convert to PDF
             byte[] pdfBytes = pdfGenerator.convertExcelToPdf(bos);
@@ -447,6 +455,12 @@ public class HomeController {
                 mullionInput.getBoundingboxy() != 0.0 ? mullionInput.getBoundingboxy() :
                         (sessionBoundingboxy != null && sessionBoundingboxy != 0.0 ? sessionBoundingboxy : 2.0));
 
+        Double sessionBoundingboxx = (session.getAttribute("boundingboxx") instanceof Double)
+                ? (Double) session.getAttribute("boundingboxx") : null;
+        model.addAttribute("boundingboxx",
+                mullionInput.getBoundingboxy() != 0.0 ? mullionInput.getBoundingboxy() :
+                        (sessionBoundingboxy != null && sessionBoundingboxy != 0.0 ? sessionBoundingboxy : 2.0));
+
         // userIxx
         Double sessionUserIxx = (session.getAttribute("userIxx") instanceof Double)
                 ? (Double) session.getAttribute("userIxx") : null;
@@ -464,6 +478,7 @@ public class HomeController {
         session.setAttribute("t1", model.getAttribute("t1"));
         session.setAttribute("iyy", model.getAttribute("iyy"));
         session.setAttribute("boundingboxy", model.getAttribute("boundingboxy"));
+        session.setAttribute("boundingboxx", model.getAttribute("boundingboxx"));
         session.setAttribute("userIxx", model.getAttribute("userIxx"));
     }
 

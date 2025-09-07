@@ -14,6 +14,7 @@ public class MullionInput {
     private double t1;
     private double iyy;
     private double boundingboxy;
+    private  double boundingboxx;
     private double userIxx;
 
     // getters and setters

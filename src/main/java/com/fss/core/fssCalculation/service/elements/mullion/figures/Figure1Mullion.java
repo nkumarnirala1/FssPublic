@@ -1,5 +1,7 @@
 package com.fss.core.fssCalculation.service.elements.mullion.figures;
 
+import com.fss.core.fssCalculation.service.utility.Utility;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -9,12 +11,22 @@ import java.util.Map;
 @Component
 public class Figure1Mullion {
 
-    public double calculateFig1Value(String typeOfGlazing, double unsupportedLength, double transomToTransomDistance, double ixx, double iyy, double crossSectionArea) {
+    public double calculateFig1Value(String typeOfGlazing, double unsupportedLength, double transomToTransomDistance, double ixx, double iyy, double crossSectionArea, HttpSession session) {
 
         double radiusOfGyrationX = calculateRadiusOfGyrationX(ixx, crossSectionArea);
         double radiusOfGyrationY = calculateRadiusOfGyrationY(iyy, crossSectionArea);
+        session.setAttribute("radiusOfGyrationX_mullion", Utility.roundTo2Decimal(radiusOfGyrationX));
+        session.setAttribute("radiusOfGyrationY_mullion", Utility.roundTo2Decimal(radiusOfGyrationY));
+        session.setAttribute("radiusOfGyrationX_mullion_mm", Utility.roundTo2Decimal(radiusOfGyrationX*10.0));
+        session.setAttribute("radiusOfGyrationY_mullion_mm", Utility.roundTo2Decimal(radiusOfGyrationY*10.0));
+
+
         double lxByRx = calculateLxByRx(typeOfGlazing, unsupportedLength, radiusOfGyrationX);
         double lyByRy = calculateLyByRy(typeOfGlazing, unsupportedLength, transomToTransomDistance, radiusOfGyrationY);
+
+        session.setAttribute("lxByRx",lxByRx);
+        session.setAttribute("lyByRy", lyByRy);
+        session.setAttribute("max_lxByRxInlyByRy", Math.max(lxByRx, lyByRy));
         double slendernessRatioLbyR = getSlendernessRatioLbyR(lxByRx, lyByRy);
         double point1XPermissibleCompressiveStress = getPoint1XPermissibleCompressiveStress(slendernessRatioLbyR);
         double point2XPermissibleCompressiveStress = getPoint2XPermissibleCompressiveStress(slendernessRatioLbyR);

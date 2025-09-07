@@ -76,6 +76,10 @@
                 <input type="number" step="0.01" id="boundingboxy" name="boundingboxy"
                        th:value="${boundingboxy}" required/>
 
+                <label for="boundingboxx">Bounding Box X (mm)</label>
+                <input type="number" step="0.01" id="boundingboxx" name="boundingboxx"
+                       th:value="${boundingboxx}" required/>
+
                 <button type="submit">Submit Mullion Profile</button>
             </form>
             <form th:action="@{/checkTransom}" method="post" style="margin-top: 20px;">

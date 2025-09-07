@@ -2,12 +2,14 @@ package com.fss.core.fssCalculation.service.utility;
 
 
 import com.fss.core.fssCalculation.modal.ExcelElement;
+import com.fss.core.fssCalculation.persistance.S3Service;
 import jakarta.servlet.http.HttpSession;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
@@ -20,15 +22,23 @@ import java.util.Map;
 @Component
 public class ExcelSheetGenerator {
 
-    private static final String RESOURCE_PATH_BASE = "excelTemplate/MULLION_DESIGN_1.xlsx"; // path of your excel
+    @Autowired
+    private ExcelCellMap excelCellMap;
+
+    @Autowired
+    private S3Service s3Service;
+
+
+    private static final String S3_mullion_KEY = "mullion_design.xlsx"; // path inside bucket
+
 
     public ByteArrayOutputStream generateExcelReport(String sheetName, List<ExcelElement> excelElementList) throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
         // Load file from classpath
-        try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(RESOURCE_PATH_BASE)) {
+        try (InputStream is = s3Service.downloadFile(S3_mullion_KEY)) {
             if (is == null) {
-                throw new IOException("Resource not found in classpath: " + RESOURCE_PATH_BASE);
+                throw new IOException("Resource not found in classpath: " + S3_mullion_KEY);
             }
 
             try (Workbook workbook = new XSSFWorkbook(is)) {
@@ -71,7 +81,7 @@ public class ExcelSheetGenerator {
 
         ArrayList<ExcelElement> excelElementArrayList = new ArrayList<>();
 
-        Map<String, List<String>> cellMap = ExcelCellMap.loadMappings();
+        Map<String, List<String>> cellMap = excelCellMap.loadMappings();
 
 
         for (Map.Entry<String, List<String>> entry : cellMap.entrySet()) {

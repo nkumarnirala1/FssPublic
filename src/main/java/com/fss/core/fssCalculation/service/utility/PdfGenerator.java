@@ -10,7 +10,7 @@ import java.nio.file.Files;
 @Component
 public class PdfGenerator {
 
-    //String libreOfficePath = "C:/Program Files/LibreOffice/program/soffice.exe";
+    String libreOfficePath = "C:/Program Files/LibreOffice/program/soffice.exe";
 
     private static final String LIBRE_OFFICE_BIN = "soffice";
 
@@ -27,7 +27,7 @@ public class PdfGenerator {
 
         // Run LibreOffice command
         ProcessBuilder pb = new ProcessBuilder(
-                LIBRE_OFFICE_BIN,
+                libreOfficePath,
                 "--headless",
                 "--convert-to", "pdf",
                 "--outdir", tempPdf.getParent(),

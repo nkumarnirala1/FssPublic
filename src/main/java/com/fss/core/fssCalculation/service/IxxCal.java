@@ -3,6 +3,7 @@ package com.fss.core.fssCalculation.service;
 import com.fss.core.fssCalculation.constants.GlazingType;
 import com.fss.core.fssCalculation.service.elements.CalculatedElements;
 import jakarta.annotation.PostConstruct;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -23,10 +24,11 @@ public class IxxCal {
 
     public double calculateRequiredIxx(String typeOfGlazing,
                                               double unsupportedLength,
-                                              double gridLength, double windPressure, double stackBracket) {
+                                              double gridLength, double windPressure, double stackBracket, HttpSession session) {
 
         double allowableDeflection = CalculatedElements.calculateAllowableDeflection(unsupportedLength);
         double udlWindLoad = CalculatedElements.calculateUDLDueToWindLoad(gridLength, unsupportedLength, windPressure);
+        session.setAttribute("udlWindLoad", udlWindLoad);
         double effectiveLength = CalculatedElements.calculateEffectiveLength(gridLength, unsupportedLength);
 
         double bendingMoment = bendingMomentCal.calculateBendingMoment(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket);

@@ -15,14 +15,18 @@ import com.fss.core.fssCalculation.service.elements.transom.figures.Figure1Trans
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure2Transom;
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure3Transom;
 import com.fss.core.fssCalculation.service.utility.ExcelSheetGenerator;
+import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpSession;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Enumeration;
 
 @SpringBootTest
 class FssCalculationApplicationTests {
@@ -91,7 +95,9 @@ class FssCalculationApplicationTests {
 
         double boundingboxy = 2;
 
-        double Ixx = ixxCal.calculateRequiredIxx(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket);
+        HttpSession session = new MockHttpSession();
+
+        double Ixx = ixxCal.calculateRequiredIxx(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket , session);
         double allowableDeflection = deflectionCal.calculateDeflection(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket, Ixx);
         double calculatedDeflection = deflectionCal.calculateDeflection(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket, 200);
 
@@ -103,11 +109,11 @@ class FssCalculationApplicationTests {
 
 
         double selfWeight = mullionAbyXandCbyZ.calculateSelfWeight(crossSectionalArea);
-        double udldeadload = mullionAbyXandCbyZ.calculateUdlLoad(gridLength, unsupportedLength, glassThickness);
+        double udldeadload = mullionAbyXandCbyZ.calculateUdlLoad(gridLength, unsupportedLength, glassThickness, session);
         double axialForce = mullionAbyXandCbyZ.calculateAxialForce(udldeadload, selfWeight, unsupportedLength);//wrong
-        double fig1Value = figure1Mullion.calculateFig1Value(typeOfGlazingValue, unsupportedLength, transomToTransomDistance, Ixx, iyy, crossSectionalArea);
+        double fig1Value = figure1Mullion.calculateFig1Value(typeOfGlazingValue, unsupportedLength, transomToTransomDistance, Ixx, iyy, crossSectionalArea, session);
 
-        double mbyz = mullionAbyXandCbyZ.calculateMbyZ(Double.valueOf(roundedMoment.toString()), Ixx, boundingboxy);
+        double mbyz = mullionAbyXandCbyZ.calculateMbyZ(Double.valueOf(roundedMoment.toString()), Ixx,boundingboxy , session);
 
         //-------------------------
         double point1Xk1 = figure3Mullion.calculatePoint1xk1(t2, t1);
@@ -202,5 +208,6 @@ class FssCalculationApplicationTests {
     public double roundTo2Decimal(double value) {
         return Math.round(value * 100.0) / 100.0;
     }
+
 
 }
