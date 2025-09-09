@@ -38,7 +38,7 @@
         <!-- Mullion Profile Check Form -->
         <div class="form-container">
             <h2>Mullion Profile Check</h2>
-            <form th:action="@{/submitMullionProfile}" method="post" class="profile-form">
+            <form th:action="@{/submitMullionProfile}" method="post" class="profile-form" th:object="${mullion_input}">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
                 <label for="userIxx1">User Ixx (cm⁴)</label>

@@ -48,7 +48,7 @@ public class Utility {
         double zxx = (session.getAttribute("zxx_mullion") instanceof Double)
                 ? (Double) session.getAttribute("zxx_mullion") : 0.0;
 
-        session.setAttribute("fx", bendingMoment/zxx);
+        session.setAttribute("fx", roundTo2Decimal((bendingMoment*1000.0)/zxx));
 
         double fsx_mullion=(session.getAttribute("fsx_mullion") instanceof Double)
                 ? (Double) session.getAttribute("fsx_mullion") : 0.0;

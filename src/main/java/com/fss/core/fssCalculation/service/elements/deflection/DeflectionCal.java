@@ -1,6 +1,7 @@
 package com.fss.core.fssCalculation.service.elements.deflection;
 
 import com.fss.core.fssCalculation.constants.GlazingType;
+import com.fss.core.fssCalculation.service.ReportGen.Utility;
 import com.fss.core.fssCalculation.service.elements.CalculatedElements;
 import com.fss.core.fssCalculation.service.elements.bendingMoment.BendingMomentCal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +80,7 @@ public class DeflectionCal {
 
         // Round to 1 decimal using BigDecimal
         BigDecimal rounded = new BigDecimal(result).setScale(1, RoundingMode.HALF_UP);
-        return rounded.doubleValue();
+        return Utility.roundTo2Decimal(rounded.doubleValue());
     }
 
 

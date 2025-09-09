@@ -1,5 +1,6 @@
 package com.fss.core.fssCalculation.service.elements.mullion.figures;
 
+import com.fss.core.fssCalculation.service.ReportGen.Utility;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -19,7 +20,7 @@ public class Figure3Mullion {
 
         double ratio = t2 / t1;
         double slope = (point2Yk1 - point1Yk1) / (point2Xk1 - point1Xk1);
-        return slope * (ratio - point1Xk1) + point1Yk1;
+        return Utility.roundTo2Decimal(slope * (ratio - point1Xk1) + point1Yk1);
     }
 
     public double calculatePoint2yk1(double a, double b, int point2Xk1at) {

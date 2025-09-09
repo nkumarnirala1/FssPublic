@@ -16,8 +16,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class ExcelSheetGenerator {
@@ -32,23 +34,27 @@ public class ExcelSheetGenerator {
     private static final String S3_mullion_KEY = "mullion_design.xlsx"; // path inside bucket
 
 
-    public ByteArrayOutputStream generateExcelReport(String sheetName, List<ExcelElement> excelElementList) throws IOException {
+    public ByteArrayOutputStream generateExcelReport(List<String> sheetNameList, Map<String, ArrayList<ExcelElement>> excelElementListSheetMap) throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-        // Load file from classpath
-        try (InputStream is = s3Service.downloadFile(S3_mullion_KEY)) {
+        // Load file from S3
+        try (InputStream is = s3Service.downloadFile(S3_mullion_KEY);
+             Workbook workbook = new XSSFWorkbook(is)) {  // Create workbook once
+
             if (is == null) {
-                throw new IOException("Resource not found in classpath: " + S3_mullion_KEY);
+                throw new IOException("Resource not found in S3: " + S3_mullion_KEY);
             }
 
-            try (Workbook workbook = new XSSFWorkbook(is)) {
-
+            for (String sheetName : sheetNameList) {
                 // Get or create sheet
+
+                ArrayList<ExcelElement> excelElementList = excelElementListSheetMap.get(sheetName);
                 Sheet sheet = workbook.getSheet(sheetName);
                 if (sheet == null) {
                     sheet = workbook.createSheet(sheetName);
                 }
 
+                // Fill sheet with data
                 for (ExcelElement excelElement : excelElementList) {
                     int rowIndex = excelElement.getRow();
                     int colIndex = excelElement.getCol();
@@ -69,38 +75,51 @@ public class ExcelSheetGenerator {
                     // Set new value
                     cell.setCellValue(newValue);
                 }
-
-                // Write changes to output stream
-                workbook.write(bos);
             }
+
+            // Write all changes once
+            workbook.write(bos);
         }
+
         return bos;
     }
 
-    public ArrayList<ExcelElement> enrichElements(HttpSession session) throws IOException {
+    public Map<String, ArrayList<ExcelElement>> enrichElements(ArrayList<String> mullionDesignList, HttpSession session) throws IOException {
 
-        ArrayList<ExcelElement> excelElementArrayList = new ArrayList<>();
+        Map<String, ArrayList<ExcelElement>> mapOfexcelElementArrayList = new HashMap<>();
 
-        Map<String, List<String>> cellMap = excelCellMap.loadMappings();
+        Map<String, Map<String, List<String>>> sheetWiseCellMap = new HashMap<>();
+        // transformation
+        for (String sheetName : mullionDesignList) {
+            sheetWiseCellMap.put(sheetName, new HashMap<>());
+            mapOfexcelElementArrayList.put(sheetName, new ArrayList<>());
+        }
+
+        sheetWiseCellMap = excelCellMap.loadMappings(mullionDesignList, sheetWiseCellMap);
+
+        for (Map.Entry<String, ArrayList<ExcelElement>> singleSheet : mapOfexcelElementArrayList.entrySet()) {
+
+            ArrayList<ExcelElement> excelElementArrayList = singleSheet.getValue();
+            String sheetName = singleSheet.getKey();
+
+            for (Map.Entry<String, List<String>> entry : sheetWiseCellMap.get(sheetName).entrySet()) {
+
+                String name = entry.getKey();
+                List<String> valueList = entry.getValue();
+
+                double attributeValue = (session.getAttribute(name) instanceof Double)
+                        ? (Double) session.getAttribute(name) : 0.0;
 
 
-        for (Map.Entry<String, List<String>> entry : cellMap.entrySet()) {
+                for (String value : valueList) {
+                    int[] rc = getRowAndColumn(value.strip());
+                    ExcelElement excelElement = new ExcelElement(name, Double.toString(attributeValue), rc[0], rc[1]);
 
-            String name = entry.getKey();
-            List<String> valueList = entry.getValue();
-
-            double attributeValue = (session.getAttribute(name) instanceof Double)
-                    ? (Double) session.getAttribute(name) : 0.0;
-
-
-            for (String value : valueList) {
-                int[] rc = getRowAndColumn(value);
-                ExcelElement excelElement = new ExcelElement(name, Double.toString(attributeValue), rc[0], rc[1]);
-
-                excelElementArrayList.add(excelElement);
+                    excelElementArrayList.add(excelElement);
+                }
             }
         }
-        return excelElementArrayList;
+        return mapOfexcelElementArrayList;
     }
 
     public static int[] getRowAndColumn(String cell) {

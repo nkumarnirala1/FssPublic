@@ -1,5 +1,6 @@
 package com.fss.core.fssCalculation.service.elements.mullion.figures;
 
+import com.fss.core.fssCalculation.service.ReportGen.Utility;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -14,7 +15,7 @@ public class Figure2Mullion {
             double lambdaAt
     ) {
         double slope = (point2Y_lmd - point1Y_lmd) / (point2X_lmd - point1X_lmd);
-        return slope * (lambdaAt - point1X_lmd) + point1Y_lmd;
+        return Utility.roundTo2Decimal(slope * (lambdaAt - point1X_lmd) + point1Y_lmd);
     }
 
     public double calculatepoint2Y_lmd(int point2X_lmd) {

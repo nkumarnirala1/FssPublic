@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Map;
 
 @Controller
@@ -211,8 +212,10 @@ public class HomeController {
         double bendingMoment = (session.getAttribute("bm") instanceof Double)
                 ? (Double) session.getAttribute("bm") : 0.0;
 
-        prepareMullionDefaults(model, session, mullionInput);
         try {
+            double cf = deflectionCal.calculateDeflection(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket, mullionInput.getUserIxx());
+            session.setAttribute("cf", cf);
+
             Map<String, Boolean> mullionprofileResult = checkMullionProfile.checkForMullionprofile(mullionInput, glazingInput, bendingMoment, session);
 
             model.addAttribute("bendingStress", mullionprofileResult.get("bendingStress"));
@@ -230,6 +233,8 @@ public class HomeController {
         model.addAttribute("windPressure", windPressure);
         model.addAttribute("stackBracket", stackBracket);
         model.addAttribute("typeOfGlazing", typeOfGlazing);
+
+        model.addAttribute("mullion_input", mullionInput);
 
         return "mullion-form";
     }
@@ -314,11 +319,14 @@ public class HomeController {
 
         utility.populateManualCalculatedValues(session);
 
-        ArrayList<ExcelElement> excelElementList = excelSheetGenerator.enrichElements(session);
+
+
+        ArrayList<String> mullionDesignList = new ArrayList<>(Arrays.asList("Deflection_Check", "Stress_Check"));
+        Map<String, ArrayList<ExcelElement>> excelElementListSheetMap = excelSheetGenerator.enrichElements(mullionDesignList, session);
 
         try {
             // Get modified Excel stream
-            var bos = excelDownloadService.generateExcelReport("Deflection_Check", excelElementList);
+            var bos = excelDownloadService.generateExcelReport(mullionDesignList, excelElementListSheetMap);
 
             // Convert to PDF
             byte[] pdfBytes = pdfGenerator.convertExcelToPdf(bos);
@@ -457,7 +465,7 @@ public class HomeController {
                 ? (Double) session.getAttribute("boundingboxx") : null;
         model.addAttribute("boundingboxx",
                 mullionInput.getBoundingboxy() != 0.0 ? mullionInput.getBoundingboxy() :
-                        (sessionBoundingboxy != null && sessionBoundingboxy != 0.0 ? sessionBoundingboxy : 2.0));
+                        (sessionBoundingboxx != null && sessionBoundingboxx != 0.0 ? sessionBoundingboxx : 2.0));
 
         // userIxx
         Double sessionUserIxx = (session.getAttribute("userIxx") instanceof Double)
