@@ -43,7 +43,6 @@ public class HomeController {
     @Autowired
     DeflectionCal deflectionCal;
 
-
     @Autowired
     BendingMomentCal bendingMomentCal;
 
@@ -69,15 +68,11 @@ public class HomeController {
         return "transom-form";  // Thymeleaf looks for mullion-form.html
     }
 
-
     @GetMapping({"/home", "/", "/calculate", "/calculate-deflection"})
     public String showForm(Model model) {
-
         model.addAttribute("input", prepareDefaultInput());
         return "glazing-form";
     }
-
-
 
     @PostMapping("/calculate")
     public String calculate(@Valid @ModelAttribute("input") GlazingInput input,
@@ -90,8 +85,6 @@ public class HomeController {
 
         if (input.getUnsupportedLength() <= 0 || input.getGridLength() <= 0 ||
                 input.getWindPressure() <= 0 || input.getStackBracket() < 0) {
-
-
             return handleError(model, "All input values must be positive and non-zero", input);
         }
 
@@ -102,9 +95,7 @@ public class HomeController {
 
         BigDecimal roundedMoment = new BigDecimal(bendingMoment).setScale(2, RoundingMode.HALF_UP);
 
-
         prepareModel(model, 0, Ixx, df, roundedMoment, Ixx);
-
 
         session.setAttribute("typeOfGlazing", input.getTypeOfGlazing());
         session.setAttribute("unsupportedLength", input.getUnsupportedLength());
@@ -120,6 +111,68 @@ public class HomeController {
         return "glazing-form";
     }
 
+    @PostMapping("/calculateFully")
+    public String calculateFully(@Valid @ModelAttribute("input") GlazingInput input,
+                                 BindingResult bindingResult,
+                                 Model model,
+                                 HttpSession session) {
+
+        if (bindingResult.hasErrors()) {
+            return "glazing-form"; // Validation error
+        }
+
+        if (input.getUnsupportedLength() <= 0 || input.getGridLength() <= 0 ||
+                input.getWindPressure() <= 0 || input.getStackBracket() < 0) {
+            return handleError(model, "All input values must be positive and non-zero", input);
+        }
+
+        // Run calculations (you may adjust logic for Fully Unitized)
+        double Ixx = ixxCal.calculateRequiredIxx(
+                input.getTypeOfGlazing(),
+                input.getUnsupportedLength(),
+                input.getGridLength(),
+                input.getWindPressure(),
+                input.getStackBracket()
+        );
+
+        double deflection = deflectionCal.calculateDeflection(
+                input.getTypeOfGlazing(),
+                input.getUnsupportedLength(),
+                input.getGridLength(),
+                input.getWindPressure(),
+                input.getStackBracket(),
+                Ixx
+        );
+
+        double bendingMoment = bendingMomentCal.calculateBendingMoment(
+                input.getTypeOfGlazing(),
+                input.getUnsupportedLength(),
+                input.getGridLength(),
+                input.getWindPressure(),
+                input.getStackBracket()
+        );
+
+        BigDecimal roundedMoment = new BigDecimal(bendingMoment).setScale(2, RoundingMode.HALF_UP);
+
+        // Store results in session
+        session.setAttribute("typeOfGlazing", input.getTypeOfGlazing());
+        session.setAttribute("unsupportedLength", input.getUnsupportedLength());
+        session.setAttribute("gridLength", input.getGridLength());
+        session.setAttribute("windPressure", input.getWindPressure());
+        session.setAttribute("stackBracket", input.getStackBracket());
+        session.setAttribute("Ixx", Ixx);
+        session.setAttribute("df", deflection);
+        session.setAttribute("bm", roundedMoment);
+
+        // Prepare model for results
+        prepareModel(model, 0, Ixx, deflection, roundedMoment, Ixx);
+
+        model.addAttribute("showMullionForm", false);
+        model.addAttribute("showTransomForm", false);
+
+        return "glazing-form";
+    }
+
     @PostMapping("/calculate-deflection")
     public String calculateDeflectionFromUserIxx(@RequestParam double userIxx,
                                                  Model model,
@@ -130,22 +183,16 @@ public class HomeController {
         Double unsupportedLength = (Double) session.getAttribute("unsupportedLength");
         Double stackBracket = (Double) session.getAttribute("stackBracket");
 
-
         if (gridLength == null || windPressure == null || unsupportedLength == null) {
-
             model.addAttribute("input", prepareDefaultInput());
-
             return "glazing-form";
         }
 
         addInputToModel(model, unsupportedLength, windPressure, gridLength, stackBracket, typeOfGlazing);
 
-
         if (userIxx == 0) {
-
             return handleError(model, "Please perform the initial Ixx calculation first", null);
         }
-
 
         double cf = deflectionCal.calculateDeflection(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket, userIxx);
 
@@ -166,18 +213,19 @@ public class HomeController {
         Double unsupportedLength = (Double) session.getAttribute("unsupportedLength");
         Double stackBracket = (Double) session.getAttribute("stackBracket");
 
-
         if (gridLength == null || windPressure == null || unsupportedLength == null) {
-
             model.addAttribute("input", prepareDefaultInput());
-
             return "glazing-form";//TODO
         }
 
         addInputToModel(model, unsupportedLength, windPressure, gridLength, stackBracket, typeOfGlazing);
 
-        prepareMullionDefaults(model, session, new MullionInput());
+        // Create a new MullionInput with default values
+        MullionInput mullionInput = new MullionInput();
+        prepareMullionDefaults(model, session, mullionInput);
 
+        // Add the mullionInput object to the model for form binding
+        model.addAttribute("mullionInput", mullionInput);
 
         return "mullion-form";
     }
@@ -193,13 +241,11 @@ public class HomeController {
         Double unsupportedLength = (Double) session.getAttribute("unsupportedLength");
         Double stackBracket = (Double) session.getAttribute("stackBracket");
 
-
         if (gridLength == null || windPressure == null || unsupportedLength == null) {
-
             model.addAttribute("input", prepareDefaultInput());
-
             return "glazing-form";//TODO
         }
+
         GlazingInput glazingInput = new GlazingInput();
         glazingInput.setTypeOfGlazing(typeOfGlazing);
         glazingInput.setGridLength(gridLength);
@@ -209,7 +255,10 @@ public class HomeController {
 
         double bendingMoment = Double.valueOf(((BigDecimal) session.getAttribute("bm")).toString());
 
+        // Prepare defaults and add mullionInput to model
         prepareMullionDefaults(model, session, mullionInput);
+        model.addAttribute("mullionInput", mullionInput);
+
         try {
             Map<String, Boolean> mullionprofileResult = checkMullionProfile.checkForMullionprofile(mullionInput, glazingInput, bendingMoment);
 
@@ -218,9 +267,7 @@ public class HomeController {
 
         } catch (Exception ex) {
             return handleErrorMullion(model, session, "All input values must be positive and non-zero", mullionInput);
-
         }
-
 
         // add back glazing values from session if needed
         model.addAttribute("unsupportedLength", unsupportedLength);
@@ -232,7 +279,6 @@ public class HomeController {
         return "mullion-form";
     }
 
-
     @PostMapping("/checkTransom")
     public String checkTransomProfile(Model model, HttpSession session) {
         String typeOfGlazing = (String) session.getAttribute("typeOfGlazing");
@@ -241,14 +287,10 @@ public class HomeController {
         Double unsupportedLength = (Double) session.getAttribute("unsupportedLength");
         Double stackBracket = (Double) session.getAttribute("stackBracket");
 
-
         if (gridLength == null || windPressure == null || unsupportedLength == null) {
-
             model.addAttribute("input", prepareDefaultInput());
-
             return "glazing-form";//TODO
         }
-
 
         TransomInput transomInput = new TransomInput();
         prepareTransomDefaults(model, session, transomInput);
@@ -268,11 +310,8 @@ public class HomeController {
         Double unsupportedLength = (Double) session.getAttribute("unsupportedLength");
         Double stackBracket = (Double) session.getAttribute("stackBracket");
 
-
         if (gridLength == null || windPressure == null || unsupportedLength == null) {
-
             model.addAttribute("input", prepareDefaultInput());
-
             return "glazing-form";//TODO
         }
         GlazingInput glazingInput = new GlazingInput();
@@ -281,7 +320,6 @@ public class HomeController {
         glazingInput.setStackBracket(stackBracket);
         glazingInput.setUnsupportedLength(unsupportedLength);
         glazingInput.setWindPressure(windPressure);
-
 
         prepareTransomDefaults(model, session, transomInput);
         try {
@@ -292,9 +330,7 @@ public class HomeController {
 
         } catch (Exception ex) {
             return handleErrorTransom(model, session, "All input values must be positive and non-zero", transomInput);
-
         }
-
 
         // add back glazing values from session if needed
         model.addAttribute("unsupportedLength", unsupportedLength);
@@ -305,7 +341,6 @@ public class HomeController {
 
         return "transom-form";
     }
-
 
     @GetMapping("/download-pdf")
     public ResponseEntity<byte[]> downloadPdf(HttpServletResponse response, HttpSession session) throws IOException {
@@ -330,7 +365,6 @@ public class HomeController {
         }
     }
 
-
     public GlazingInput prepareDefaultInput() {
         GlazingInput input = new GlazingInput();
         input.setUnsupportedLength(3000.0);
@@ -342,7 +376,6 @@ public class HomeController {
     }
 
     public void addInputToModel(Model model, Double unsupportedLength, Double windPressure, Double gridLength, Double stackBracket, String typeOfGlazing) {
-
         GlazingInput input = new GlazingInput();
         input.setUnsupportedLength(unsupportedLength);
         input.setGridLength(gridLength);
@@ -353,7 +386,6 @@ public class HomeController {
     }
 
     public void prepareModel(Model model, double cf, Object ixx, Object df, Object bm, Object userIxx) {
-
         if (cf != 0) {
             model.addAttribute("cf", String.format("%.2f", cf));
         }
@@ -378,98 +410,105 @@ public class HomeController {
 
     public String handleErrorMullion(Model model, HttpSession session, String errorMessage, MullionInput mullionInput) {
         model.addAttribute("error", errorMessage);
-
+        model.addAttribute("mullionInput", mullionInput);
         return "mullion-form";
     }
 
     public String handleErrorTransom(Model model, HttpSession session, String errorMessage, TransomInput transomInput) {
         model.addAttribute("error", errorMessage);
-
         return "transom-form";
     }
 
     private void prepareMullionDefaults(Model model, HttpSession session, MullionInput mullionInput) {
-
         // Glass Thickness
         Double sessionGlassThickness = (session.getAttribute("glassThickness") instanceof Double)
                 ? (Double) session.getAttribute("glassThickness") : null;
-        model.addAttribute("glassThickness",
-                mullionInput.getGlassThickness() != 0.0 ? mullionInput.getGlassThickness() :
-                        (sessionGlassThickness != null && sessionGlassThickness != 0.0 ? sessionGlassThickness : 12.0));
+        double glassThickness = mullionInput.getGlassThickness() != 0.0 ? mullionInput.getGlassThickness() :
+                (sessionGlassThickness != null && sessionGlassThickness != 0.0 ? sessionGlassThickness : 12.0);
+        mullionInput.setGlassThickness(glassThickness);
+        model.addAttribute("glassThickness", glassThickness);
 
         // Cross Sectional Area
         Double sessionCrossSectionalArea = (session.getAttribute("crossSectionalArea") instanceof Double)
                 ? (Double) session.getAttribute("crossSectionalArea") : null;
-        model.addAttribute("crossSectionalArea",
-                mullionInput.getCrossSectionalArea() != 0.0 ? mullionInput.getCrossSectionalArea() :
-                        (sessionCrossSectionalArea != null && sessionCrossSectionalArea != 0.0 ? sessionCrossSectionalArea : 6.25));
+        double crossSectionalArea = mullionInput.getCrossSectionalArea() != 0.0 ? mullionInput.getCrossSectionalArea() :
+                (sessionCrossSectionalArea != null && sessionCrossSectionalArea != 0.0 ? sessionCrossSectionalArea : 6.25);
+        mullionInput.setCrossSectionalArea(crossSectionalArea);
+        model.addAttribute("crossSectionalArea", crossSectionalArea);
 
         // Transom to Transom Distance
         Double sessionTransomToTransomDistance = (session.getAttribute("transomToTransomDistance") instanceof Double)
                 ? (Double) session.getAttribute("transomToTransomDistance") : null;
-        model.addAttribute("transomToTransomDistance",
-                mullionInput.getTransomToTransomDistance() != 0.0 ? mullionInput.getTransomToTransomDistance() :
-                        (sessionTransomToTransomDistance != null && sessionTransomToTransomDistance != 0.0 ? sessionTransomToTransomDistance : 1200.0));
+        double transomToTransomDistance = mullionInput.getTransomToTransomDistance() != 0.0 ? mullionInput.getTransomToTransomDistance() :
+                (sessionTransomToTransomDistance != null && sessionTransomToTransomDistance != 0.0 ? sessionTransomToTransomDistance : 1200.0);
+        mullionInput.setTransomToTransomDistance(transomToTransomDistance);
+        model.addAttribute("transomToTransomDistance", transomToTransomDistance);
 
         // b
         Double sessionB = (session.getAttribute("b") instanceof Double) ? (Double) session.getAttribute("b") : null;
-        model.addAttribute("b",
-                mullionInput.getB() != 0.0 ? mullionInput.getB() :
-                        (sessionB != null && sessionB != 0.0 ? sessionB : 60.0));
+        double b = mullionInput.getB() != 0.0 ? mullionInput.getB() :
+                (sessionB != null && sessionB != 0.0 ? sessionB : 60.0);
+        mullionInput.setB(b);
+        model.addAttribute("b", b);
 
         // a
         Double sessionA = (session.getAttribute("a") instanceof Double) ? (Double) session.getAttribute("a") : null;
-        model.addAttribute("a",
-                mullionInput.getA() != 0.0 ? mullionInput.getA() :
-                        (sessionA != null && sessionA != 0.0 ? sessionA : 100.0));
+        double a = mullionInput.getA() != 0.0 ? mullionInput.getA() :
+                (sessionA != null && sessionA != 0.0 ? sessionA : 100.0);
+        mullionInput.setA(a);
+        model.addAttribute("a", a);
 
         // t2
         Double sessionT2 = (session.getAttribute("t2") instanceof Double) ? (Double) session.getAttribute("t2") : null;
-        model.addAttribute("t2",
-                mullionInput.getT2() != 0.0 ? mullionInput.getT2() :
-                        (sessionT2 != null && sessionT2 != 0.0 ? sessionT2 : 3.0));
+        double t2 = mullionInput.getT2() != 0.0 ? mullionInput.getT2() :
+                (sessionT2 != null && sessionT2 != 0.0 ? sessionT2 : 3.0);
+        mullionInput.setT2(t2);
+        model.addAttribute("t2", t2);
 
         // t1
         Double sessionT1 = (session.getAttribute("t1") instanceof Double) ? (Double) session.getAttribute("t1") : null;
-        model.addAttribute("t1",
-                mullionInput.getT1() != 0.0 ? mullionInput.getT1() :
-                        (sessionT1 != null && sessionT1 != 0.0 ? sessionT1 : 2.0));
+        double t1 = mullionInput.getT1() != 0.0 ? mullionInput.getT1() :
+                (sessionT1 != null && sessionT1 != 0.0 ? sessionT1 : 2.0);
+        mullionInput.setT1(t1);
+        model.addAttribute("t1", t1);
 
         // iyy
         Double sessionIyy = (session.getAttribute("iyy") instanceof Double) ? (Double) session.getAttribute("iyy") : null;
-        model.addAttribute("iyy",
-                mullionInput.getIyy() != 0.0 ? mullionInput.getIyy() :
-                        (sessionIyy != null && sessionIyy != 0.0 ? sessionIyy : 46.24));
+        double iyy = mullionInput.getIyy() != 0.0 ? mullionInput.getIyy() :
+                (sessionIyy != null && sessionIyy != 0.0 ? sessionIyy : 46.24);
+        mullionInput.setIyy(iyy);
+        model.addAttribute("iyy", iyy);
 
         // boundingboxy
         Double sessionBoundingboxy = (session.getAttribute("boundingboxy") instanceof Double)
                 ? (Double) session.getAttribute("boundingboxy") : null;
-        model.addAttribute("boundingboxy",
-                mullionInput.getBoundingboxy() != 0.0 ? mullionInput.getBoundingboxy() :
-                        (sessionBoundingboxy != null && sessionBoundingboxy != 0.0 ? sessionBoundingboxy : 2.0));
+        double boundingboxy = mullionInput.getBoundingboxy() != 0.0 ? mullionInput.getBoundingboxy() :
+                (sessionBoundingboxy != null && sessionBoundingboxy != 0.0 ? sessionBoundingboxy : 2.0);
+        mullionInput.setBoundingboxy(boundingboxy);
+        model.addAttribute("boundingboxy", boundingboxy);
 
         // userIxx
         Double sessionUserIxx = (session.getAttribute("userIxx") instanceof Double)
                 ? (Double) session.getAttribute("userIxx") : null;
-        model.addAttribute("userIxx",
-                mullionInput.getUserIxx() != 0.0 ? mullionInput.getUserIxx() :
-                        (sessionUserIxx != null && sessionUserIxx != 0.0 ? sessionUserIxx : 200.0));
+        double userIxx = mullionInput.getUserIxx() != 0.0 ? mullionInput.getUserIxx() :
+                (sessionUserIxx != null && sessionUserIxx != 0.0 ? sessionUserIxx : 200.0);
+        mullionInput.setUserIxx(userIxx);
+        model.addAttribute("userIxx", userIxx);
 
         // Save to session so they persist
-        session.setAttribute("glassThickness", model.getAttribute("glassThickness"));
-        session.setAttribute("crossSectionalArea", model.getAttribute("crossSectionalArea"));
-        session.setAttribute("transomToTransomDistance", model.getAttribute("transomToTransomDistance"));
-        session.setAttribute("b", model.getAttribute("b"));
-        session.setAttribute("a", model.getAttribute("a"));
-        session.setAttribute("t2", model.getAttribute("t2"));
-        session.setAttribute("t1", model.getAttribute("t1"));
-        session.setAttribute("iyy", model.getAttribute("iyy"));
-        session.setAttribute("boundingboxy", model.getAttribute("boundingboxy"));
-        session.setAttribute("userIxx", model.getAttribute("userIxx"));
+        session.setAttribute("glassThickness", glassThickness);
+        session.setAttribute("crossSectionalArea", crossSectionalArea);
+        session.setAttribute("transomToTransomDistance", transomToTransomDistance);
+        session.setAttribute("b", b);
+        session.setAttribute("a", a);
+        session.setAttribute("t2", t2);
+        session.setAttribute("t1", t1);
+        session.setAttribute("iyy", iyy);
+        session.setAttribute("boundingboxy", boundingboxy);
+        session.setAttribute("userIxx", userIxx);
     }
 
     private void prepareTransomDefaults(Model model, HttpSession session, TransomInput transomInput) {
-
         // Glass Thickness
         Double sessionGlassThickness = (session.getAttribute("glassThickness") instanceof Double)
                 ? (Double) session.getAttribute("glassThickness") : null;
@@ -546,6 +585,6 @@ public class HomeController {
         session.setAttribute("transomIxx", model.getAttribute("transomIxx"));
         session.setAttribute("transomBoundingBoxY", model.getAttribute("transomBoundingBoxY"));
     }
-
-
 }
+
+//semi/fully unitized

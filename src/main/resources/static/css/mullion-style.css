@@ -1,0 +1,95 @@
+/* mullion-style.css - Specific styles for Mullion Profile Check page */
+
+.content-container-mullion {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.mullion-form-container {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.mullion-form-container h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 600;
+}
+
+.navigation-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.back-btn, .next-btn {
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.back-btn {
+    background: linear-gradient(45deg, #6c757d, #495057);
+    color: white;
+}
+
+.back-btn:hover {
+    background: linear-gradient(45deg, #495057, #6c757d);
+}
+
+.next-btn {
+    background: linear-gradient(45deg, #28a745, #20c997);
+    color: white;
+}
+
+.next-btn:hover {
+    background: linear-gradient(45deg, #20c997, #28a745);
+}
+
+/* Sidebar results table */
+.sidebar-results {
+    margin-top: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.sidebar-results h3 {
+    margin-top: 0;
+    color: #2c3e50;
+    font-size: 16px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+}
+
+.values-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.values-table td {
+    padding: 5px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.values-table td:first-child {
+    font-weight: 600;
+    color: #495057;
+    width: 60%;
+}
+
+.values-table td:last-child {
+    color: #007bff;
+    text-align: right;
+}
