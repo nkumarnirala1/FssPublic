@@ -3,165 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facade Structural Services - Mullion Check</title>
+    <title>Mullion Profile Check - Facade Structural Services</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/mullion-style.css}">
 </head>
 <body>
 <!-- Fixed Header -->
 <header class="fixed-header">
     <div class="header-left">
         <img src="/images/fsslogo.jpeg" alt="FSS Logo" class="logo">
-        <h1>Facade Structural Services</h1>
+        <span class="header-title">Facade Structural Services - Mullion Profile</span>
     </div>
     <div class="header-right">
-        <form th:action="@{/estimation}" method="get">
-            <button type="submit" class="header-btn estimation-btn">Estimation</button>
-        </form>
-        <form th:action="@{/download-pdf}" method="get">
-            <button type="submit" class="header-btn download-btn">Download PDF</button>
+        <form th:action="@{/home}" method="get">
+            <button type="submit" class="header-btn back-btn">← Back to Main</button>
         </form>
         <form th:action="@{/logout}" method="post">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-            <button type="submit" class="header-btn logout-btn">⏻Logout</button>
+            <button type="submit" class="header-btn logout-btn">⏻ Logout</button>
         </form>
     </div>
 </header>
 
-<!-- Main Content Wrapper -->
-<div class="main-wrapper">
-    <!-- Left Sidebar -->
-    <aside class="sidebar">
-        <div class="sidebar-buttons">
-            <button class="tab-btn" id="semi-tab" onclick="location.href='@{/calculate}'">
-                Semi Unitized
-            </button>
-            <button class="tab-btn" id="fully-tab" onclick="location.href='@{/calculateFully}'">
-                Fully Unitized
-            </button>
-        </div>
-
-        <!-- Input Values Table -->
-        <div class="sidebar-results" th:if="${Ixx != null}">
-            <h3>Current Input Values</h3>
-            <table class="values-table">
-                <tr>
-                    <td>Required Ixx:</td>
-                    <td th:text="${Ixx} + ' ×10¹⁰ mm⁴'"></td>
-                </tr>
-                <tr>
-                    <td>Allowable deflection:</td>
-                    <td th:text="${df} + ' mm'"></td>
-                </tr>
-                <tr>
-                    <td>Bending Moment:</td>
-                    <td th:text="${bm} + ' kN·m'"></td>
-                </tr>
-            </table>
-        </div>
-    </aside>
-
+<!-- Main Layout -->
+<div class="layout">
     <!-- Main Content Area -->
-    <main class="content-area">
-        <div class="content-container-mullion">
-            <!-- Back Button -->
-            <div class="navigation-buttons">
-                <form th:action="@{/calculate}" method="get">
-                    <button type="submit" class="back-btn">← Back to Calculation</button>
-                </form>
-            </div>
+    <main class="main-content full-width">
+        <div class="profile-container">
+            <h2>Mullion Profile Check</h2>
 
-            <!-- Mullion Profile Check Form -->
-            <div class="mullion-form-container">
-                <h2>Mullion Profile Check</h2>
-
-                <form th:action="@{/submitMullionProfile}" method="post" class="profile-form">
-                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-
-                    <label for="userIxx">User Ixx (×10¹⁰ mm⁴)</label>
-                    <input type="number" step="0.01" id="userIxx" name="userIxx"
-                           th:value="${mullionInput != null} ? ${mullionInput.userIxx} : ${userIxx}" required/>
-
-                    <label for="glassThickness">Glass Thickness (mm)</label>
-                    <input type="number" step="0.01" id="glassThickness" name="glassThickness"
-                           th:value="${mullionInput != null} ? ${mullionInput.glassThickness} : ${glassThickness}" required/>
-
-                    <label for="crossSectionalArea">Cross Sectional Area (cm²)</label>
-                    <input type="number" step="0.01" id="crossSectionalArea" name="crossSectionalArea"
-                           th:value="${mullionInput != null} ? ${mullionInput.crossSectionalArea} : ${crossSectionalArea}" required/>
-
-                    <label for="transomToTransomDistance">Transom to Transom Distance (mm)</label>
-                    <input type="number" step="0.01" id="transomToTransomDistance" name="transomToTransomDistance"
-                           th:value="${mullionInput != null} ? ${mullionInput.transomToTransomDistance} : ${transomToTransomDistance}" required/>
-
-                    <label for="b">Width b (mm)</label>
-                    <input type="number" step="0.01" id="b" name="b"
-                           th:value="${mullionInput != null} ? ${mullionInput.b} : ${b}" required/>
-
-                    <label for="a">Height a (mm)</label>
-                    <input type="number" step="0.01" id="a" name="a"
-                           th:value="${mullionInput != null} ? ${mullionInput.a} : ${a}" required/>
-
-                    <label for="t2">t₂ (mm)</label>
-                    <input type="number" step="0.01" id="t2" name="t2"
-                           th:value="${mullionInput != null} ? ${mullionInput.t2} : ${t2}" required/>
-
-                    <label for="t1">t₁ (mm)</label>
-                    <input type="number" step="0.01" id="t1" name="t1"
-                           th:value="${mullionInput != null} ? ${mullionInput.t1} : ${t1}" required/>
-
-                    <label for="iyy">Iyy (cm⁴)</label>
-                    <input type="number" step="0.01" id="iyy" name="iyy"
-                           th:value="${mullionInput != null} ? ${mullionInput.iyy} : ${iyy}" required/>
-
-                    <label for="boundingboxy">Bounding Box Y (mm)</label>
-                    <input type="number" step="0.01" id="boundingboxy" name="boundingboxy"
-                           th:value="${mullionInput != null} ? ${mullionInput.boundingboxy} : ${boundingboxy}" required/>
-
-                    <button type="submit">Submit Mullion Profile</button>
-                </form>
-            </div>
-
-            <!-- Mullion Results -->
-            <div class="result-wrapper" th:if="${bendingStress != null or shearStress != null}">
-                <div class="result-container">
-                    <h2>Mullion Profile Results</h2>
-
-                    <!-- Bending Stress Result -->
-                    <p th:if="${bendingStress}" style="color: green; font-weight: bold;">
-                        ✅ Profile is safe under combined axial and bending stress
-                    </p>
-                    <p th:if="${bendingStress == false}" style="color: red; font-weight: bold;">
-                        ❌ Profile is unsafe under combined axial and bending stress
-                    </p>
-
-                    <!-- Shear Stress Result -->
-                    <p th:if="${shearStress}" style="color: green; font-weight: bold;">
-                        ✅ Profile is safe under shear stress
-                    </p>
-                    <p th:if="${shearStress == false}" style="color: red; font-weight: bold;">
-                        ❌ Profile is unsafe under shear stress
-                    </p>
+            <!-- Input Parameters Summary -->
+            <div class="input-summary">
+                <h3>Glazing Input Parameters</h3>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <span class="label">Type of Glazing:</span>
+                        <span class="value" th:text="${typeOfGlazing}"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Unsupported Length:</span>
+                        <span class="value" th:text="${unsupportedLength} + ' mm'"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Grid Length:</span>
+                        <span class="value" th:text="${gridLength} + ' mm'"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Wind Pressure:</span>
+                        <span class="value" th:text="${windPressure} + ' kN/m²'"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Stack Bracket:</span>
+                        <span class="value" th:text="${stackBracket} + ' mm'"></span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Navigation to Transom Check -->
-            <div class="navigation-buttons" th:unless="${bendingStress == null and shearStress == null}">
-                <form th:action="@{/checkTransom}" method="post">
+            <!-- Mullion Profile Form -->
+            <div class="profile-form-container">
+                <h3>Mullion Profile Parameters</h3>
+                <form th:action="@{/submitMullionProfile}" method="post" class="mullion-profile-form" th:object="${mullionInput}">
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                    <button type="submit" class="next-btn">Check Transom Profile →</button>
+
+                    <div class="form-group">
+                        <label for="glassThickness">Glass Thickness (mm)</label>
+                        <input type="number" step="0.01" id="glassThickness" th:field="*{glassThickness}" th:value="${glassThickness}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="crossSectionalArea">Cross Sectional Area (cm²)</label>
+                        <input type="number" step="0.01" id="crossSectionalArea" th:field="*{crossSectionalArea}" th:value="${crossSectionalArea}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transomToTransomDistance">Transom to Transom Distance (mm)</label>
+                        <input type="number" step="0.01" id="transomToTransomDistance" th:field="*{transomToTransomDistance}" th:value="${transomToTransomDistance}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="b">Section Width b (mm)</label>
+                        <input type="number" step="0.01" id="b" th:field="*{b}" th:value="${b}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="a">Depth of Section a (mm)</label>
+                        <input type="number" step="0.01" id="a" th:field="*{a}" th:value="${a}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="t2">t₂ (mm)</label>
+                        <input type="number" step="0.01" id="t2" th:field="*{t2}" th:value="${t2}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="t1">t₁ (mm)</label>
+                        <input type="number" step="0.01" id="t1" th:field="*{t1}" th:value="${t1}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="iyy">Iyy (cm⁴)</label>
+                        <input type="number" step="0.01" id="iyy" th:field="*{iyy}" th:value="${iyy}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="boundingboxy">Bounding Box Y (mm)</label>
+                        <input type="number" step="0.01" id="boundingboxy" th:field="*{boundingboxy}" th:value="${boundingboxy}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userIxx">User Ixx (×10¹⁰ mm⁴)</label>
+                        <input type="number" step="0.01" id="userIxx" th:field="*{userIxx}" th:value="${userIxx}" required/>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn">Submit Mullion Profile</button>
+                    </div>
                 </form>
             </div>
 
-            <!-- Error Box -->
-            <div class="result-wrapper" th:if="${error}">
-                <div class="error-box">
-                    <img class="error-icon" src="/images/error_img.png" alt="Error Icon">
-                    <p th:text="${error}"></p>
+            <!-- Results Section -->
+            <div th:if="${bendingStress != null or shearStress != null}" class="results-section">
+                <h3>Profile Check Results</h3>
+                <div class="results-grid">
+                    <div class="result-card" th:classappend="${bendingStress} ? 'pass' : 'fail'">
+                        <div class="result-header">
+                            <span class="result-title">Bending Stress Check</span>
+                            <span class="result-status" th:text="${bendingStress} ? 'PASS' : 'FAIL'"></span>
+                        </div>
+                        <div class="result-description">
+                            <p th:if="${bendingStress}">The mullion profile passes the bending stress requirements.</p>
+                            <p th:if="${!bendingStress}">The mullion profile fails the bending stress requirements. Please review the section properties.</p>
+                        </div>
+                    </div>
+
+                    <div class="result-card" th:classappend="${shearStress} ? 'pass' : 'fail'">
+                        <div class="result-header">
+                            <span class="result-title">Shear Stress Check</span>
+                            <span class="result-status" th:text="${shearStress} ? 'PASS' : 'FAIL'"></span>
+                        </div>
+                        <div class="result-description">
+                            <p th:if="${shearStress}">The mullion profile passes the shear stress requirements.</p>
+                            <p th:if="${!shearStress}">The mullion profile fails the shear stress requirements. Please review the section properties.</p>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Overall Result -->
+                <div class="overall-result" th:classappend="${bendingStress and shearStress} ? 'pass' : 'fail'">
+                    <h4 th:if="${bendingStress and shearStress}">✓ Overall Result: PROFILE ACCEPTABLE</h4>
+                    <h4 th:if="${!(bendingStress and shearStress)}">✗ Overall Result: PROFILE NOT ACCEPTABLE</h4>
+                    <p th:if="${bendingStress and shearStress}">The mullion profile meets all structural requirements.</p>
+                    <p th:if="${!(bendingStress and shearStress)}">The mullion profile does not meet structural requirements. Please modify the section properties or consider a different profile.</p>
+                </div>
+            </div>
+
+            <!-- Error Display -->
+            <div th:if="${error}" class="error-container">
+                <img class="error-icon" src="/images/error_img.png" alt="Error Icon">
+                <p th:text="${error}"></p>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <form th:action="@{/home}" method="get" style="display: inline;">
+                    <button type="submit" class="action-btn secondary">Back to Main Form</button>
+                </form>
+                <form th:action="@{/checkTransom}" method="post" style="display: inline;">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <button type="submit" class="action-btn primary">Check Transom Profile</button>
+                </form>
             </div>
         </div>
     </main>
 </div>
+
+<!-- JavaScript -->
+<script>
+    // Form validation and UX enhancements
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.mullion-profile-form');
+        const inputs = form.querySelectorAll('input[type="number"]');
+
+        // Add real-time validation feedback
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value && parseFloat(this.value) <= 0) {
+                    this.setCustomValidity('Value must be positive');
+                    this.classList.add('invalid');
+                } else {
+                    this.setCustomValidity('');
+                    this.classList.remove('invalid');
+                }
+            });
+
+            input.addEventListener('blur', function() {
+                if (this.checkValidity()) {
+                    this.classList.add('valid');
+                }
+            });
+        });
+
+        // Form submission validation
+        form.addEventListener('submit', function(e) {
+            let hasErrors = false;
+            inputs.forEach(input => {
+                if (!input.checkValidity() || parseFloat(input.value) <= 0) {
+                    hasErrors = true;
+                    input.classList.add('invalid');
+                }
+            });
+
+            if (hasErrors) {
+                e.preventDefault();
+                alert('Please correct the errors in the form before submitting.');
+            }
+        });
+    });
+</script>
 </body>
 </html>

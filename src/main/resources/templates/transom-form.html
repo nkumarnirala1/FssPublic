@@ -1,164 +1,228 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Mullion Profile Check</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transom Profile Check - Facade Structural Services</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <style>
-        .form-container, .result-wrapper {
-            width: 48%;
-            display: inline-block;
-            vertical-align: top;
-            padding: 15px;
-        }
-        button {
-            margin-top: 15px;
-            padding: 10px 16px;
-            border-radius: 6px;
-            border: none;
-            background: linear-gradient(45deg, #007BFF, #0056b3);
-            color: white;
-            font-size: 15px;
-            cursor: pointer;
-        }
-        button:hover {
-            background: linear-gradient(45deg, #0056b3, #007BFF);
-        }
-    </style>
 </head>
-
 <body>
-<div class="company-header">
-    <img src="/images/fss_heading.jpeg" alt="Company Heading"/>
-</div>
+<!-- Fixed Header -->
+<header class="fixed-header">
+    <div class="header-left">
+        <img src="/images/fsslogo.jpeg" alt="FSS Logo" class="logo">
+        <span class="header-title">Facade Structural Services - Transom Profile</span>
+    </div>
+    <div class="header-right">
+        <form th:action="@{/home}" method="get">
+            <button type="submit" class="header-btn back-btn">← Back to Main</button>
+        </form>
+        <form th:action="@{/logout}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <button type="submit" class="header-btn logout-btn">⏻ Logout</button>
+        </form>
+    </div>
+</header>
 
-<div class="page-wrapper">
-    <div class="container">
+<!-- Main Layout -->
+<div class="layout">
+    <!-- Main Content Area -->
+    <main class="main-content full-width">
+        <div class="profile-container">
+            <h2>Transom Profile Check</h2>
 
-        <!-- Mullion Profile Check Form -->
-        <!-- ✅ Transom Input Form -->
-        <div>
-            <h3>Transom Profile Input</h3>
-            <form th:action="@{/submitTransomProfile}" th:object="${transomInput}" method="post" class="transom-form">
-
-                <!-- Grid Length -->
-                <label>Grid Length:</label>
-                <input type="number" step="0.01" th:field="*{gridLength}" required />
-
-                <!-- Wind Pressure -->
-                <label>Wind Pressure:</label>
-                <input type="number" step="0.01" th:field="*{windPressure}" required />
-
-                <!-- Glass Thickness -->
-                <label>Glass Thickness:</label>
-                <input type="number" step="0.01" th:field="*{glassThickness}" required />
-
-                <!-- Top Panel Height -->
-                <label>Transom Top Panel Height:</label>
-                <input type="number" step="0.01" th:field="*{transomTopPanelHeight}" required />
-
-                <!-- Bottom Panel Height -->
-                <label>Transom Bottom Panel Height:</label>
-                <input type="number" step="0.01" th:field="*{transomBottomPanelHeight}" required />
-
-                <!-- Depth of Section -->
-                <label>Depth of Section (Transom):</label>
-                <input type="number" step="0.01" th:field="*{depthOfSectionTransom}" required />
-
-                <!-- Thickness t2 -->
-                <label>T2 (Transom):</label>
-                <input type="number" step="0.01" th:field="*{t2Transom}" required />
-
-                <!-- Thickness t1 -->
-                <label>T1 (Transom):</label>
-                <input type="number" step="0.01" th:field="*{thicknessTaTransom_t1}" required />
-
-                <!-- Ixx -->
-                <label>Transom Ixx:</label>
-                <input type="number" step="0.01" th:field="*{transomIxx}" required />
-
-                <!-- Iyy -->
-                <label>Transom Iyy:</label>
-                <input type="number" step="0.01" th:field="*{transomIyy}" required />
-
-                <!-- Bounding Box Y -->
-                <label>Bounding Box Y:</label>
-                <input type="number" step="0.01" th:field="*{transomBoundingBoxY}" required />
-
-                <!-- Cross Sectional Area -->
-                <label>Cross Sectional Area:</label>
-                <input type="number" step="0.01" th:field="*{transomCrossSectionalArea}" required />
-
-                <!-- Unsupported Length -->
-                <label>Unsupported Length (Transom):</label>
-                <input type="number" step="0.01" th:field="*{transomUnsupportedLength}" required />
-
-                <!-- Section Width B -->
-                <label>Section Width (B):</label>
-                <input type="number" step="0.01" th:field="*{sectionWidthB}" required />
-
-                <!-- Submit Button -->
-                <button type="submit">Submit Transom Profile</button>
-            </form>
-
-            <form th:action="@{/checkMullion}" method="post" style="margin-top: 20px;">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-                <button type="submit">⬅ Move to Mullion Profile</button>
-            </form>
-        </div>
-
-
-        <!-- Mullion Results -->
-        <div class="result-wrapper-mullion"
-             th:if="${bendingStress != null and shearStress != null}">
-            <div class="result-container-mullion">
-                <h2>Transom Profile Results</h2>
-
-                <!-- Bending Stress Result -->
-                <p th:if="${bendingStress}" style="color: green; font-weight: bold;">
-                    ✅ Profile is safe under combined axial and bending stress
-                </p>
-                <p th:if="${bendingStress == false}" style="color: red; font-weight: bold;">
-                    ❌ Profile is unsafe under combined axial and bending stress
-                </p>
-
-                <!-- Shear Stress Result -->
-                <p th:if="${shearStress}" style="color: green; font-weight: bold;">
-                    ✅ Profile is safe under shear stress
-                </p>
-                <p th:if="${shearStress == false}" style="color: red; font-weight: bold;">
-                    ❌ Profile is unsafe under shear stress
-                </p>
+            <!-- Input Parameters Summary -->
+            <div class="input-summary">
+                <h3>Glazing Input Parameters</h3>
+                <div class="summary-grid">
+                    <div class="summary-item">
+                        <span class="label">Type of Glazing:</span>
+                        <span class="value" th:text="${typeOfGlazing}"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Unsupported Length:</span>
+                        <span class="value" th:text="${unsupportedLength} + ' mm'"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Grid Length:</span>
+                        <span class="value" th:text="${gridLength} + ' mm'"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Wind Pressure:</span>
+                        <span class="value" th:text="${windPressure} + ' kN/m²'"></span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="label">Stack Bracket:</span>
+                        <span class="value" th:text="${stackBracket} + ' mm'"></span>
+                    </div>
+                </div>
             </div>
-        </div>
 
-        <!-- Error Box -->
-        <div class="result-wrapper" th:if="${error}">
-            <div class="error-box">
+            <!-- Transom Profile Form -->
+            <div class="profile-form-container">
+                <h3>Transom Profile Parameters</h3>
+                <form th:action="@{/submitTransomProfile}" method="post" class="transom-profile-form" th:object="${transomInput}">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+                    <div class="form-group">
+                        <label for="transomTopPanelHeight">Top Panel Height (mm)</label>
+                        <input type="number" step="0.01" id="transomTopPanelHeight" th:field="*{transomTopPanelHeight}" th:value="${transomTopPanelHeight}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transomBottomPanelHeight">Bottom Panel Height (mm)</label>
+                        <input type="number" step="0.01" id="transomBottomPanelHeight" th:field="*{transomBottomPanelHeight}" th:value="${transomBottomPanelHeight}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="depthOfSectionTransom">Depth of Section (mm)</label>
+                        <input type="number" step="0.01" id="depthOfSectionTransom" th:field="*{depthOfSectionTransom}" th:value="${depthOfSectionTransom}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="t2Transom">t₂ (mm)</label>
+                        <input type="number" step="0.01" id="t2Transom" th:field="*{t2Transom}" th:value="${t2Transom}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="t1Transom">t₁ (mm)</label>
+                        <input type="number" step="0.01" id="t1Transom" th:field="*{t1Transom}" th:value="${t1Transom}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transomIxx">Ixx (cm⁴)</label>
+                        <input type="number" step="0.01" id="transomIxx" th:field="*{transomIxx}" th:value="${transomIxx}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transomIyy">Iyy (cm⁴)</label>
+                        <input type="number" step="0.01" id="transomIyy" th:field="*{transomIyy}" th:value="${transomIyy}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transomBoundingBoxY">Bounding Box Y (mm)</label>
+                        <input type="number" step="0.01" id="transomBoundingBoxY" th:field="*{transomBoundingBoxY}" th:value="${transomBoundingBoxY}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transomCrossSectionArea">Cross Sectional Area (cm²)</label>
+                        <input type="number" step="0.01" id="transomCrossSectionArea" th:field="*{transomCrossSectionArea}" th:value="${transomCrossSectionArea}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="transomUnsupportedLength">Unsupported Length (mm)</label>
+                        <input type="number" step="0.01" id="transomUnsupportedLength" th:field="*{transomUnsupportedLength}" th:value="${transomUnsupportedLength}" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="sectionWidthB">Section Width b (mm)</label>
+                        <input type="number" step="0.01" id="sectionWidthB" th:field="*{sectionWidthB}" th:value="${sectionWidthB}" required/>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="submit-btn">Submit Transom Profile</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Results Section -->
+            <div th:if="${bendingStress != null or shearStress != null}" class="results-section">
+                <h3>Profile Check Results</h3>
+                <div class="results-grid">
+                    <div class="result-card" th:classappend="${bendingStress} ? 'pass' : 'fail'">
+                        <div class="result-header">
+                            <span class="result-title">Bending Stress Check</span>
+                            <span class="result-status" th:text="${bendingStress} ? 'PASS' : 'FAIL'"></span>
+                        </div>
+                        <div class="result-description">
+                            <p th:if="${bendingStress}">The transom profile passes the bending stress requirements.</p>
+                            <p th:if="${!bendingStress}">The transom profile fails the bending stress requirements. Please review the section properties.</p>
+                        </div>
+                    </div>
+
+                    <div class="result-card" th:classappend="${shearStress} ? 'pass' : 'fail'">
+                        <div class="result-header">
+                            <span class="result-title">Shear Stress Check</span>
+                            <span class="result-status" th:text="${shearStress} ? 'PASS' : 'FAIL'"></span>
+                        </div>
+                        <div class="result-description">
+                            <p th:if="${shearStress}">The transom profile passes the shear stress requirements.</p>
+                            <p th:if="${!shearStress}">The transom profile fails the shear stress requirements. Please review the section properties.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Overall Result -->
+                <div class="overall-result" th:classappend="${bendingStress and shearStress} ? 'pass' : 'fail'">
+                    <h4 th:if="${bendingStress and shearStress}">✓ Overall Result: PROFILE ACCEPTABLE</h4>
+                    <h4 th:if="${!(bendingStress and shearStress)}">✗ Overall Result: PROFILE NOT ACCEPTABLE</h4>
+                    <p th:if="${bendingStress and shearStress}">The transom profile meets all structural requirements.</p>
+                    <p th:if="${!(bendingStress and shearStress)}">The transom profile does not meet structural requirements. Please modify the section properties or consider a different profile.</p>
+                </div>
+            </div>
+
+            <!-- Error Display -->
+            <div th:if="${error}" class="error-container">
                 <img class="error-icon" src="/images/error_img.png" alt="Error Icon">
                 <p th:text="${error}"></p>
             </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <form th:action="@{/home}" method="get" style="display: inline;">
+                    <button type="submit" class="action-btn secondary">Back to Main Form</button>
+                </form>
+                <form th:action="@{/checkMullion}" method="post" style="display: inline;">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <button type="submit" class="action-btn primary">Check Mullion Profile</button>
+                </form>
+            </div>
         </div>
-
-    </div>
+    </main>
 </div>
 
-<div class="logout-button-wrapper">
-    <form th:action="@{/logout}" method="post">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-        <button class="logout-button" type="submit">Logout</button>
-    </form>
-    <form th:action="@{/download-pdf}" method="get">
-        <button type="submit" class="download-btn">Download PDF Report</button>
-    </form>
-    <form th:action="@{/estimation}" method="get">
-        <button type="submit" class="estimation-btn">Estimation</button>
-    </form>
+<!-- JavaScript -->
+<script>
+    // Form validation and UX enhancements
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.transom-profile-form');
+        const inputs = form.querySelectorAll('input[type="number"]');
 
-    <form th:action="@{/calculate}" method="get">
-        <button type="submit" class="back-btn">⬅ Back</button>
-    </form>
-</div>
+        // Add real-time validation feedback
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.value && parseFloat(this.value) <= 0) {
+                    this.setCustomValidity('Value must be positive');
+                    this.classList.add('invalid');
+                } else {
+                    this.setCustomValidity('');
+                    this.classList.remove('invalid');
+                }
+            });
 
+            input.addEventListener('blur', function() {
+                if (this.checkValidity()) {
+                    this.classList.add('valid');
+                }
+            });
+        });
+
+        // Form submission validation
+        form.addEventListener('submit', function(e) {
+            let hasErrors = false;
+            inputs.forEach(input => {
+                if (!input.checkValidity() || parseFloat(input.value) <= 0) {
+                    hasErrors = true;
+                    input.classList.add('invalid');
+                }
+            });
+
+            if (hasErrors) {
+                e.preventDefault();
+                alert('Please correct the errors in the form before submitting.');
+            }
+        });
+    });
+</script>
 </body>
 </html>
