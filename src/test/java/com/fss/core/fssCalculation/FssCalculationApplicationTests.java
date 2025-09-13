@@ -2,7 +2,7 @@ package com.fss.core.fssCalculation;
 
 import com.fss.core.fssCalculation.service.elements.bendingMoment.BendingMomentCal;
 import com.fss.core.fssCalculation.service.elements.deflection.DeflectionCal;
-import com.fss.core.fssCalculation.service.elements.momentCal.IxxCal;
+import com.fss.core.fssCalculation.service.elements.inertia.IxxCal;
 import com.fss.core.fssCalculation.service.elements.CalculatedElements;
 import com.fss.core.fssCalculation.service.elements.mullion.MullionAbyXandCbyZ;
 import com.fss.core.fssCalculation.service.elements.mullion.MullionBbyY;
@@ -106,9 +106,9 @@ class FssCalculationApplicationTests {
         System.out.println("Bending Moment is = " + roundedMoment);
 
 
-        double selfWeight = mullionAbyXandCbyZ.calculateSelfWeight(crossSectionalArea);
-        double udldeadload = mullionAbyXandCbyZ.calculateUdlLoad(gridLength, unsupportedLength, glassThickness, session);
-        double axialForce = mullionAbyXandCbyZ.calculateAxialForce(udldeadload, selfWeight, unsupportedLength);//wrong
+        double selfWeight = CalculatedElements.calculateSelfWeight(crossSectionalArea);
+        double udldeadload = CalculatedElements.calculateUdlDueToDeadLoad(gridLength, unsupportedLength, glassThickness);
+        double axialForce = CalculatedElements.calculateAxialForce(udldeadload, selfWeight, unsupportedLength);//wrong
         double fig1Value = figure1Mullion.calculateFig1Value(typeOfGlazingValue, unsupportedLength, transomToTransomDistance, Ixx, iyy, crossSectionalArea, session);
 
         double mbyz = mullionAbyXandCbyZ.calculateMbyZ(Double.valueOf(roundedMoment.toString()), Ixx,boundingboxy , session);
@@ -131,7 +131,7 @@ class FssCalculationApplicationTests {
         double axcz = mullionAbyXandCbyZ.calculateAbyXandCbyZ(axialForce, crossSectionalArea, fig1Value, mbyz, fig2Value);
 
         double udlWindLoad = CalculatedElements.calculateUDLDueToWindLoad(gridLength, unsupportedLength, windPressure);
-        double shearForce = mullionBbyY.calculateShearForceMullion("1", udlWindLoad, unsupportedLength, bendingMoment);//wrong
+        double shearForce = CalculatedElements.calculateShearForce("1", udlWindLoad, unsupportedLength, bendingMoment);//wrong
         double hx = mullionBbyY.calculateHx(a, t2);
         double by = mullionBbyY.calculateBbyY(shearForce, hx, t1);
         Assertions.assertEquals(303.2, Ixx, "Ixx should be positive");

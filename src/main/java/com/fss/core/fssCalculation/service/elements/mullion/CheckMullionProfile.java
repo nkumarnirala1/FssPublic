@@ -52,9 +52,11 @@ public class CheckMullionProfile {
         double windPressure = glazingInput.getWindPressure();
 
         double boundingboxy = mullionInput.getBoundingboxy();
-        double selfWeight = mullionAbyXandCbyZ.calculateSelfWeight(crossSectionalArea);
-        double udldeadload = mullionAbyXandCbyZ.calculateUdlLoad(gridLength, unsupportedLength,glassThickness, session);
-        double axialForce = mullionAbyXandCbyZ.calculateAxialForce(udldeadload, selfWeight, unsupportedLength);
+        double selfWeight = CalculatedElements.calculateSelfWeight(crossSectionalArea);
+        double udldeadload = CalculatedElements.calculateUdlDueToDeadLoad(gridLength, unsupportedLength,glassThickness);
+        double effectiveArea = CalculatedElements.calculateEffectiveArea(gridLength, unsupportedLength);
+        session.setAttribute("effectiveArea", effectiveArea);
+        double axialForce = CalculatedElements.calculateAxialForce(udldeadload, selfWeight, unsupportedLength);
         session.setAttribute("axialForce",  Utility.roundTo2Decimal(axialForce));
 
         double ft_mullion= Utility.roundTo2Decimal((axialForce*1000.0)/(crossSectionalArea*100.0));
@@ -90,7 +92,7 @@ public class CheckMullionProfile {
         session.setAttribute("axial_bending_check", Utility.roundTo2Decimal((ft_mullion/fig1Value)+(mbyz/fig2Value )));
 
         double udlWindLoad = CalculatedElements.calculateUDLDueToWindLoad(gridLength, unsupportedLength, windPressure);
-        double shearForce = mullionBbyY.calculateShearForceMullion("1", udlWindLoad, unsupportedLength, bendingMoment);
+        double shearForce = CalculatedElements.calculateShearForce(typeOfGlazingValue, udlWindLoad, unsupportedLength, bendingMoment);
         session.setAttribute("shearForce_mullion",  Utility.roundTo2Decimal(shearForce));
         double hx = mullionBbyY.calculateHx(a, t2);
         session.setAttribute("hx",hx);

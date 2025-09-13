@@ -6,7 +6,7 @@ import com.fss.core.fssCalculation.modal.MullionInput;
 import com.fss.core.fssCalculation.modal.TransomInput;
 import com.fss.core.fssCalculation.service.elements.bendingMoment.BendingMomentCal;
 import com.fss.core.fssCalculation.service.elements.deflection.DeflectionCal;
-import com.fss.core.fssCalculation.service.elements.momentCal.IxxCal;
+import com.fss.core.fssCalculation.service.elements.inertia.IxxCal;
 import com.fss.core.fssCalculation.service.elements.mullion.CheckMullionProfile;
 import com.fss.core.fssCalculation.service.elements.transom.CheckTransomProfile;
 import com.fss.core.fssCalculation.service.ReportGen.ExcelSheetGenerator;

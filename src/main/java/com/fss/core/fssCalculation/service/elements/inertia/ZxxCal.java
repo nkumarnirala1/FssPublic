@@ -1,4 +1,4 @@
-package com.fss.core.fssCalculation.service.elements.momentCal;
+package com.fss.core.fssCalculation.service.elements.inertia;
 
 import org.springframework.stereotype.Component;
 

@@ -24,8 +24,8 @@ public class Figure1Mullion {
         double lxByRx = calculateLxByRx(typeOfGlazing, unsupportedLength, radiusOfGyrationX);
         double lyByRy = calculateLyByRy(typeOfGlazing, unsupportedLength, transomToTransomDistance, radiusOfGyrationY);
 
-        session.setAttribute("lxByRx",lxByRx);
-        session.setAttribute("lyByRy", lyByRy);
+        session.setAttribute("lxByRx",Utility.roundTo2Decimal(lxByRx));
+        session.setAttribute("lyByRy", Utility.roundTo2Decimal(lyByRy));
         session.setAttribute("max_lxByRxInlyByRy", Math.max(lxByRx, lyByRy));
         double slendernessRatioLbyR = getSlendernessRatioLbyR(lxByRx, lyByRy);
         double point1XPermissibleCompressiveStress = getPoint1XPermissibleCompressiveStress(slendernessRatioLbyR);
@@ -208,11 +208,11 @@ public class Figure1Mullion {
             double radiusOfGyrationY
     ) {
         if ("1".equals(typeOfGlazing)) {
-            return Utility.roundTo2Decimal((unsupportedLength / (radiusOfGyrationY * 10.0))*0.85);// kx=0.85;
+            return (unsupportedLength / (radiusOfGyrationY * 10.0))*0.85;// kx=0.85;
         } else if ("3".equals(typeOfGlazing) ||
                 "4".equals(typeOfGlazing) ||
                 "5".equals(typeOfGlazing)) {
-            return Utility.roundTo2Decimal((transomToTransomDistance / (radiusOfGyrationY * 10.0))*0.85);// kx=0.85;
+            return (transomToTransomDistance / (radiusOfGyrationY * 10.0))*0.85;// kx=0.85;
         }
 
         return 0.0;

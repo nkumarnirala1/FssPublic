@@ -14,9 +14,11 @@ public class BendingMomentCal {
 
     public GlazingType glazingType;
 
-    public double calculateBendingMoment(String typeOfGlazing,
-                                                double unsupportedLength,
-                                                double gridLength, double windPressure, double stackBracket) {
+    public double calculateBendingMoment( String typeOfGlazing,
+                                          double unsupportedLength,
+                                          double gridLength,
+                                          double windPressure,
+                                          double stackBracket) {
         double udlWindLoad = CalculatedElements.calculateUDLDueToWindLoad(gridLength, unsupportedLength, windPressure);
         double effectiveLength = CalculatedElements.calculateEffectiveLength(gridLength, unsupportedLength);
 
