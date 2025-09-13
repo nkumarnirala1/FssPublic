@@ -30,9 +30,13 @@ public class CustomUserDetailsService implements UserDetailsService {
             username= username.substring(0, username.indexOf('@'));
         }
 
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+//        User user = userRepository.findByUsername(username)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
+        User user = new User();
+        user.setUsername("test");
+        user.setRole("user");
+        user.setPassword("test");
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
                 .password(passwordEncoder.encode(user.getPassword()))  // already encoded

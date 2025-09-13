@@ -1,0 +1,25 @@
+<header class="fixed-header" th:fragment="header" xmlns:th="">
+    <div class="header-left">
+        <img src="/images/fsslogo.jpeg" alt="FSS Logo" class="logo">
+        <span class="header-title">Facade Structural Services</span>
+    </div>
+
+
+    <div class="header-right">
+
+        <form th:action="@{/home}" method="get">
+            <button type="submit" class="back-btn">⬅ Back</button>
+        </form>
+        <form th:action="@{/estimation}" method="get">
+            <button type="submit" class="header-btn estimation-btn">Estimation</button>
+        </form>
+        <form th:action="@{/download-pdf}" method="get">
+            <button type="submit" class="header-btn download-btn">Download PDF</button>
+        </form>
+        <form th:action="@{/logout}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <button type="submit" class="header-btn logout-btn">⏻ Logout</button>
+        </form>
+    </div>
+</header>
+
