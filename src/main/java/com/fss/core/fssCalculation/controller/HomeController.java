@@ -1,11 +1,6 @@
 package com.fss.core.fssCalculation.controller;
 
-import com.fss.core.fssCalculation.modal.ExcelElement;
-import com.fss.core.fssCalculation.modal.GlazingInput;
-import com.fss.core.fssCalculation.modal.MullionInput;
-import com.fss.core.fssCalculation.modal.TransomInput;
-import com.fss.core.fssCalculation.persistance.UserRepository;
-import com.fss.core.fssCalculation.securityconfig.User;
+import com.fss.core.fssCalculation.modal.*;
 import com.fss.core.fssCalculation.service.BendingMomentCal;
 import com.fss.core.fssCalculation.service.DeflectionCal;
 import com.fss.core.fssCalculation.service.IxxCal;
@@ -61,6 +56,9 @@ public class HomeController {
     @Autowired
     PdfGenerator pdfGenerator;
 
+    @Autowired
+    DefaultInput defaultInput;
+
     @GetMapping("show")
     public String showMullionForm(Model model) {
         // you can add attributes if needed
@@ -71,6 +69,8 @@ public class HomeController {
     @GetMapping({"/home", "/", "/calculate", "/calculate-deflection"})
     public String showForm(Model model) {
         model.addAttribute("input", prepareDefaultInput());
+        model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
+
         return "glazing-form";
     }
 

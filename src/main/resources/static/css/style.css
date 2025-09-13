@@ -1903,3 +1903,12 @@ select:focus {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
+
+.sidebar-btn.active,
+.dropdown-menu button.active {
+    background-color: #007bff; /* blue highlight */
+    color: white;
+    font-weight: bold;
+}
+
+

@@ -1,0 +1,46 @@
+<!-- src/main/resources/templates/fragments/left-sidebar.html -->
+<aside class="sidebar left-sidebar" th:fragment="left-sidebar" xmlns:th="http://www.thymeleaf.org">
+    <div class="sidebar-content">
+        <nav class="sidebar-nav">
+
+            <!-- Window Parent -->
+            <button class="sidebar-btn window-btn"
+                    th:classappend="${activeMenu == 'sliding' or activeMenu == 'casement'} ? ' active' : ''"
+                    onclick="toggleDropdown('window-dropdown'); setActiveButtonForSideBarMenu(this)">
+                Window
+            </button>
+
+            <!-- Window Dropdown -->
+            <div id="window-dropdown"
+                 class="dropdown-menu"
+                 th:classappend="${activeMenu == 'sliding' or activeMenu == 'casement'} ? '' : ' hidden'">
+
+                <button class="leftSidebar-toggle-btn"
+                        th:classappend="${activeMenu == 'sliding'} ? ' active' : ''"
+                        onclick="showWindowFlow('sliding'); setActiveButtonForToggleLeftSideBarMenu(this)">
+                    Sliding Form
+                </button>
+
+                <button class="leftSidebar-toggle-btn"
+                        th:classappend="${activeMenu == 'casement'} ? ' active' : ''"
+                        onclick="showWindowFlow('casement'); setActiveButtonForToggleLeftSideBarMenu(this)">
+                    Casement Form
+                </button>
+            </div>
+
+            <!-- Semi Unitized -->
+            <button class="sidebar-btn"
+                    th:classappend="${activeMenu == 'semi-unitized'} ? ' active' : ''"
+                    onclick="showForm('semi-unitized'); setActiveButtonForSideBarMenu(this)">
+                Semi-Unitized
+            </button>
+
+            <!-- Fully Unitized -->
+            <button class="sidebar-btn"
+                    th:classappend="${activeMenu == 'fully-unitized'} ? ' active' : ''"
+                    onclick="showForm('fully-unitized'); setActiveButtonForSideBarMenu(this)">
+                Fully-Unitized
+            </button>
+        </nav>
+    </div>
+</aside>
