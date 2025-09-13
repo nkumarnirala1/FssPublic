@@ -1,4 +1,4 @@
-package com.fss.core.fssCalculation.service.centroidcal;
+package com.fss.core.fssCalculation.service.CentroidCal;
 
 public class RegularRectangular {
 
