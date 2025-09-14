@@ -1,23 +1,19 @@
-<aside class="sidebar right-sidebar" id="right-sidebar"  th:fragment="right-sidebar" xmlns:th="http://www.w3.org/1999/xhtml">
+<aside class="sidebar right-sidebar" id="right-sidebar" th:fragment="right-sidebar"
+       xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="sidebar-content">
-        <!-- Input History -->
         <div class="history-section">
             <h4>Input History</h4>
             <ul class="history-list">
-                <li th:if="${input?.typeOfGlazing}">
-                    <strong>Glazing Type:</strong> <span th:text="${input.typeOfGlazing}"></span>
-                </li>
-                <li th:if="${input?.unsupportedLength}">
-                    <strong>Unsupported Length:</strong> <span th:text="${input.unsupportedLength} + ' mm'"></span>
-                </li>
-                <li th:if="${input?.gridLength}">
-                    <strong>Grid Length:</strong> <span th:text="${input.gridLength} + ' mm'"></span>
-                </li>
-                <li th:if="${input?.windPressure}">
-                    <strong>Wind Pressure:</strong> <span th:text="${input.windPressure} + ' kN/m²'"></span>
-                </li>
-                <li th:if="${input?.stackBracket}">
-                    <strong>Stack Bracket:</strong> <span th:text="${input.stackBracket} + ' mm'"></span>
+                <li th:each="entry, iterStat : ${inputHistory}">
+                    <div class="history-item">
+                        <strong th:text="|${entry['formName']} #${iterStat.index + 1}|"></strong>
+                        <ul>
+                            <li th:each="mapEntry : ${entry.entrySet()}"
+                                th:if="${mapEntry.key != 'formName'}"
+                                th:text="|${mapEntry.key}: ${mapEntry.value}|">
+                            </li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
         </div>
