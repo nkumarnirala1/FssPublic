@@ -57,6 +57,10 @@
                         <td th:text="${deflection}"></td>
                     </tr>
                 </table>
+
+                <form th:action="@{/checkMullion}" method="post">
+                    <button type="submit" class="btn btn-primary checkMullion-btn">Check combined interlock profile</button>
+                </form>
             </div>
 
             <!-- Default Placeholder -->

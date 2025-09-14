@@ -18,18 +18,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
+@SessionAttributes("inputHistory")
 public class HomeController {
 
     @Autowired
@@ -59,6 +58,11 @@ public class HomeController {
     @Autowired
     DefaultInput defaultInput;
 
+    @ModelAttribute("inputHistory")
+    public List<Map<String, Object>> inputHistory() {
+        return new ArrayList<>();
+    }
+
     @GetMapping("show")
     public String showMullionForm(Model model) {
         // you can add attributes if needed
@@ -67,7 +71,7 @@ public class HomeController {
     }
 
     @GetMapping({"/home", "/", "/calculate", "/calculate-deflection"})
-    public String showForm(Model model) {
+    public String showForm(Model model, @ModelAttribute("inputHistory") List<Map<String, Object>> history) {
         model.addAttribute("input", prepareDefaultInput());
         model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
 
