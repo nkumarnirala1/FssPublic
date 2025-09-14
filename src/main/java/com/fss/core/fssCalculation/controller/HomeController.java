@@ -1,13 +1,16 @@
 package com.fss.core.fssCalculation.controller;
 
 import com.fss.core.fssCalculation.modal.*;
-import com.fss.core.fssCalculation.service.BendingMomentCal;
-import com.fss.core.fssCalculation.service.DeflectionCal;
-import com.fss.core.fssCalculation.service.IxxCal;
+
+import com.fss.core.fssCalculation.service.ReportGen.ExcelSheetGenerator;
+import com.fss.core.fssCalculation.service.ReportGen.PdfGenerator;
+import com.fss.core.fssCalculation.service.ReportGen.Utility;
+import com.fss.core.fssCalculation.service.elements.bendingMoment.BendingMomentCal;
+import com.fss.core.fssCalculation.service.elements.deflection.DeflectionCal;
+import com.fss.core.fssCalculation.service.elements.inertia.IxxCal;
 import com.fss.core.fssCalculation.service.elements.mullion.CheckMullionProfile;
 import com.fss.core.fssCalculation.service.elements.transom.CheckTransomProfile;
-import com.fss.core.fssCalculation.service.utility.ExcelSheetGenerator;
-import com.fss.core.fssCalculation.service.utility.PdfGenerator;
+
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -24,6 +27,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +61,9 @@ public class HomeController {
 
     @Autowired
     DefaultInput defaultInput;
+
+    @Autowired
+    Utility utility;
 
     @ModelAttribute("inputHistory")
     public List<Map<String, Object>> inputHistory() {
@@ -93,7 +100,7 @@ public class HomeController {
         }
 
         // Continue with calculation
-        double Ixx = ixxCal.calculateRequiredIxx(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket());
+        double Ixx = ixxCal.calculateRequiredIxx(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket(), session);
         double df = deflectionCal.calculateDeflection(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket(), Ixx);
         double bendingMoment = bendingMomentCal.calculateBendingMoment(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket());
 
@@ -136,7 +143,7 @@ public class HomeController {
                 input.getUnsupportedLength(),
                 input.getGridLength(),
                 input.getWindPressure(),
-                input.getStackBracket()
+                input.getStackBracket(), session
         );
 
         double deflection = deflectionCal.calculateDeflection(
@@ -264,7 +271,7 @@ public class HomeController {
         model.addAttribute("mullionInput", mullionInput);
 
         try {
-            Map<String, Boolean> mullionprofileResult = checkMullionProfile.checkForMullionprofile(mullionInput, glazingInput, bendingMoment);
+            Map<String, Boolean> mullionprofileResult = checkMullionProfile.checkForMullionprofile(mullionInput, glazingInput, bendingMoment, session);
 
             model.addAttribute("bendingStress", mullionprofileResult.get("bendingStress"));
             model.addAttribute("shearStress", mullionprofileResult.get("shearStress"));
@@ -348,11 +355,17 @@ public class HomeController {
 
     @GetMapping("/download-pdf")
     public ResponseEntity<byte[]> downloadPdf(HttpServletResponse response, HttpSession session) throws IOException {
-        ArrayList<ExcelElement> excelElementList = excelSheetGenerator.enrichElements(session);
+
+        utility.populateManualCalculatedValues(session);
+
+
+
+        ArrayList<String> mullionDesignList = new ArrayList<>(Arrays.asList("Deflection_Check", "Stress_Check"));
+        Map<String, ArrayList<ExcelElement>> excelElementListSheetMap = excelSheetGenerator.enrichElements(mullionDesignList, session);
 
         try {
             // Get modified Excel stream
-            var bos = excelDownloadService.generateExcelReport("Typcal Structural Glazing", excelElementList);
+            var bos = excelDownloadService.generateExcelReport(mullionDesignList, excelElementListSheetMap);
 
             // Convert to PDF
             byte[] pdfBytes = pdfGenerator.convertExcelToPdf(bos);
@@ -368,7 +381,6 @@ public class HomeController {
                     .body(("Error: " + e.getMessage()).getBytes());
         }
     }
-
     public GlazingInput prepareDefaultInput() {
         GlazingInput input = new GlazingInput();
         input.setUnsupportedLength(3000.0);
