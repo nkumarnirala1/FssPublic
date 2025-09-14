@@ -2,23 +2,27 @@ package com.fss.core.fssCalculation.controller;
 
 
 import com.fss.core.fssCalculation.modal.SlidingInput;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/window")
 public class WindowController {
 
-
+    @Autowired
+    DefaultInput defaultInput;
     // Show form
-    @GetMapping("/form")
-    public String showForm(Model model) {
-        model.addAttribute("sliding_input", new SlidingInput());
-        return "fragments/window"; // or main template that includes window fragment
+    @GetMapping("/ui")
+    public String showUi(@RequestParam(required = false) String activeMenu, Model model) {
+        if (activeMenu == null) {
+            activeMenu = "sliding"; // default landing form
+        }
+        model.addAttribute("activeMenu", activeMenu);
+        model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
+
+        return "glazing-form"; // loads your main page
     }
 
     // Handle form submit

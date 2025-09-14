@@ -19,77 +19,32 @@
     <!-- Main Content Area - Independent Scrolling -->
     <main class="main-content">
         <div class="content-wrapper" id="main-content">
-            <!-- Window Flow Content -->
 
-
-            <div th:if="${Ixx == null}">
-            <div th:replace="fragments/window :: window" th:if="${showWindowForm == null}"></div>
-
-
-                <!-- Semi Unitized Form -->
-            <div id="semi-form" class="form-section hidden">
-                <h2>Semi Unitized Glazing Load Input</h2>
-                <!--                <form th:action="@{/calculate}" method="post" th:object="${input}" class="glazing-form">-->
-                <!--                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
-
-                <!--                    <label for="typeOfGlazing">Type of Glazing</label>-->
-                <!--                    <select id="typeOfGlazing" th:field="*{typeOfGlazing}" required>-->
-                <!--                        <option value="" disabled selected>Select Glazing Type</option>-->
-                <!--                        <option value="SLIDING WINDOW">SLIDING WINDOW</option>-->
-                <!--                        <option value="IN TO IN SEMI UNITIZED">IN TO IN SEMI UNITIZED</option>-->
-                <!--                        <option value="SINGLE BRACKET SEMI UNITIZED">SINGLE BRACKET SEMI UNITIZED</option>-->
-                <!--                        <option value="DOUBLE BRACKET SEMI UNITIZED">DOUBLE BRACKET SEMI UNITIZED</option>-->
-                <!--                    </select>-->
-
-                <!--                    <label for="unsupportedLength">Unsupported Length (mm)</label>-->
-                <!--                    <input type="number" id="unsupportedLength" name="unsupportedLength" th:value="*{unsupportedLength}" placeholder="Enter length in mm" required/>-->
-
-                <!--                    <label for="gridLength">Grid Length (mm)</label>-->
-                <!--                    <input type="number" id="gridLength" name="gridLength" th:value="*{gridLength}" placeholder="Enter length in mm" required/>-->
-
-                <!--                    <label for="windPressure">Wind Pressure (kN/m²)</label>-->
-                <!--                    <input type="number" id="windPressure" name="windPressure" th:value="*{windPressure}" step="0.01" placeholder="Enter pressure" required/>-->
-
-                <!--                    <label for="stackBracket">Stack Bracket (mm)</label>-->
-                <!--                    <input type="number" id="stackBracket" name="stackBracket" th:value="*{stackBracket}" placeholder="Enter bracket size" required/>-->
-
-                <!--                    <button type="submit">Calculate</button>-->
-                <!--                </form>-->
-            </div>
-
-            <!-- Fully Unitized Form -->
-            <div id="fully-form" class="form-section hidden">
-                <h2>Fully Unitized Glazing Load Input</h2>
-                <!--                <form th:action="@{/calculateFully}" method="post" th:object="${input}" class="glazing-form">-->
-                <!--                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>-->
-
-                <!--                    <label for="fullyTypeOfGlazing">Unitized Type</label>-->
-                <!--                    <select id="fullyTypeOfGlazing" name="typeOfGlazing" required>-->
-                <!--                        <option value="" disabled selected>Select Unitized Type</option>-->
-                <!--                        <option value="UNITIZED SYSTEM">UNITIZED SYSTEM</option>-->
-                <!--                        <option value="UNITIZED WITH FIN">UNITIZED WITH FIN</option>-->
-                <!--                    </select>-->
-
-                <!--                    <label for="fullyUnsupportedLength">Unsupported Length (mm)</label>-->
-                <!--                    <input type="number" id="fullyUnsupportedLength" name="unsupportedLength" th:value="*{unsupportedLength}" placeholder="Enter length in mm" required/>-->
-
-                <!--                    <label for="fullyGridLength">Grid Length (mm)</label>-->
-                <!--                    <input type="number" id="fullyGridLength" name="gridLength" th:value="*{gridLength}" placeholder="Enter length in mm" required/>-->
-
-                <!--                    <label for="fullyWindPressure">Wind Pressure (kN/m²)</label>-->
-                <!--                    <input type="number" id="fullyWindPressure" name="windPressure" th:value="*{windPressure}" step="0.01" placeholder="Enter pressure" required/>-->
-
-                <!--                    <button type="submit">Calculate</button>-->
-                <!--                </form>-->
-            </div>
-
-            <!-- Default Placeholder -->
-            <div id="default-content" class="placeholder-form">
-                Please select a form from the left sidebar to begin.
-            </div>
+<!--            <p style="color:red">ActiveMenu_1 = [[${activeMenu}]]</p>-->
+<!--            <p style="color:red">ixx_1 = [[${Ixx}]]</p>-->
+            <!-- window Form -->
+            <div th:if="${(activeMenu == 'sliding' or activeMenu == 'casement') and Ixx == null}">
+                <div th:replace="fragments/window :: window"></div>
 
             </div>
 
+            <!-- Semi-Unitized -->
+            <div th:if="${activeMenu == 'semi-unitized' and Ixx == null}">
+                <div id="semi-form" class="form-section">
+                    <h2>Semi Unitized Form</h2>
+                    <!-- form here -->
+                </div>
+            </div>
+
+            <!-- Fully Unitized -->
+            <div th:if="${activeMenu == 'fully-unitized' and Ixx == null}">
+                <div id="fully-form" class="form-section">
+                    <h2>Fully Unitized Form</h2>
+                    <!-- form here -->
+                </div>
+            </div>
+
+            <!-- Results -->
             <div id="results-marker" th:if="${Ixx != null}">
                 <h2>Calculation Results</h2>
                 <table class="results-table">
@@ -102,6 +57,11 @@
                         <td th:text="${deflection}"></td>
                     </tr>
                 </table>
+            </div>
+
+            <!-- Default Placeholder -->
+            <div th:if="${activeMenu == null}">
+                Please select a form from the left sidebar to begin.
             </div>
 
         </div>

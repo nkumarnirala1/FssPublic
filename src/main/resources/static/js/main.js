@@ -38,16 +38,12 @@
     }
 
     function setActiveButtonForToggleLeftSideBarMenu(button) {
-       // Remove active from ALL top-level sidebar buttons first
-           document.querySelectorAll('.sidebar-btn').forEach(btn => btn.classList.remove('active'));
-           // Remove active from ALL dropdown buttons
-           document.querySelectorAll('.dropdown-menu button').forEach(btn => btn.classList.remove('active'));
+        // Remove 'active' from all toggle buttons inside window-dropdown
+           const toggleBtns = document.querySelectorAll('#window-dropdown .leftSidebar-toggle-btn');
+           toggleBtns.forEach(btn => btn.classList.remove('active'));
 
-           // Add active to the clicked child
+           // Add 'active' to the clicked one
            button.classList.add('active');
-
-           // Ensure parent "Window" also stays active
-           document.querySelector('.window-btn').classList.add('active');
     }
 
     // Show flow steps

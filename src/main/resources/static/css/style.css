@@ -1911,4 +1911,13 @@ select:focus {
     font-weight: bold;
 }
 
+.sidebar-btn.active,
+.leftSidebar-toggle-btn.active {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
+
+
 
