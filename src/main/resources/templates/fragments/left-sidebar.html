@@ -15,32 +15,32 @@
                  class="dropdown-menu"
                  th:classappend="${activeMenu == 'sliding' or activeMenu == 'casement'} ? '' : ' hidden'">
 
-                <button class="leftSidebar-toggle-btn"
-                        th:classappend="${activeMenu == 'sliding'} ? ' active' : ''"
-                        onclick="showWindowFlow('sliding'); setActiveButtonForToggleLeftSideBarMenu(this)">
+                <a class="leftSidebar-toggle-btn"
+                   th:href="@{/window/ui(activeMenu='sliding')}"
+                   th:classappend="${activeMenu == 'sliding'} ? ' active' : ''">
                     Sliding Form
-                </button>
+                </a>
 
-                <button class="leftSidebar-toggle-btn"
-                        th:classappend="${activeMenu == 'casement'} ? ' active' : ''"
-                        onclick="showWindowFlow('casement'); setActiveButtonForToggleLeftSideBarMenu(this)">
+                <a class="leftSidebar-toggle-btn"
+                   th:href="@{/window/ui(activeMenu='casement')}"
+                   th:classappend="${activeMenu == 'casement'} ? ' active' : ''">
                     Casement Form
-                </button>
+                </a>
             </div>
 
             <!-- Semi Unitized -->
-            <button class="sidebar-btn"
-                    th:classappend="${activeMenu == 'semi-unitized'} ? ' active' : ''"
-                    onclick="showForm('semi-unitized'); setActiveButtonForSideBarMenu(this)">
+            <a class="sidebar-btn"
+               th:href="@{/window/ui(activeMenu='semi-unitized')}"
+               th:classappend="${activeMenu == 'semi-unitized'} ? ' active' : ''">
                 Semi-Unitized
-            </button>
+            </a>
 
             <!-- Fully Unitized -->
-            <button class="sidebar-btn"
-                    th:classappend="${activeMenu == 'fully-unitized'} ? ' active' : ''"
-                    onclick="showForm('fully-unitized'); setActiveButtonForSideBarMenu(this)">
+            <a class="sidebar-btn"
+               th:href="@{/window/ui(activeMenu='fully-unitized')}"
+               th:classappend="${activeMenu == 'fully-unitized'} ? ' active' : ''">
                 Fully-Unitized
-            </button>
+            </a>
         </nav>
     </div>
 </aside>

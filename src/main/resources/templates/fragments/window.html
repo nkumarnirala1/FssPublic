@@ -1,5 +1,8 @@
-<div id="window-flow-content" class="flow-content hidden" th:fragment="window" xmlns:th="http://www.thymeleaf.org">
-    <div id="sliding-flow" class="hidden">
+<div id="window-flow-content" class="flow-content" th:fragment="window" xmlns:th="http://www.w3.org/1999/xhtml">
+
+    <!-- Sliding Flow -->
+    <div id="sliding-flow"
+         th:classappend="${activeMenu == 'sliding'} ? '' : ' hidden'">
         <h2>Sliding Window Input</h2>
         <form th:action="@{/window/calculate}" method="post" th:object="${sliding_input}" class="glazing-form">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
@@ -40,12 +43,12 @@
             </select>
 
             <button type="submit">Calculate</button>
-
         </form>
-
     </div>
 
-    <div id="casement-flow" class="hidden">
+    <!-- Casement Flow -->
+    <div id="casement-flow"
+         th:classappend="${activeMenu == 'casement'} ? '' : ' hidden'">
         <h2>Casement Window Forms</h2>
         <div class="flow-buttons">
             <button onclick="showFlowStep('casement', 'combined')">A. Combined Form → Central Meeting → Outer</button>
@@ -53,6 +56,4 @@
         </div>
         <div id="casement-flow-steps"></div>
     </div>
-
-
 </div>
