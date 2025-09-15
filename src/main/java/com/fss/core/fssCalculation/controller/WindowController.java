@@ -62,7 +62,7 @@ public class WindowController {
 
         history.add(entry);
 
-
+        model.addAttribute("slidingResult", true);
         return "glazing-form"; // or redirect to a result page
     }
 }

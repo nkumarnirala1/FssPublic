@@ -224,6 +224,18 @@ public class HomeController {
         Double unsupportedLength = (Double) session.getAttribute("unsupportedLength");
         Double stackBracket = (Double) session.getAttribute("stackBracket");
 
+        model.addAttribute("mullionInputForm", true);
+        // Create a new MullionInput with default values
+        MullionInput mullionInput = new MullionInput();
+        prepareMullionDefaults(model, session, mullionInput);
+
+        // Add the mullionInput object to the model for form binding
+        model.addAttribute("mullion_input", mullionInput);
+        model.addAttribute("mullionInputForm", true);
+        model.addAttribute("activeMenu", "sliding");
+
+
+
         if (gridLength == null || windPressure == null || unsupportedLength == null) {
             model.addAttribute("input", prepareDefaultInput());
             return "glazing-form";//TODO
@@ -231,14 +243,8 @@ public class HomeController {
 
         addInputToModel(model, unsupportedLength, windPressure, gridLength, stackBracket, typeOfGlazing);
 
-        // Create a new MullionInput with default values
-        MullionInput mullionInput = new MullionInput();
-        prepareMullionDefaults(model, session, mullionInput);
 
-        // Add the mullionInput object to the model for form binding
-        model.addAttribute("mullionInput", mullionInput);
-
-        return "mullion-form";
+        return "glazing-form";
     }
 
     @PostMapping("/submitMullionProfile")
@@ -287,7 +293,9 @@ public class HomeController {
         model.addAttribute("stackBracket", stackBracket);
         model.addAttribute("typeOfGlazing", typeOfGlazing);
 
-        return "mullion-form";
+
+
+        return "glazing-form";
     }
 
     @PostMapping("/checkTransom")
@@ -502,6 +510,15 @@ public class HomeController {
                 (sessionBoundingboxy != null && sessionBoundingboxy != 0.0 ? sessionBoundingboxy : 2.0);
         mullionInput.setBoundingboxy(boundingboxy);
         model.addAttribute("boundingboxy", boundingboxy);
+
+        // boundingboxy
+        Double sessionBoundingboxx = (session.getAttribute("boundingboxx") instanceof Double)
+                ? (Double) session.getAttribute("boundingboxx") : null;
+        double boundingboxx = mullionInput.getBoundingboxx() != 0.0 ? mullionInput.getBoundingboxx() :
+                (sessionBoundingboxx != null && sessionBoundingboxx != 0.0 ? sessionBoundingboxx : 3.0);
+        mullionInput.setBoundingboxx(boundingboxx);
+        model.addAttribute("boundingboxx", boundingboxx);
+
 
         // userIxx
         Double sessionUserIxx = (session.getAttribute("userIxx") instanceof Double)

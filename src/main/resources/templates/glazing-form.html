@@ -23,9 +23,18 @@
 <!--            <p style="color:red">ActiveMenu_1 = [[${activeMenu}]]</p>-->
 <!--            <p style="color:red">ixx_1 = [[${Ixx}]]</p>-->
             <!-- window Form -->
-            <div th:if="${(activeMenu == 'sliding' or activeMenu == 'casement') and Ixx == null}">
+            <div th:if="${(activeMenu == 'sliding' or activeMenu == 'casement') and (slidingResult == null or slidingResult == false) and (mullionInputForm == null or mullionInputForm == false)}">
                 <div th:replace="fragments/window :: window"></div>
 
+            </div>
+
+            <div th:if="${slidingResult == true}" >
+                <div th:replace="fragments/window_result :: window_result"></div>
+            </div>
+
+
+            <div th:if="${mullionInputForm == true}" >
+                <div th:replace="fragments/mullion_input ::mullion_input"></div>
             </div>
 
             <!-- Semi-Unitized -->
@@ -44,24 +53,7 @@
                 </div>
             </div>
 
-            <!-- Results -->
-            <div id="results-marker" th:if="${Ixx != null}" class="results-section fade-in">
-                <h2 class="results-title">Calculation Results</h2>
-                <table class="results-table">
-                    <tr>
-                        <th>Ixx</th>
-                        <td th:text="${Ixx}"></td>
-                    </tr>
-                    <tr>
-                        <th>Deflection</th>
-                        <td th:text="${deflection}"></td>
-                    </tr>
-                </table>
 
-                <form th:action="@{/checkMullion}" method="post">
-                    <button type="submit" class="btn btn-primary checkMullion-btn">Check combined interlock profile</button>
-                </form>
-            </div>
 
             <!-- Default Placeholder -->
             <div th:if="${activeMenu == null}">

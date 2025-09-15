@@ -1,0 +1,18 @@
+<div id="results-marker" th:fragment="window_result" th:if="${slidingResult == true}" class="results-section fade-in"
+     xmlns:th="http://www.w3.org/1999/xhtml">
+    <h2 class="results-title">Calculation Results</h2>
+    <table class="results-table">
+        <tr>
+            <th>Ixx</th>
+            <td th:text="${Ixx}"></td>
+        </tr>
+        <tr>
+            <th>Deflection</th>
+            <td th:text="${deflection}"></td>
+        </tr>
+    </table>
+
+    <form th:action="@{/checkMullion}" method="post">
+        <button type="submit" class="btn btn-primary checkMullion-btn">Check combined interlock profile</button>
+    </form>
+</div>
