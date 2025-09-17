@@ -1,7 +1,7 @@
 package com.fss.core.fssCalculation.controller;
 
 
-import com.fss.core.fssCalculation.modal.SlidingInput;
+import com.fss.core.fssCalculation.modal.input.SlidingInput;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

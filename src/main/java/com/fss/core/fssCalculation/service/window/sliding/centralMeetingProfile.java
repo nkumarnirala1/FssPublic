@@ -1,6 +1,7 @@
-package com.fss.core.fssCalculation.service.window.centermeetingprofile;
+package com.fss.core.fssCalculation.service.window.sliding;
 
 import com.fss.core.fssCalculation.constants.GlazingType;
+import com.fss.core.fssCalculation.modal.output.CentralMeetingProfileOutput;
 import com.fss.core.fssCalculation.service.ReportGen.Utility;
 import com.fss.core.fssCalculation.service.elements.CalculatedElements;
 import com.fss.core.fssCalculation.service.elements.bendingMoment.BendingMomentCal;
@@ -14,7 +15,7 @@ public class centralMeetingProfile {
     @Autowired
     BendingMomentCal bendingMomentCal;
 
-    public double centralMeetingProfileCheck(
+    public CentralMeetingProfileOutput centralMeetingProfileCheck(
             String glazingType,
             double ixxA,
             double iyyA,
@@ -33,47 +34,76 @@ public class centralMeetingProfile {
             double stackBracket // not needed if it's sliding window
     ) {
 
-        //A
+        CentralMeetingProfileOutput centralMeetingProfileOutput = new CentralMeetingProfileOutput();
+
+        // A
         double zxxA = calculateSectionModulus(ixxA, boundingBoxYofA);
         double zyyA = calculateSectionModulus(iyyA, boundingBoxXofA);
-        double selfWeightofA = calculateSelfWeight(crossSectionalAreaA);
+        double selfWeightOfA = calculateSelfWeight(crossSectionalAreaA);
         double radiusOfGyrationXofA = calculateRadiusOfGyration(ixxA, crossSectionalAreaA);
         double radiusOfGyrationYofA = calculateRadiusOfGyration(iyyA, crossSectionalAreaA);
 
-        //B
+        centralMeetingProfileOutput.setZxxA(zxxA);
+        centralMeetingProfileOutput.setZyyA(zyyA);
+        centralMeetingProfileOutput.setSelfWeightOfA(selfWeightOfA);
+        centralMeetingProfileOutput.setRadiusOfGyrationXOfA(radiusOfGyrationXofA);
+        centralMeetingProfileOutput.setRadiusOfGyrationYOfA(radiusOfGyrationYofA);
+
+        // B
         double zxxB = calculateSectionModulus(ixxB, boundingBoxYofB);
         double zyyB = calculateSectionModulus(iyyB, boundingBoxXofB);
-        double selfWeightofB = calculateSelfWeight(crossSectionalAreaB);
+        double selfWeightOfB = calculateSelfWeight(crossSectionalAreaB);
         double radiusOfGyrationXofB = calculateRadiusOfGyration(ixxB, crossSectionalAreaB);
         double radiusOfGyrationYofB = calculateRadiusOfGyration(iyyB, crossSectionalAreaB);
 
+        centralMeetingProfileOutput.setZxxB(zxxB);
+        centralMeetingProfileOutput.setZyyB(zyyB);
+        centralMeetingProfileOutput.setSelfWeightOfB(selfWeightOfB);
+        centralMeetingProfileOutput.setRadiusOfGyrationXOfB(radiusOfGyrationXofB);
+        centralMeetingProfileOutput.setRadiusOfGyrationYOfB(radiusOfGyrationYofB);
+
+        // Combined
         double majorIeq = ixxA + ixxB;
         double majorZeq = zxxA + zxxB;
         double minorIeq = iyyA + iyyB;
         double minorZeq = zyyA + zyyB;
         double totalCrossSectionalArea = crossSectionalAreaA + crossSectionalAreaB;
 
+        centralMeetingProfileOutput.setMajorIeq(majorIeq);
+        centralMeetingProfileOutput.setMajorZeq(majorZeq);
+        centralMeetingProfileOutput.setMinorIeq(minorIeq);
+        centralMeetingProfileOutput.setMinorZeq(minorZeq);
+        centralMeetingProfileOutput.setTotalCrossSectionalArea(totalCrossSectionalArea);
+
+        // Loads
         double effectiveArea = CalculatedElements.calculateEffectiveArea(gridLength, unsupportedLength);
-
         double udlDueToWindLoad = CalculatedElements.calculateUDLDueToWindLoad(gridLength, unsupportedLength, windPressure);
-
         double udlDueToDeadLoad = CalculatedElements.calculateUdlDueToDeadLoad(gridLength, unsupportedLength, glassThickness);
-
         double maxBendingMoment = bendingMomentCal.calculateBendingMoment("Sliding window", unsupportedLength, gridLength, windPressure, stackBracket);
-
         String typeOfGlazingValue = GlazingType.findCode(glazingType);
-
         double maxShearForce = CalculatedElements.calculateShearForce(typeOfGlazingValue, udlDueToWindLoad, unsupportedLength, maxBendingMoment);
-
         double selfWeight = CalculatedElements.calculateSelfWeight(totalCrossSectionalArea);
-
         double maxAxialForce = CalculatedElements.calculateAxialForce(udlDueToDeadLoad, selfWeight, unsupportedLength);
 
-        HashMap<String, Double> distributionFactorShutterA = calculateDistributionFactor(ixxA, majorIeq, crossSectionalAreaA, totalCrossSectionalArea);
-        HashMap<String, Double> distributionFactorShutterB = calculateDistributionFactor(ixxB, majorIeq, crossSectionalAreaB, totalCrossSectionalArea);
+        centralMeetingProfileOutput.setEffectiveArea(effectiveArea);
+        centralMeetingProfileOutput.setUdlDueToWindLoad(udlDueToWindLoad);
+        centralMeetingProfileOutput.setUdlDueToDeadLoad(udlDueToDeadLoad);
+        centralMeetingProfileOutput.setMaxBendingMoment(maxBendingMoment);
+        centralMeetingProfileOutput.setTypeOfGlazingValue(typeOfGlazingValue);
+        centralMeetingProfileOutput.setMaxShearForce(maxShearForce);
+        centralMeetingProfileOutput.setSelfWeight(selfWeight);
+        centralMeetingProfileOutput.setMaxAxialForce(maxAxialForce);
 
+        // Distribution factors
+        HashMap<String, Double> distributionFactorShutterA =
+                calculateDistributionFactor(ixxA, majorIeq, crossSectionalAreaA, totalCrossSectionalArea);
+        HashMap<String, Double> distributionFactorShutterB =
+                calculateDistributionFactor(ixxB, majorIeq, crossSectionalAreaB, totalCrossSectionalArea);
 
-        return 0.0;
+        centralMeetingProfileOutput.setDistributionFactorShutterA(distributionFactorShutterA);
+        centralMeetingProfileOutput.setDistributionFactorShutterB(distributionFactorShutterB);
+
+        return centralMeetingProfileOutput;
     }
 
     HashMap<String, Double> calculateDistributionFactor(double singleIntertia, double equivalentIntertia, double singleShutterArea, double totalArea) {

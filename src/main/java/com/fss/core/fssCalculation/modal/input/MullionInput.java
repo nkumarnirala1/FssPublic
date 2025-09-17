@@ -1,4 +1,4 @@
-package com.fss.core.fssCalculation.modal;
+package com.fss.core.fssCalculation.modal.input;
 
 
 import lombok.Data;

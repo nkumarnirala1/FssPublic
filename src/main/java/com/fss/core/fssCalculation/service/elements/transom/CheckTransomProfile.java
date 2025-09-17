@@ -1,7 +1,8 @@
 package com.fss.core.fssCalculation.service.elements.transom;
 
 
-import com.fss.core.fssCalculation.modal.TransomInput;
+import com.fss.core.fssCalculation.modal.input.TransomInput;
+import com.fss.core.fssCalculation.modal.output.TransomOutput;
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure1Transom;
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure2Transom;
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure3Transom;
@@ -27,8 +28,11 @@ public class CheckTransomProfile {
         this.transomAbyXandCbyZ = transomAbyXandCbyZ;
     }
 
-    public Map<String, Boolean> checkForTransomProfile(TransomInput transomInput) {
+    public TransomOutput checkForTransomProfile(TransomInput transomInput) {
+        TransomOutput transomOutput = new TransomOutput();
+
         Map<String, Boolean> resultMap = new HashMap<>();
+        transomOutput.setResultMap(resultMap);
 
         double gridLength = transomInput.getGridLength();
         double windPressure = transomInput.getWindPressure();
@@ -45,7 +49,10 @@ public class CheckTransomProfile {
         double transomUnsupportedLength = transomInput.getTransomUnsupportedLength();
         double sectionWidthB = transomInput.getSectionWidthB();
 
+
         double abyB = depthOfSectionTransom / sectionWidthB;
+
+
 
         double fig1Value = figure1Transom.calculateFig1ValueTransom(transomIxx, transomIyy, transomCrossSectionalArea, gridLength);
         double fig3Value = figure3Transom.calculateFig3Value(abyB, t2Transom, thicknessTaTransom_t1);
@@ -54,9 +61,17 @@ public class CheckTransomProfile {
         double aByXandCbyZ = transomAbyXandCbyZ.calculateAbyXandCbyZ(windPressure, transomTopPanelHeight, transomBottomPanelHeight, transomIxx, transomBoundingBoxY, transomCrossSectionalArea, transomUnsupportedLength, glassThickness, fig1Value, fig2Value);
         double bByY = transomBbyY.calculateBbyY(windPressure, transomTopPanelHeight, transomBottomPanelHeight, depthOfSectionTransom, gridLength, t2Transom, thicknessTaTransom_t1);
 
+        transomOutput.setAbyB(abyB);
+        transomOutput.setFig1Value(fig1Value);
+        transomOutput.setFig2Value(fig2Value);
+        transomOutput.setFig3Value(fig3Value);
+
+        transomOutput.setAByXandCbyZ(aByXandCbyZ);
+        transomOutput.setBByY(bByY);
+
         resultMap.put("bendingStress", aByXandCbyZ < 1);
         resultMap.put("shearStress", bByY < 1);
 
-        return resultMap;
+        return transomOutput;
     }
 }

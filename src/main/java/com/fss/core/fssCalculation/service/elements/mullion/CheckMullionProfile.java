@@ -1,8 +1,8 @@
 package com.fss.core.fssCalculation.service.elements.mullion;
 
 import com.fss.core.fssCalculation.constants.GlazingType;
-import com.fss.core.fssCalculation.modal.GlazingInput;
-import com.fss.core.fssCalculation.modal.MullionInput;
+import com.fss.core.fssCalculation.modal.input.GlazingInput;
+import com.fss.core.fssCalculation.modal.input.MullionInput;
 import com.fss.core.fssCalculation.service.elements.CalculatedElements;
 import com.fss.core.fssCalculation.service.elements.mullion.figures.Figure1Mullion;
 import com.fss.core.fssCalculation.service.elements.mullion.figures.Figure2Mullion;
