@@ -1,7 +1,7 @@
 package com.fss.core.fssCalculation.service.elements.mullion.figures;
 
+import com.fss.core.fssCalculation.modal.output.FigureOneOutput;
 import com.fss.core.fssCalculation.service.ReportGen.Utility;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -11,47 +11,29 @@ import java.util.Map;
 @Component
 public class Figure1Mullion {
 
-    public double calculateFig1Value(String typeOfGlazing, double unsupportedLength, double transomToTransomDistance, double ixx, double iyy, double crossSectionArea, HttpSession session) {
+    public FigureOneOutput calculateFig1Value(String typeOfGlazing, double unsupportedLength, double transomToTransomDistance, double ixx, double iyy, double crossSectionArea) {
 
+        FigureOneOutput figureOneOutput = new FigureOneOutput();
         double radiusOfGyrationX = calculateRadiusOfGyrationX(ixx, crossSectionArea);
         double radiusOfGyrationY = calculateRadiusOfGyrationY(iyy, crossSectionArea);
-        session.setAttribute("radiusOfGyrationX_mullion", Utility.roundTo2Decimal(radiusOfGyrationX));
-        session.setAttribute("radiusOfGyrationY_mullion", Utility.roundTo2Decimal(radiusOfGyrationY));
-        session.setAttribute("radiusOfGyrationX_mullion_mm", Utility.roundTo2Decimal(radiusOfGyrationX*10.0));
-        session.setAttribute("radiusOfGyrationY_mullion_mm", Utility.roundTo2Decimal(radiusOfGyrationY*10.0));
-
 
         double lxByRx = calculateLxByRx(typeOfGlazing, unsupportedLength, radiusOfGyrationX);
         double lyByRy = calculateLyByRy(typeOfGlazing, unsupportedLength, transomToTransomDistance, radiusOfGyrationY);
 
-        session.setAttribute("lxByRx",Utility.roundTo2Decimal(lxByRx));
-        session.setAttribute("lyByRy", Utility.roundTo2Decimal(lyByRy));
-        session.setAttribute("max_lxByRxInlyByRy", Math.max(lxByRx, lyByRy));
+        figureOneOutput.setRadiusOfGyrationX(radiusOfGyrationX);
+        figureOneOutput.setRadiusOfGyrationY(radiusOfGyrationY);
+
+        figureOneOutput.setLxByRx(lxByRx);
+        figureOneOutput.setLyByRy(lyByRy);
+
         double slendernessRatioLbyR = getSlendernessRatioLbyR(lxByRx, lyByRy);
         double point1XPermissibleCompressiveStress = getPoint1XPermissibleCompressiveStress(slendernessRatioLbyR);
         double point2XPermissibleCompressiveStress = getPoint2XPermissibleCompressiveStress(slendernessRatioLbyR);
-        double point1YPermissibleCompressiveStress = getPoint1YPermissibleCompressiveStress((int)point1XPermissibleCompressiveStress);
-        double point2YPermissibleCompressiveStress = getPoint2YPermissibleCompressiveStress((int)point2XPermissibleCompressiveStress);
+        double point1YPermissibleCompressiveStress = getPoint1YPermissibleCompressiveStress((int) point1XPermissibleCompressiveStress);
+        double point2YPermissibleCompressiveStress = getPoint2YPermissibleCompressiveStress((int) point2XPermissibleCompressiveStress);
 
-//        // Debug print for all local variables
-//        System.out.println("---- calculateFig1Value Debug ----");
-//        System.out.println("typeOfGlazing: " + typeOfGlazing);
-//        System.out.println("unsupportedLength: " + unsupportedLength);
-//        System.out.println("transomToTransomDistance: " + transomToTransomDistance);
-//        System.out.println("ixx: " + ixx);
-//        System.out.println("iyy: " + iyy);
-//        System.out.println("crossSectionArea: " + crossSectionArea);
-//        System.out.println("radiusOfGyrationX: " + radiusOfGyrationX);
-//        System.out.println("radiusOfGyrationY: " + radiusOfGyrationY);
-//        System.out.println("lxByRx: " + lxByRx);
-//        System.out.println("lyByRy: " + lyByRy);
-//        System.out.println("slendernessRatioLbyR: " + slendernessRatioLbyR);
-//        System.out.println("point1XPermissibleCompressiveStress: " + point1XPermissibleCompressiveStress);
-//        System.out.println("point2XPermissibleCompressiveStress: " + point2XPermissibleCompressiveStress);
-//        System.out.println("point1YPermissibleCompressiveStress: " + point1YPermissibleCompressiveStress);
-//        System.out.println("point2YPermissibleCompressiveStress: " + point2YPermissibleCompressiveStress);
-//        System.out.println("----------------------------------");
-        return Utility.roundTo2Decimal(calculate(point2YPermissibleCompressiveStress, point1YPermissibleCompressiveStress, point2XPermissibleCompressiveStress, point1XPermissibleCompressiveStress, slendernessRatioLbyR));
+        figureOneOutput.setResult(Utility.roundTo2Decimal(calculate(point2YPermissibleCompressiveStress, point1YPermissibleCompressiveStress, point2XPermissibleCompressiveStress, point1XPermissibleCompressiveStress, slendernessRatioLbyR)));
+        return figureOneOutput;
 
 
     }
@@ -196,7 +178,7 @@ public class Figure1Mullion {
                 "4".equals(typeOfGlazing) ||
                 "5".equals(typeOfGlazing)) {
 
-            return Utility.roundTo2Decimal( (unsupportedLength / (radiusOfGyrationX * 10.0))*0.85);// kx=0.85
+            return Utility.roundTo2Decimal((unsupportedLength / (radiusOfGyrationX * 10.0)) * 0.85);// kx=0.85
         }
         return 0.0;
     }
@@ -208,11 +190,11 @@ public class Figure1Mullion {
             double radiusOfGyrationY
     ) {
         if ("1".equals(typeOfGlazing)) {
-            return (unsupportedLength / (radiusOfGyrationY * 10.0))*0.85;// kx=0.85;
+            return (unsupportedLength / (radiusOfGyrationY * 10.0)) * 0.85;// kx=0.85;
         } else if ("3".equals(typeOfGlazing) ||
                 "4".equals(typeOfGlazing) ||
                 "5".equals(typeOfGlazing)) {
-            return (transomToTransomDistance / (radiusOfGyrationY * 10.0))*0.85;// kx=0.85;
+            return (transomToTransomDistance / (radiusOfGyrationY * 10.0)) * 0.85;// kx=0.85;
         }
 
         return 0.0;

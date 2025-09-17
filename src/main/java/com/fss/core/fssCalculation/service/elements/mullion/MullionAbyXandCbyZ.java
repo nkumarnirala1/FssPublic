@@ -1,7 +1,6 @@
 package com.fss.core.fssCalculation.service.elements.mullion;
 
 import com.fss.core.fssCalculation.service.elements.inertia.ZxxCal;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,14 +18,10 @@ public class MullionAbyXandCbyZ {
     }
 
 
-
-    public double calculateMbyZ(double bendingMoment, double ixx, double boundingBox_y, HttpSession session) {
+    public double calculateMbyZ(double bendingMoment, double ixx, double boundingBox_y) {
         double zxx = zxxCal.calculateZxx(ixx, boundingBox_y);
-        session.setAttribute("zxx_mullion", zxx);
         return ((bendingMoment * 1000.0) / zxx);
     }
-
-
 
 
 }

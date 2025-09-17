@@ -1,9 +1,11 @@
 package com.fss.core.fssCalculation;
 
+import com.fss.core.fssCalculation.modal.output.FigureOneOutput;
+import com.fss.core.fssCalculation.service.ReportGen.ExcelSheetGenerator;
+import com.fss.core.fssCalculation.service.elements.CalculatedElements;
 import com.fss.core.fssCalculation.service.elements.bendingMoment.BendingMomentCal;
 import com.fss.core.fssCalculation.service.elements.deflection.DeflectionCal;
 import com.fss.core.fssCalculation.service.elements.inertia.IxxCal;
-import com.fss.core.fssCalculation.service.elements.CalculatedElements;
 import com.fss.core.fssCalculation.service.elements.mullion.MullionAbyXandCbyZ;
 import com.fss.core.fssCalculation.service.elements.mullion.MullionBbyY;
 import com.fss.core.fssCalculation.service.elements.mullion.figures.Figure1Mullion;
@@ -14,7 +16,6 @@ import com.fss.core.fssCalculation.service.elements.transom.TransomBbyY;
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure1Transom;
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure2Transom;
 import com.fss.core.fssCalculation.service.elements.transom.figures.Figure3Transom;
-import com.fss.core.fssCalculation.service.ReportGen.ExcelSheetGenerator;
 import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -95,7 +96,7 @@ class FssCalculationApplicationTests {
 
         HttpSession session = new MockHttpSession();
 
-        double Ixx = ixxCal.calculateRequiredIxx(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket , session);
+        double Ixx = ixxCal.calculateRequiredIxx(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket, session);
         double allowableDeflection = deflectionCal.calculateDeflection(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket, Ixx);
         double calculatedDeflection = deflectionCal.calculateDeflection(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket, 200);
 
@@ -109,9 +110,9 @@ class FssCalculationApplicationTests {
         double selfWeight = CalculatedElements.calculateSelfWeight(crossSectionalArea);
         double udldeadload = CalculatedElements.calculateUdlDueToDeadLoad(gridLength, unsupportedLength, glassThickness);
         double axialForce = CalculatedElements.calculateAxialForce(udldeadload, selfWeight, unsupportedLength);//wrong
-        double fig1Value = figure1Mullion.calculateFig1Value(typeOfGlazingValue, unsupportedLength, transomToTransomDistance, Ixx, iyy, crossSectionalArea, session);
+        FigureOneOutput fig1Value = figure1Mullion.calculateFig1Value(typeOfGlazingValue, unsupportedLength, transomToTransomDistance, Ixx, iyy, crossSectionalArea);
 
-        double mbyz = mullionAbyXandCbyZ.calculateMbyZ(Double.valueOf(roundedMoment.toString()), Ixx,boundingboxy , session);
+        double mbyz = mullionAbyXandCbyZ.calculateMbyZ(Double.valueOf(roundedMoment.toString()), Ixx, boundingboxy);
 
         //-------------------------
         double point1Xk1 = figure3Mullion.calculatePoint1xk1(t2, t1);
@@ -128,7 +129,7 @@ class FssCalculationApplicationTests {
         double fig2Value = figure2Mullion.calculateFig2Value(point1x_lmd, point1Y_lmd, point2X_lmd, point2Y_lmd, lambdaAt);
 
 
-        double axcz = mullionAbyXandCbyZ.calculateAbyXandCbyZ(axialForce, crossSectionalArea, fig1Value, mbyz, fig2Value);
+        double axcz = mullionAbyXandCbyZ.calculateAbyXandCbyZ(axialForce, crossSectionalArea, fig1Value.getResult(), mbyz, fig2Value);
 
         double udlWindLoad = CalculatedElements.calculateUDLDueToWindLoad(gridLength, unsupportedLength, windPressure);
         double shearForce = CalculatedElements.calculateShearForce("1", udlWindLoad, unsupportedLength, bendingMoment);//wrong
@@ -142,7 +143,7 @@ class FssCalculationApplicationTests {
                 () -> Assertions.assertEquals(1.69375, selfWeight, "Self weight should be positive"),
                 () -> Assertions.assertEquals(0.2925, udldeadload, "UDL dead load should be positive"),
                 () -> Assertions.assertEquals(0.9902, axialForce, "Axial force should be positive"),
-                () -> Assertions.assertEquals(35, (int) fig1Value, "Figure 1 value should be positive"),
+                () -> Assertions.assertEquals(35, (int) fig1Value.getResult(), "Figure 1 value should be positive"),
                 () -> Assertions.assertEquals(22.69, roundTo2Decimal(mbyz), "MbyZ should be positive")
         );
         Assertions.assertAll(
@@ -170,7 +171,7 @@ class FssCalculationApplicationTests {
         double glassThickness = 12;
         double transomTopPanelHeight = 1700;
         double transomBottomPanelHeight = 1500;
-       // can take from daigramm
+        // can take from daigramm
         double depthOfSectionTransom = 101; //a
         double t2Transom = 2.6;
         double thicknessTaTransom_t1 = 2.6;
@@ -184,7 +185,6 @@ class FssCalculationApplicationTests {
         double sectionWidthB = 10;
 
         double crossSectionalAreaTransom = 9.6;
-
 
 
         double bByY = transomBbyY.calculateBbyY(windPressure, transomTopPanelHeight, transomBottomPanelHeight, depthOfSectionTransom, gridLength, t2Transom, thicknessTaTransom_t1);

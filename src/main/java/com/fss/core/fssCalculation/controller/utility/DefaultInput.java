@@ -1,4 +1,4 @@
-package com.fss.core.fssCalculation.controller;
+package com.fss.core.fssCalculation.controller.utility;
 
 import com.fss.core.fssCalculation.modal.input.GlazingInput;
 import com.fss.core.fssCalculation.modal.input.MullionInput;

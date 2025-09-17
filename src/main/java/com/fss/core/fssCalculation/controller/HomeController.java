@@ -1,10 +1,13 @@
 package com.fss.core.fssCalculation.controller;
 
+import com.fss.core.fssCalculation.controller.utility.DefaultInput;
+import com.fss.core.fssCalculation.controller.utility.StoreSessionAttribute;
 import com.fss.core.fssCalculation.modal.*;
 
 import com.fss.core.fssCalculation.modal.input.GlazingInput;
 import com.fss.core.fssCalculation.modal.input.MullionInput;
 import com.fss.core.fssCalculation.modal.input.TransomInput;
+import com.fss.core.fssCalculation.modal.output.MullionProfileOutput;
 import com.fss.core.fssCalculation.modal.output.TransomOutput;
 import com.fss.core.fssCalculation.service.ReportGen.ExcelSheetGenerator;
 import com.fss.core.fssCalculation.service.ReportGen.PdfGenerator;
@@ -68,6 +71,9 @@ public class HomeController {
 
     @Autowired
     Utility utility;
+
+    @Autowired
+    StoreSessionAttribute storeSessionAttribute;
 
     @ModelAttribute("inputHistory")
     public List<Map<String, Object>> inputHistory() {
@@ -272,10 +278,11 @@ public class HomeController {
         model.addAttribute("mullionInput", mullionInput);
 
         try {
-            Map<String, Boolean> mullionprofileResult = checkMullionProfile.checkForMullionprofile(mullionInput, glazingInput, bendingMoment, session);
-
-            model.addAttribute("bendingStress", mullionprofileResult.get("bendingStress"));
-            model.addAttribute("shearStress", mullionprofileResult.get("shearStress"));
+            MullionProfileOutput mullionProfileOutput = checkMullionProfile.checkForMullionprofile(mullionInput, glazingInput, bendingMoment);
+            storeSessionAttribute.populateMullionSessionAttribute(mullionInput, mullionProfileOutput, session);
+            Map<String, Boolean> mullionProfileResult = mullionProfileOutput.getResultMap();
+            model.addAttribute("bendingStress", mullionProfileResult.get("bendingStress"));
+            model.addAttribute("shearStress", mullionProfileResult.get("shearStress"));
 
         } catch (Exception ex) {
             return handleErrorMullion(model, session, "All input values must be positive and non-zero", mullionInput);
