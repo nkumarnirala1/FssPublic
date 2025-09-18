@@ -96,7 +96,7 @@ class FssCalculationApplicationTests {
 
         HttpSession session = new MockHttpSession();
 
-        double Ixx = ixxCal.calculateRequiredIxx(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket, session);
+        double Ixx = ixxCal.calculateRequiredIxx(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket);
         double allowableDeflection = deflectionCal.calculateDeflection(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket, Ixx);
         double calculatedDeflection = deflectionCal.calculateDeflection(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket, 200);
 

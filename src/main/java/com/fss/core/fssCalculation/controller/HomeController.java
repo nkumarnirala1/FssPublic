@@ -103,7 +103,7 @@ public class HomeController {
         }
 
         // Continue with calculation
-        double Ixx = ixxCal.calculateRequiredIxx(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket(), session);
+        double Ixx = ixxCal.calculateRequiredIxx(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket());
         double df = deflectionCal.calculateDeflection(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket(), Ixx);
         double bendingMoment = bendingMomentCal.calculateBendingMoment(input.getTypeOfGlazing(), input.getUnsupportedLength(), input.getGridLength(), input.getWindPressure(), input.getStackBracket());
 
@@ -144,7 +144,7 @@ public class HomeController {
                 input.getUnsupportedLength(),
                 input.getGridLength(),
                 input.getWindPressure(),
-                input.getStackBracket(), session
+                input.getStackBracket()
         );
 
         double deflection = deflectionCal.calculateDeflection(

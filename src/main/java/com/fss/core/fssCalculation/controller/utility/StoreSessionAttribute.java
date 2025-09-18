@@ -33,6 +33,8 @@ public class StoreSessionAttribute {
         session.setAttribute("selfWeight", Utility.roundTo2Decimal(mullionProfileOutput.getSelfWeight()));
         session.setAttribute("mbyz", mullionProfileOutput.getMByz());
         session.setAttribute("effectiveArea", mullionProfileOutput.getEffectiveArea());
+        session.setAttribute("udlWindLoad", mullionProfileOutput.getUdlWindLoad());
+
 
         double zxx = zxxCal.calculateZxx(mullionInput.getUserIxx(), mullionInput.getBoundingboxy());
         session.setAttribute("zxx_mullion", zxx);

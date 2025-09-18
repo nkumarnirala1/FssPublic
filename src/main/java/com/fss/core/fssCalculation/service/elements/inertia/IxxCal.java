@@ -24,11 +24,10 @@ public class IxxCal {
 
     public double calculateRequiredIxx(String typeOfGlazing,
                                               double unsupportedLength,
-                                              double gridLength, double windPressure, double stackBracket, HttpSession session) {
+                                              double gridLength, double windPressure, double stackBracket) {
 
         double allowableDeflection = CalculatedElements.calculateAllowableDeflection(unsupportedLength);
         double udlWindLoad = CalculatedElements.calculateUDLDueToWindLoad(gridLength, unsupportedLength, windPressure);
-        session.setAttribute("udlWindLoad", udlWindLoad);
         double effectiveLength = CalculatedElements.calculateEffectiveLength(gridLength, unsupportedLength);
 
         double bendingMoment = bendingMomentCal.calculateBendingMoment(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket);
