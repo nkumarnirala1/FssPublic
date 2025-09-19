@@ -20,23 +20,26 @@
     <main class="main-content">
         <div class="content-wrapper" id="main-content">
 
-<!--            <p style="color:red">ActiveMenu_1 = [[${activeMenu}]]</p>-->
-<!--            <p style="color:red">ixx_1 = [[${Ixx}]]</p>-->
+            <!--            <p style="color:red">ActiveMenu_1 = [[${activeMenu}]]</p>-->
+            <!--            <p style="color:red">ixx_1 = [[${Ixx}]]</p>-->
             <!-- window Form -->
             <div th:if="${(activeMenu == 'sliding' or activeMenu == 'casement') and (slidingResult == null or slidingResult == false) and (mullionInputForm == null or mullionInputForm == false)}">
                 <div th:replace="fragments/window :: window"></div>
 
             </div>
 
-            <div th:if="${slidingResult == true}" >
+            <div th:if="${slidingResult == true}">
                 <div th:replace="fragments/window_result :: window_result"></div>
             </div>
 
 
-            <div th:if="${mullionInputForm == true}" >
+            <div th:if="${mullionInputForm == true}">
                 <div th:replace="fragments/mullion_input ::mullion_input"></div>
             </div>
 
+            <div th:if="${show_mullion_result == true}">
+                <div th:replace="fragments/mullion_result ::mullion_result"></div>
+            </div>
             <!-- Semi-Unitized -->
             <div th:if="${activeMenu == 'semi-unitized' and Ixx == null}">
                 <div id="semi-form" class="form-section">
@@ -52,7 +55,6 @@
                     <!-- form here -->
                 </div>
             </div>
-
 
 
             <!-- Default Placeholder -->

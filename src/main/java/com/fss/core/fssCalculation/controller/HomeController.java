@@ -271,11 +271,17 @@ public class HomeController {
         glazingInput.setUnsupportedLength(unsupportedLength);
         glazingInput.setWindPressure(windPressure);
 
-        double bendingMoment = Double.valueOf(((BigDecimal) session.getAttribute("bm")).toString());
-
+        double bendingMoment = session.getAttribute("bm") != null
+                ? ((BigDecimal) session.getAttribute("bm")).doubleValue()
+                : 0.0;
         // Prepare defaults and add mullionInput to model
         defaultInput.prepareMullionDefaults(model, session, mullionInput);
         model.addAttribute("mullionInput", mullionInput);
+
+        if(glazingInput.getTypeOfGlazing()==null)
+        {
+            glazingInput.setTypeOfGlazing(session.getAttribute("typeOfGlazing").toString());
+        }
 
         try {
             MullionProfileOutput mullionProfileOutput = checkMullionProfile.checkForMullionprofile(mullionInput, glazingInput, bendingMoment);
@@ -295,7 +301,9 @@ public class HomeController {
         model.addAttribute("stackBracket", stackBracket);
         model.addAttribute("typeOfGlazing", typeOfGlazing);
 
-
+        model.addAttribute("mullionInputForm", false);
+        model.addAttribute("show_mullion_result", true);
+        model.addAttribute("activeMenu", "dummy");//TODO
 
         return "glazing-form";
     }

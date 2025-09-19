@@ -3,6 +3,7 @@ package com.fss.core.fssCalculation.controller;
 
 import com.fss.core.fssCalculation.controller.utility.DefaultInput;
 import com.fss.core.fssCalculation.modal.input.SlidingInput;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,7 +41,7 @@ public class WindowController {
 
     // Handle form submit
     @PostMapping("/calculate")
-    public String calculate(@ModelAttribute("sliding_input") SlidingInput input, @ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model) {
+    public String calculate(@ModelAttribute("sliding_input") SlidingInput input, @ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model, HttpSession session) {
 
 
         // Keep input values so form can re-render with them
@@ -55,6 +56,11 @@ public class WindowController {
         inputs.put("Wind Pressure (kN/m²)", input.getWindPressure());
         inputs.put("Glass Thickness (mm)", input.getGlassThickness());
         inputs.put("Central Meeting Profile", input.getCentralMeetingProfile());
+
+        session.setAttribute("unsupportedLength", input.getUnsupportedLength());
+        session.setAttribute("gridLength", input.getGridLength());
+        session.setAttribute("windPressure", input.getWindPressure());
+        session.setAttribute("typeOfGlazing","Sliding window");
 
         // entry wrapper
         Map<String,Object> entry = new LinkedHashMap<>();

@@ -1,0 +1,25 @@
+<div class="result-wrapper-mullion" th:fragment="mullion_result" th:if="${bendingStress != null and shearStress != null}" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="result-container-mullion">
+        <h2>Mullion Profile Results</h2>
+
+        <!-- Bending Stress Result -->
+        <p th:if="${bendingStress}" style="color: green; font-weight: bold;">
+            ✅ Profile is safe under combined axial and bending stress
+        </p>
+        <p th:if="${bendingStress == false}" style="color: red; font-weight: bold;">
+            ❌ Profile is unsafe under combined axial and bending stress
+        </p>
+
+        <!-- Shear Stress Result -->
+        <p th:if="${shearStress}" style="color: green; font-weight: bold;">
+            ✅ Profile is safe under shear stress
+        </p>
+        <p th:if="${shearStress == false}" style="color: red; font-weight: bold;">
+            ❌ Profile is unsafe under shear stress
+        </p>
+
+        <form th:action="@{/download-pdf}" method="get">
+            <button type="submit" class="header-btn download-btn">Download PDF</button>
+        </form>
+    </div>
+</div>

@@ -74,7 +74,6 @@ class FssCalculationApplicationTests {
 
     @Test
     void mullionStressAndDeflectionCheck() throws IOException {
-
         String typeOfGlazing = "SLIDING WINDOW";
         String typeOfGlazingValue = "1";
         double unsupportedLength = 3200;
@@ -93,8 +92,6 @@ class FssCalculationApplicationTests {
         double iyy = 46.24;
 
         double boundingboxy = 2;
-
-        HttpSession session = new MockHttpSession();
 
         double Ixx = ixxCal.calculateRequiredIxx(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket);
         double allowableDeflection = deflectionCal.calculateDeflection(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket, Ixx);
