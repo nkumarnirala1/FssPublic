@@ -6,6 +6,7 @@ import com.fss.core.fssCalculation.modal.*;
 
 import com.fss.core.fssCalculation.modal.input.GlazingInput;
 import com.fss.core.fssCalculation.modal.input.MullionInput;
+import com.fss.core.fssCalculation.modal.input.SlidingInput;
 import com.fss.core.fssCalculation.modal.input.TransomInput;
 import com.fss.core.fssCalculation.modal.output.MullionProfileOutput;
 import com.fss.core.fssCalculation.modal.output.TransomOutput;
@@ -278,6 +279,16 @@ public class HomeController {
         defaultInput.prepareMullionDefaults(model, session, mullionInput);
         model.addAttribute("mullionInput", mullionInput);
 
+        Boolean isCetralProfileCheckRequired = false;
+        if(session.getAttribute("slidingInput")!=null)
+        {
+            Object slifingObject = session.getAttribute("slidingInput");
+
+            SlidingInput slidingInput = (SlidingInput) slifingObject;
+
+             isCetralProfileCheckRequired = slidingInput.getCentralMeetingProfile();
+        }
+
         if(glazingInput.getTypeOfGlazing()==null)
         {
             glazingInput.setTypeOfGlazing(session.getAttribute("typeOfGlazing").toString());
@@ -304,6 +315,9 @@ public class HomeController {
         model.addAttribute("mullionInputForm", false);
         model.addAttribute("show_mullion_result", true);
         model.addAttribute("activeMenu", "dummy");//TODO
+        model.addAttribute("isCentralProfileCheckRequired", isCetralProfileCheckRequired);
+
+
 
         return "glazing-form";
     }

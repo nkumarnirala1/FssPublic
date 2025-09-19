@@ -41,26 +41,27 @@ public class WindowController {
 
     // Handle form submit
     @PostMapping("/calculate")
-    public String calculate(@ModelAttribute("sliding_input") SlidingInput input, @ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model, HttpSession session) {
+    public String calculate(@ModelAttribute("sliding_input") SlidingInput slidingInput, @ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model, HttpSession session) {
 
 
         // Keep input values so form can re-render with them
-        model.addAttribute("sliding_input", input);
+        model.addAttribute("sliding_input", slidingInput);
         model.addAttribute("Ixx", 9.9);
         model.addAttribute("deflection", 9.9);
         model.addAttribute("activeMenu", "sliding");
 
         Map<String,Object> inputs = new LinkedHashMap<>();
-        inputs.put("Unsupported Length (mm)", input.getUnsupportedLength());
-        inputs.put("Grid Length (mm)", input.getGridLength());
-        inputs.put("Wind Pressure (kN/m²)", input.getWindPressure());
-        inputs.put("Glass Thickness (mm)", input.getGlassThickness());
-        inputs.put("Central Meeting Profile", input.getCentralMeetingProfile());
+        inputs.put("Unsupported Length (mm)", slidingInput.getUnsupportedLength());
+        inputs.put("Grid Length (mm)", slidingInput.getGridLength());
+        inputs.put("Wind Pressure (kN/m²)", slidingInput.getWindPressure());
+        inputs.put("Glass Thickness (mm)", slidingInput.getGlassThickness());
+        inputs.put("Central Meeting Profile", slidingInput.getCentralMeetingProfile());
 
-        session.setAttribute("unsupportedLength", input.getUnsupportedLength());
-        session.setAttribute("gridLength", input.getGridLength());
-        session.setAttribute("windPressure", input.getWindPressure());
+        session.setAttribute("unsupportedLength", slidingInput.getUnsupportedLength());
+        session.setAttribute("gridLength", slidingInput.getGridLength());
+        session.setAttribute("windPressure", slidingInput.getWindPressure());
         session.setAttribute("typeOfGlazing","Sliding window");
+        session.setAttribute("slidingInput", slidingInput);
 
         // entry wrapper
         Map<String,Object> entry = new LinkedHashMap<>();
@@ -71,5 +72,22 @@ public class WindowController {
 
         model.addAttribute("slidingResult", true);
         return "glazing-form"; // or redirect to a result page
+    }
+
+
+    @GetMapping("/centralProfileCheck")
+    public String centralProfileCheck(@RequestParam(required = false) String activeMenu, Model model, HttpSession session) {
+
+        model.addAttribute("show_central_profile_form", true);
+
+        return "glazing-form"; // loads your main page
+    }
+
+    @GetMapping("/outerProfileCheck")
+    public String outerProfileCheck(@RequestParam(required = false) String activeMenu, Model model, HttpSession session) {
+
+        model.addAttribute("show_outer_profile_form", true);
+
+        return "glazing-form"; // loads your main page
     }
 }
