@@ -1,0 +1,266 @@
+/* Mullion Flow Content Specific Styles */
+.mullion-flow-content {
+    background: var(--color-surface);
+    padding: var(--space-32);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-card-border);
+    max-width: 800px;
+    margin: 0 auto;
+    animation: fadeIn var(--duration-normal) var(--ease-standard);
+}
+
+/* Form Header */
+.mullion-flow-content h2 {
+    color: var(--color-primary);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-semibold);
+    text-align: center;
+    margin-bottom: var(--space-32);
+    letter-spacing: var(--letter-spacing-tight);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--space-16);
+}
+
+/* Profile Form Container */
+.profile-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-20);
+    align-items: start;
+}
+
+/* Form Group Styling */
+.profile-form .form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--space-16);
+}
+
+/* Label Styling */
+.profile-form label {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    margin-bottom: var(--space-8);
+    font-size: var(--font-size-sm);
+    letter-spacing: 0.02em;
+    position: relative;
+}
+
+/* Required field indicator */
+.profile-form label::after {
+    content: " *";
+    color: var(--color-error);
+    font-weight: var(--font-weight-bold);
+}
+
+/* Input Field Styling */
+.profile-form input[type="number"] {
+    padding: var(--space-12) var(--space-16);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-base);
+    font-size: var(--font-size-base);
+    background: var(--color-surface);
+    color: var(--color-text);
+    transition: all var(--duration-fast) var(--ease-standard);
+    width: 100%;
+    box-sizing: border-box;
+    font-family: var(--font-family-base);
+}
+
+/* Input Focus States */
+.profile-form input[type="number"]:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: var(--focus-ring);
+    background: var(--color-background);
+    transform: translateY(-1px);
+}
+
+/* Input Hover States */
+.profile-form input[type="number"]:hover {
+    border-color: var(--color-primary-hover);
+    background: var(--color-background);
+}
+
+/* Input Valid State */
+.profile-form input[type="number"]:valid {
+    border-color: var(--color-success);
+    background: rgba(var(--color-success-rgb), 0.05);
+}
+
+/* Input Invalid State */
+.profile-form input[type="number"]:invalid {
+    border-color: var(--color-error);
+    background: rgba(var(--color-error-rgb), 0.05);
+}
+
+/* Submit Button Styling */
+.profile-form button[type="submit"] {
+    grid-column: 1 / -1; /* Full width across all columns */
+    padding: var(--space-16) var(--space-32);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+    color: var(--color-btn-primary-text);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: all var(--duration-normal) var(--ease-standard);
+    margin-top: var(--space-24);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Button Hover Effect */
+.profile-form button[type="submit"]:hover {
+    background: linear-gradient(135deg, var(--color-primary-hover), var(--color-primary-active));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Button Focus State */
+.profile-form button[type="submit"]:focus-visible {
+    outline: var(--focus-outline);
+    box-shadow: var(--focus-ring), var(--shadow-lg);
+}
+
+/* Button Active State */
+.profile-form button[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Button Loading State */
+.profile-form button[type="submit"].loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.profile-form button[type="submit"].loading::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    transform: translate(-50%, -50%);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .mullion-flow-content {
+        padding: var(--space-20);
+        margin: var(--space-16);
+    }
+
+    .profile-form {
+        grid-template-columns: 1fr;
+        gap: var(--space-16);
+    }
+
+    .mullion-flow-content h2 {
+        font-size: var(--font-size-2xl);
+    }
+
+    .profile-form button[type="submit"] {
+        padding: var(--space-12) var(--space-24);
+        font-size: var(--font-size-base);
+    }
+}
+
+@media (max-width: 480px) {
+    .mullion-flow-content {
+        padding: var(--space-16);
+        margin: var(--space-8);
+        border-radius: var(--radius-base);
+    }
+
+    .profile-form input[type="number"] {
+        padding: var(--space-10) var(--space-12);
+    }
+
+    .mullion-flow-content h2 {
+        font-size: var(--font-size-xl);
+        margin-bottom: var(--space-20);
+    }
+}
+
+/* Input Field Animation */
+.profile-form .form-group {
+    position: relative;
+}
+
+.profile-form input[type="number"]::placeholder {
+    color: var(--color-text-secondary);
+    opacity: 0.7;
+    transition: opacity var(--duration-fast) var(--ease-standard);
+}
+
+.profile-form input[type="number"]:focus::placeholder {
+    opacity: 0.4;
+    transform: translateY(-2px);
+}
+
+/* Form Validation Feedback */
+.profile-form .error-message {
+    color: var(--color-error);
+    font-size: var(--font-size-sm);
+    margin-top: var(--space-4);
+    display: none;
+}
+
+.profile-form input[type="number"]:invalid + .error-message {
+    display: block;
+    animation: slideIn var(--duration-fast) var(--ease-standard);
+}
+
+/* Success State Styling */
+.profile-form.success {
+    border: 2px solid var(--color-success);
+    background: rgba(var(--color-success-rgb), 0.05);
+}
+
+/* Keyframe Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Additional Enhancement: Input Group Styling */
+.profile-form .input-group {
+    position: relative;
+    margin-bottom: var(--space-20);
+}
+
+.profile-form .input-group input[type="number"] {
+    padding-left: var(--space-32);
+}
+
+.profile-form .input-group::before {
+    content: attr(data-unit);
+    position: absolute;
+    left: var(--space-12);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-secondary);
+    font-size: var(--font-size-sm);
+    pointer-events: none;
+    z-index: 1;
+}
