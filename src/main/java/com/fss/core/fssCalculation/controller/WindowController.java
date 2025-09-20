@@ -137,8 +137,13 @@ public class WindowController {
     }
 
     @PostMapping("/submitOuterProfile")
-    public String submitOuter(@ModelAttribute OuterProfileInput outerProfileInput) {
-        // process input.getShutterA(), input.getShutterB()
+    public String submitOuter(@ModelAttribute OuterProfileInput outerProfileInput, Model model) {
+
+        model.addAttribute("legBendingStress", true);
+        model.addAttribute("legShearStress", true);
+
+        model.addAttribute("activeMenu", "sliding");
+        model.addAttribute("show_outer_profile_result", true);
         return "glazing-form";
     }
 }
