@@ -1,7 +1,7 @@
-/* Enhanced Mullion Flow Content for Split Layout */
+/* Enhanced Mullion Flow Content for Split Layout - No Scrolling */
 .mullion-flow-content {
     background: var(--color-surface);
-    padding: var(--space-24);
+    padding: var(--space-20);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--color-card-border);
@@ -9,53 +9,70 @@
     width: 100%;
     margin: 0 auto;
     animation: fadeIn var(--duration-normal) var(--ease-standard);
-    overflow: hidden; /* Prevent any unwanted scrolling */
+    overflow: hidden;
+    min-height: fit-content;
 }
 
 /* Form Header */
 .mullion-flow-content h2 {
     color: var(--color-primary);
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-xl);
     font-weight: var(--font-weight-semibold);
     text-align: center;
-    margin-bottom: var(--space-24);
+    margin-bottom: var(--space-16);
     letter-spacing: var(--letter-spacing-tight);
     border-bottom: 2px solid var(--color-border);
-    padding-bottom: var(--space-12);
+    padding-bottom: var(--space-8);
 }
 
 /* Split Form Container */
 .profile-form-split {
     display: flex;
-    gap: var(--space-32);
-    flex-wrap: wrap;
+    gap: var(--space-24);
     align-items: flex-start;
-    min-height: auto;
+    height: fit-content;
+    max-height: calc(100vh - 200px);
 }
 
 /* Form Columns */
 .form-column {
-    flex: 1;
-    min-width: 300px;
     display: flex;
     flex-direction: column;
-    gap: var(--space-16);
+    gap: var(--space-12);
+    height: fit-content;
 }
 
+/* Left Column - 6 inputs */
 .form-column-left {
-    padding-right: var(--space-16);
+    flex: 1;
+    min-width: 300px;
+    padding-right: var(--space-12);
     border-right: 2px solid var(--color-border);
 }
 
+/* Right Column Container - 5 inputs + button */
 .form-column-right {
-    padding-left: var(--space-16);
+    flex: 1;
+    min-width: 300px;
+    padding-left: var(--space-12);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Right Column Inputs */
+.right-inputs-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    margin-bottom: var(--space-16);
 }
 
 /* Form Group Styling */
 .form-group {
     display: flex;
     flex-direction: column;
-    margin-bottom: var(--space-16);
+    margin-bottom: var(--space-4);
     position: relative;
 }
 
@@ -63,7 +80,7 @@
 .form-group label {
     font-weight: var(--font-weight-medium);
     color: var(--color-text);
-    margin-bottom: var(--space-8);
+    margin-bottom: var(--space-6);
     font-size: var(--font-size-sm);
     letter-spacing: 0.02em;
     display: flex;
@@ -78,9 +95,9 @@
     margin-left: var(--space-4);
 }
 
-/* Input Field Styling */
+/* Input Field Styling - Compact */
 .form-group input[type="number"] {
-    padding: var(--space-12) var(--space-16);
+    padding: var(--space-10) var(--space-14);
     border: 2px solid var(--color-border);
     border-radius: var(--radius-base);
     font-size: var(--font-size-base);
@@ -90,7 +107,7 @@
     width: 100%;
     box-sizing: border-box;
     font-family: var(--font-family-base);
-    min-height: 44px; /* Ensure consistent height */
+    height: 40px;
 }
 
 /* Input Focus States */
@@ -120,33 +137,32 @@
     background: rgba(var(--color-error-rgb), 0.05);
 }
 
-/* Submit Button Container */
+/* Submit Button Container - Positioned at bottom of right column */
 .form-submit-wrapper {
-    flex: 1 1 100%;
     display: flex;
     justify-content: center;
-    margin-top: var(--space-24);
-    padding-top: var(--space-20);
+    margin-top: auto;
+    padding-top: var(--space-16);
     border-top: 2px solid var(--color-border);
 }
 
 /* Submit Button Styling */
 .form-submit-wrapper button[type="submit"] {
-    padding: var(--space-16) var(--space-48);
+    padding: var(--space-12) var(--space-32);
     background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
     color: var(--color-btn-primary-text);
     border: none;
     border-radius: var(--radius-md);
-    font-size: var(--font-size-lg);
+    font-size: var(--font-size-base);
     font-weight: var(--font-weight-semibold);
     cursor: pointer;
     transition: all var(--duration-normal) var(--ease-standard);
     box-shadow: var(--shadow-md);
     position: relative;
     overflow: hidden;
-    min-width: 250px;
+    min-width: 200px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
 }
 
 /* Button Hover Effect */
@@ -168,111 +184,112 @@
     box-shadow: var(--shadow-sm);
 }
 
-/* Column Visual Enhancement */
-.form-column-left::before {
-    content: "Left Parameters";
-    font-size: var(--font-size-xs);
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: var(--space-12);
-    text-align: center;
-    padding: var(--space-8);
-    background: var(--color-gray-200);
-    border-radius: var(--radius-sm);
-}
-
-.form-column-right::before {
-    content: "Right Parameters";
-    font-size: var(--font-size-xs);
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: var(--space-12);
-    text-align: center;
-    padding: var(--space-8);
-    background: var(--color-gray-200);
-    border-radius: var(--radius-sm);
-}
-
 /* Responsive Design */
-@media (max-width: 1024px) {
+@media (max-width: 1200px) {
     .mullion-flow-content {
-        max-width: 900px;
-        padding: var(--space-20);
+        max-width: 1000px;
+        padding: var(--space-16);
     }
 
     .profile-form-split {
         gap: var(--space-20);
     }
+}
+
+@media (max-width: 1024px) {
+    .mullion-flow-content {
+        max-width: 900px;
+        padding: var(--space-16);
+    }
+
+    .profile-form-split {
+        gap: var(--space-16);
+    }
 
     .form-column-left {
-        padding-right: var(--space-12);
+        padding-right: var(--space-8);
     }
 
     .form-column-right {
-        padding-left: var(--space-12);
+        padding-left: var(--space-8);
     }
 }
 
 @media (max-width: 768px) {
     .profile-form-split {
         flex-direction: column;
-        gap: var(--space-16);
+        gap: var(--space-12);
+        max-height: none;
     }
 
     .form-column-left,
     .form-column-right {
         padding: 0;
         border: none;
+        min-width: unset;
     }
 
     .form-column-left {
         border-bottom: 2px solid var(--color-border);
-        padding-bottom: var(--space-16);
-        margin-bottom: var(--space-16);
+        padding-bottom: var(--space-12);
+        margin-bottom: var(--space-12);
     }
 
     .mullion-flow-content {
-        padding: var(--space-16);
+        padding: var(--space-12);
         margin: var(--space-8);
     }
 
     .mullion-flow-content h2 {
-        font-size: var(--font-size-xl);
-        margin-bottom: var(--space-16);
+        font-size: var(--font-size-lg);
+        margin-bottom: var(--space-12);
     }
 
-    .form-submit-wrapper button[type="submit"] {
-        min-width: 200px;
-        padding: var(--space-12) var(--space-32);
-    }
-}
-
-@media (max-width: 480px) {
-    .mullion-flow-content {
-        padding: var(--space-12);
-        margin: var(--space-4);
+    .form-group {
+        gap: var(--space-8);
     }
 
-    .form-group input[type="number"] {
-        padding: var(--space-10) var(--space-12);
-        font-size: var(--font-size-sm);
+    .form-submit-wrapper {
+        margin-top: var(--space-16);
     }
 
     .form-submit-wrapper button[type="submit"] {
         width: 100%;
         min-width: unset;
-        font-size: var(--font-size-base);
-    }
-
-    .form-column-left::before,
-    .form-column-right::before {
-        display: none; /* Hide column headers on mobile */
+        padding: var(--space-12) var(--space-24);
     }
 }
 
-/* Loading and Success States */
+@media (max-width: 480px) {
+    .mullion-flow-content {
+        padding: var(--space-8);
+        margin: var(--space-4);
+    }
+
+    .form-group input[type="number"] {
+        padding: var(--space-8) var(--space-12);
+        font-size: var(--font-size-sm);
+        height: 36px;
+    }
+
+    .form-group label {
+        font-size: var(--font-size-xs);
+        margin-bottom: var(--space-4);
+    }
+
+    .form-group {
+        gap: var(--space-6);
+        margin-bottom: var(--space-2);
+    }
+
+    .mullion-flow-content h2 {
+        font-size: var(--font-size-base);
+        margin-bottom: var(--space-8);
+        padding-bottom: var(--space-6);
+    }
+}
+
+/* Loading State */
 .form-submit-wrapper button[type="submit"].loading {
     pointer-events: none;
     opacity: 0.8;
@@ -283,8 +300,8 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
     border: 2px solid rgba(255, 255, 255, 0.3);
     border-top: 2px solid white;
     border-radius: 50%;
@@ -292,19 +309,35 @@
     transform: translate(-50%, -50%);
 }
 
+/* Remove any default margins that could cause scrolling */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+/* Animations */
 @keyframes spin {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* Form Validation Animations */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(15px);
     }
     to {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* Ensure no unwanted scrolling */
+.mullion-flow-content,
+.profile-form-split,
+.form-column {
+    overflow: visible;
 }

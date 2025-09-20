@@ -815,7 +815,6 @@ body {
     align-items: center;
     justify-content: center;
     min-width: 100px;
-    text-transform: uppercase;
     letter-spacing: 0.3px;
     border: 1px solid transparent;
 }
@@ -2234,6 +2233,6 @@ select:focus {
     font-size: 14px;
 
     margin: 10px auto 0 auto; /* top margin + auto horizontal centering */
-    display: block;            /* allows margin: auto to work */
+    display: block; /* allows margin: auto to work */
 }
 
