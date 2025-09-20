@@ -1,106 +1,97 @@
-<div id="centralProfile-flow-content" class="centralProfile-flow-content" th:fragment="central_profile_input"
-     xmlns:th="http://www.w3.org/1999/xhtml">
-    <!-- Sliding Flow -->
+<div id="centralProfile-flow-content" class="centralProfile-flow-content" th:fragment="central_profile_input" xmlns:th="http://www.w3.org/1999/xhtml">
+    <link rel="stylesheet" th:href="@{/css/central_profile_input.css}">
 
-
-    <div id="sliding-flow"
-         th:classappend="${activeMenu == 'sliding'} ? '' : ' hidden'">
+    <div id="sliding-flow" th:classappend="${activeMenu == 'sliding'} ? '' : ' hidden'">
         <h2>central profile Input</h2>
-        <form id="centralProfileForm" th:action="@{/submitCentralProfile}" method="post" class="profile-form" th:object="${centralProfileInput}">
-            <div class="profile-form">
-                <h3>Central Profile Input for Shutter A</h3>
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
-                <label for="userIxx1">User Ixx (cm⁴)</label>
-                <input type="number" step="0.01" id="userIxx1" name="userIxx"
-                       th:value="${userIxx}" required/>
+        <form id="centralProfileForm" th:action="@{/submitCentralProfile}" method="post" th:object="${centralProfileInput}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
-                <label for="glassThickness">Glass Thickness (mm)</label>
-                <input type="number" step="0.01" id="glassThickness" name="glassThickness"
-                       th:value="${glassThickness}" required/>
+            <!-- THIS IS THE KEY - FORMS CONTAINER WRAPPER -->
+            <div class="forms-container">
 
-                <label for="crossSectionalArea">Cross Sectional Area (cm²)</label>
-                <input type="number" step="0.01" id="crossSectionalArea" name="crossSectionalArea"
-                       th:value="${crossSectionalArea}" required/>
+                <!-- Shutter A Form -->
+                <div class="profile-form">
+                    <h3>Central Profile Input for Shutter A</h3>
 
-                <label for="transomToTransomDistance">Transom to Transom Distance (mm)</label>
-                <input type="number" step="0.01" id="transomToTransomDistance" name="transomToTransomDistance"
-                       th:value="${transomToTransomDistance}" required/>
+                    <label for="userIxx1">User Ixx (cm⁴)</label>
+                    <input type="number" step="0.01" id="userIxx1" name="userIxx" th:value="${userIxx}" required/>
 
-                <label for="b">Width b (mm)</label>
-                <input type="number" step="0.01" id="b" name="b" th:value="${b}" required/>
+                    <label for="glassThickness">Glass Thickness (mm)</label>
+                    <input type="number" step="0.01" id="glassThickness" name="glassThickness" th:value="${glassThickness}" required/>
 
-                <label for="a">Height a (mm)</label>
-                <input type="number" step="0.01" id="a" name="a" th:value="${a}" required/>
+                    <label for="crossSectionalArea">Cross Sectional Area (cm²)</label>
+                    <input type="number" step="0.01" id="crossSectionalArea" name="crossSectionalArea" th:value="${crossSectionalArea}" required/>
 
-                <label for="t2">t₂ (mm)</label>
-                <input type="number" step="0.01" id="t2" name="t2" th:value="${t2}" required/>
+                    <label for="transomToTransomDistance">Transom to Transom Distance (mm)</label>
+                    <input type="number" step="0.01" id="transomToTransomDistance" name="transomToTransomDistance" th:value="${transomToTransomDistance}" required/>
 
-                <label for="t1">t₁ (mm)</label>
-                <input type="number" step="0.01" id="t1" name="t1" th:value="${t1}" required/>
+                    <label for="b">Width b (mm)</label>
+                    <input type="number" step="0.01" id="b" name="b" th:value="${b}" required/>
 
-                <label for="iyy">Iyy (cm⁴)</label>
-                <input type="number" step="0.01" id="iyy" name="iyy" th:value="${iyy}" required/>
+                    <label for="a">Height a (mm)</label>
+                    <input type="number" step="0.01" id="a" name="a" th:value="${a}" required/>
 
-                <label for="boundingboxy">Bounding Box Y (mm)</label>
-                <input type="number" step="0.01" id="boundingboxy" name="boundingboxy"
-                       th:value="${boundingboxy}" required/>
+                    <label for="t2">t₂ (mm)</label>
+                    <input type="number" step="0.01" id="t2" name="t2" th:value="${t2}" required/>
 
-                <label for="boundingboxx">Bounding Box X (mm)</label>
-                <input type="number" step="0.01" id="boundingboxx" name="boundingboxx"
-                       th:value="${boundingboxx}" required/>
+                    <label for="t1">t₁ (mm)</label>
+                    <input type="number" step="0.01" id="t1" name="t1" th:value="${t1}" required/>
 
+                    <label for="iyy">Iyy (cm⁴)</label>
+                    <input type="number" step="0.01" id="iyy" name="iyy" th:value="${iyy}" required/>
+
+                    <label for="boundingboxy">Bounding Box Y (mm)</label>
+                    <input type="number" step="0.01" id="boundingboxy" name="boundingboxy" th:value="${boundingboxy}" required/>
+
+                    <label for="boundingboxx">Bounding Box X (mm)</label>
+                    <input type="number" step="0.01" id="boundingboxx" name="boundingboxx" th:value="${boundingboxx}" required/>
+                </div>
+
+                <!-- Shutter B Form -->
+                <div class="profile-form">
+                    <h3>Central Profile Input for Shutter B</h3>
+
+                    <label for="userIxxB">User Ixx (cm⁴)</label>
+                    <input type="number" step="0.01" id="userIxxB" name="userIxxB" th:value="${userIxx}" required/>
+
+                    <label for="glassThicknessB">Glass Thickness (mm)</label>
+                    <input type="number" step="0.01" id="glassThicknessB" name="glassThicknessB" th:value="${glassThickness}" required/>
+
+                    <label for="crossSectionalAreaB">Cross Sectional Area (cm²)</label>
+                    <input type="number" step="0.01" id="crossSectionalAreaB" name="crossSectionalAreaB" th:value="${crossSectionalArea}" required/>
+
+                    <label for="transomToTransomDistanceB">Transom to Transom Distance (mm)</label>
+                    <input type="number" step="0.01" id="transomToTransomDistanceB" name="transomToTransomDistanceB" th:value="${transomToTransomDistance}" required/>
+
+                    <label for="bB">Width b (mm)</label>
+                    <input type="number" step="0.01" id="bB" name="bB" th:value="${b}" required/>
+
+                    <label for="aB">Height a (mm)</label>
+                    <input type="number" step="0.01" id="aB" name="aB" th:value="${a}" required/>
+
+                    <label for="t2B">t₂ (mm)</label>
+                    <input type="number" step="0.01" id="t2B" name="t2B" th:value="${t2}" required/>
+
+                    <label for="t1B">t₁ (mm)</label>
+                    <input type="number" step="0.01" id="t1B" name="t1B" th:value="${t1}" required/>
+
+                    <label for="iyyB">Iyy (cm⁴)</label>
+                    <input type="number" step="0.01" id="iyyB" name="iyyB" th:value="${iyy}" required/>
+
+                    <label for="boundingboxyB">Bounding Box Y (mm)</label>
+                    <input type="number" step="0.01" id="boundingboxyB" name="boundingboxyB" th:value="${boundingboxy}" required/>
+
+                    <label for="boundingboxxB">Bounding Box X (mm)</label>
+                    <input type="number" step="0.01" id="boundingboxxB" name="boundingboxxB" th:value="${boundingboxx}" required/>
+                </div>
+
+            </div> <!-- END OF FORMS CONTAINER -->
+
+            <!-- Submit Button Container -->
+            <div class="submit-container">
+                <button type="submit">Submit central Profile</button>
             </div>
-
-            <div class="profile-form">
-                <h3>Central Profile Input for Shutter B</h3>
-
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-
-                <label for="userIxx1">User Ixx (cm⁴)</label>
-                <input type="number" step="0.01" id="userIxxB" name="userIxx"
-                       th:value="${userIxx}" required/>
-
-                <label for="glassThickness">Glass Thickness (mm)</label>
-                <input type="number" step="0.01" id="glassThicknessB" name="glassThickness"
-                       th:value="${glassThickness}" required/>
-
-                <label for="crossSectionalArea">Cross Sectional Area (cm²)</label>
-                <input type="number" step="0.01" id="crossSectionalAreaB" name="crossSectionalArea"
-                       th:value="${crossSectionalArea}" required/>
-
-                <label for="transomToTransomDistance">Transom to Transom Distance (mm)</label>
-                <input type="number" step="0.01" id="transomToTransomDistanceB" name="transomToTransomDistance"
-                       th:value="${transomToTransomDistance}" required/>
-
-                <label for="b">Width b (mm)</label>
-                <input type="number" step="0.01" id="b_B" name="b" th:value="${b}" required/>
-
-                <label for="a">Height a (mm)</label>
-                <input type="number" step="0.01" id="a_B" name="a" th:value="${a}" required/>
-
-                <label for="t2">t₂ (mm)</label>
-                <input type="number" step="0.01" id="t2_B" name="t2" th:value="${t2}" required/>
-
-                <label for="t1">t₁ (mm)</label>
-                <input type="number" step="0.01" id="t1_B" name="t1" th:value="${t1}" required/>
-
-                <label for="iyy">Iyy (cm⁴)</label>
-                <input type="number" step="0.01" id="iyyB" name="iyy" th:value="${iyy}" required/>
-
-                <label for="boundingboxy">Bounding Box Y (mm)</label>
-                <input type="number" step="0.01" id="boundingboxyB" name="boundingboxy"
-                       th:value="${boundingboxy}" required/>
-
-                <label for="boundingboxx">Bounding Box X (mm)</label>
-                <input type="number" step="0.01" id="boundingboxxB" name="boundingboxx"
-                       th:value="${boundingboxx}" required/>
-
-            </div>
-
-            <button type="submit">Submit central Profile</button>
         </form>
-
-
     </div>
 </div>
