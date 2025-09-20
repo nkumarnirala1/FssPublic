@@ -1,0 +1,55 @@
+
+<div class="result-wrapper-central" th:fragment="central_profile_result" th:if="${bendingStressA != null and shearStressA != null}" xmlns:th="http://www.w3.org/1999/xhtml">
+  <link rel="stylesheet" th:href="@{/css/central_result.css}">
+  <div class="result-container-central" th:classappend="${activeMenu == 'sliding'} ? '' : ' hidden'">
+    <h2>central Profile Results</h2>
+
+    <div class="profile-form">
+      <h3>Central Profile result for Shutter A</h3>
+    <!-- Bending Stress Result -->
+    <p th:if="${bendingStressA}" style="color: green; font-weight: bold;">
+      ✅ Profile is safe under combined axial and bending stress
+    </p>
+    <p th:if="${bendingStressA == false}" style="color: red; font-weight: bold;">
+      ❌ Profile is unsafe under combined axial and bending stress
+    </p>
+
+    <!-- Shear Stress Result -->
+    <p th:if="${shearStressA}" style="color: green; font-weight: bold;">
+      ✅ Profile is safe under shear stress
+    </p>
+    <p th:if="${shearStressA == false}" style="color: red; font-weight: bold;">
+      ❌ Profile is unsafe under shear stress
+    </p>
+
+    </div>
+
+    <div class="profile-form">
+      <h3>Central Profile result for Shutter B</h3>
+      <!-- Bending Stress Result -->
+      <p th:if="${bendingStressB}" style="color: green; font-weight: bold;">
+        ✅ Profile is safe under combined axial and bending stress
+      </p>
+      <p th:if="${bendingStressB == false}" style="color: red; font-weight: bold;">
+        ❌ Profile is unsafe under combined axial and bending stress
+      </p>
+
+      <!-- Shear Stress Result -->
+      <p th:if="${shearStressB}" style="color: green; font-weight: bold;">
+        ✅ Profile is safe under shear stress
+      </p>
+      <p th:if="${shearStressB == false}" style="color: red; font-weight: bold;">
+        ❌ Profile is unsafe under shear stress
+      </p>
+
+    </div>
+
+    <form th:action="@{/download-pdf}" method="get">
+      <button type="submit" class="header-btn download-btn">Download up to central check report in PDF</button>
+    </form>
+
+    <form th:action="@{/window/outerProfileCheck}" method="get">
+      <button type="submit" class="btn btn-primary checkCentralProfile-btn">Check outer profile</button>
+    </form>
+  </div>
+</div>

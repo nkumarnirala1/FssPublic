@@ -106,8 +106,18 @@ public class WindowController {
     }
 
     @PostMapping("/submitCentralProfile")
-    public String submitCentralProfile(@ModelAttribute CentralProfileInput input) {
+    public String submitCentralProfile(@ModelAttribute CentralProfileInput input, Model model) {
         // process input.getShutterA(), input.getShutterB()
+
+        model.addAttribute("bendingStressA", true);
+        model.addAttribute("shearStressA", true);
+
+        model.addAttribute("bendingStressB", true);
+        model.addAttribute("shearStressB", true);
+
+        model.addAttribute("activeMenu", "sliding");
+        model.addAttribute("show_central_profile_result", true);
+
         return "glazing-form";
     }
 
