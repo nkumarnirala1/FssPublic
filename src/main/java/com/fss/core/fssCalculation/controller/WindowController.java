@@ -3,6 +3,7 @@ package com.fss.core.fssCalculation.controller;
 
 import com.fss.core.fssCalculation.controller.utility.DefaultInput;
 import com.fss.core.fssCalculation.modal.input.CentralProfileInput;
+import com.fss.core.fssCalculation.modal.input.MullionInput;
 import com.fss.core.fssCalculation.modal.input.SlidingInput;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +86,18 @@ public class WindowController {
 
         // keep previous inputs if needed
         model.addAttribute("activeMenu", activeMenu);
-        model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
+
+        CentralProfileInput centralProfileDefaultInput = new CentralProfileInput();
+
+        MullionInput mullionInput = new MullionInput();
+        defaultInput.prepareMullionDefaults(model, session,mullionInput );
+        centralProfileDefaultInput.setShutterA(mullionInput);
+        centralProfileDefaultInput.setShutterB(mullionInput);
+
+
+
+        model.addAttribute("centralProfileInput", centralProfileDefaultInput);
+
 
         model.addAttribute("show_central_profile_form", true);
 
