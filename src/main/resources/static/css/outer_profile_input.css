@@ -1,0 +1,306 @@
+/* Outer Profile Flow Content Container */
+.outerProfile-flow-content {
+    background: var(--color-surface);
+    padding: var(--space-24);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-card-border);
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto;
+    animation: fadeIn var(--duration-normal) var(--ease-standard);
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+/* Main Title */
+.outerProfile-flow-content h2 {
+    color: var(--color-primary);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    text-align: center;
+    margin-bottom: var(--space-32);
+    letter-spacing: var(--letter-spacing-tight);
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: var(--space-16);
+}
+
+/* Outer Profile Form Container */
+#outerProfileForm {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Form Fields Container - Two Fields Side by Side */
+.form-fields-container {
+    display: flex;
+    gap: var(--space-20);
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: var(--space-24);
+}
+
+/* Individual Field Group */
+.field-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+/* Label Styling */
+.field-group label {
+    font-weight: var(--font-weight-medium);
+    color: var(--color-text);
+    margin-bottom: var(--space-8);
+    font-size: var(--font-size-base);
+    letter-spacing: 0.02em;
+}
+
+/* Required field indicator */
+.field-group label::after {
+    content: " *";
+    color: var(--color-error);
+    font-weight: var(--font-weight-bold);
+    margin-left: var(--space-4);
+}
+
+/* Input Field Styling */
+.field-group input[type="number"] {
+    width: 100%;
+    padding: var(--space-12) var(--space-16);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-base);
+    font-size: var(--font-size-base);
+    background: var(--color-surface);
+    color: var(--color-text);
+    transition: all var(--duration-fast) var(--ease-standard);
+    box-sizing: border-box;
+    font-family: var(--font-family-base);
+    height: 48px;
+}
+
+/* Input Focus States */
+.field-group input[type="number"]:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: var(--focus-ring);
+    background: var(--color-background);
+    transform: translateY(-2px);
+}
+
+/* Input Hover States */
+.field-group input[type="number"]:hover {
+    border-color: var(--color-primary-hover);
+    background: var(--color-background);
+    transform: translateY(-1px);
+}
+
+/* Input Valid State */
+.field-group input[type="number"]:valid {
+    border-color: var(--color-success);
+    background: rgba(var(--color-success-rgb), 0.05);
+}
+
+/* Input Invalid State */
+.field-group input[type="number"]:invalid {
+    border-color: var(--color-error);
+    background: rgba(var(--color-error-rgb), 0.05);
+}
+
+/* Submit Button Container - Centered */
+.submit-container {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-32);
+    padding-top: var(--space-24);
+    border-top: 2px solid var(--color-border);
+    width: 100%;
+}
+
+/* Submit Button Styling */
+#outerProfileForm button[type="submit"] {
+    padding: var(--space-16) var(--space-48);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+    color: var(--color-btn-primary-text);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: all var(--duration-normal) var(--ease-standard);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+    min-width: 220px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Button Hover Effect */
+#outerProfileForm button[type="submit"]:hover {
+    background: linear-gradient(135deg, var(--color-primary-hover), var(--color-primary-active));
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Button Focus State */
+#outerProfileForm button[type="submit"]:focus-visible {
+    outline: var(--focus-outline);
+    box-shadow: var(--focus-ring), var(--shadow-lg);
+}
+
+/* Button Active State */
+#outerProfileForm button[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Button Ripple Effect */
+#outerProfileForm button[type="submit"]::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: all var(--duration-fast) var(--ease-standard);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+#outerProfileForm button[type="submit"]:active::after {
+    width: 200px;
+    height: 200px;
+}
+
+/* Alternative: Single Column Layout */
+.single-column-layout {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-16);
+    margin-bottom: var(--space-24);
+}
+
+.single-column-layout .field-group {
+    width: 100%;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .form-fields-container {
+        flex-direction: column;
+        gap: var(--space-16);
+    }
+
+    .outerProfile-flow-content {
+        padding: var(--space-16);
+        margin: var(--space-8);
+        max-width: 90%;
+    }
+
+    .outerProfile-flow-content h2 {
+        font-size: var(--font-size-xl);
+        margin-bottom: var(--space-20);
+    }
+
+    #outerProfileForm button[type="submit"] {
+        width: 100%;
+        min-width: unset;
+        padding: var(--space-12) var(--space-24);
+        font-size: var(--font-size-base);
+    }
+}
+
+@media (max-width: 480px) {
+    .outerProfile-flow-content {
+        padding: var(--space-12);
+        margin: var(--space-4);
+    }
+
+    .field-group input[type="number"] {
+        height: 44px;
+        padding: var(--space-10) var(--space-12);
+        font-size: var(--font-size-sm);
+    }
+
+    .field-group label {
+        font-size: var(--font-size-sm);
+        margin-bottom: var(--space-6);
+    }
+
+    .outerProfile-flow-content h2 {
+        font-size: var(--font-size-lg);
+        margin-bottom: var(--space-16);
+    }
+}
+
+/* Loading State */
+#outerProfileForm button[type="submit"].loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+#outerProfileForm button[type="submit"].loading::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+/* Success State Animation */
+#outerProfileForm.success {
+    animation: successPulse 0.6s ease-out;
+}
+
+@keyframes successPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+/* Animations */
+@keyframes spin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Visual Enhancement - Card Effect */
+.outerProfile-flow-content::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover), var(--color-primary));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.outerProfile-flow-content {
+    position: relative;
+}
