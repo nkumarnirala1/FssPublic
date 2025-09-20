@@ -23,7 +23,7 @@
             <!--            <p style="color:red">ActiveMenu_1 = [[${activeMenu}]]</p>-->
             <!--            <p style="color:red">ixx_1 = [[${Ixx}]]</p>-->
             <!-- window Form -->
-            <div th:if="${(activeMenu == 'sliding' or activeMenu == 'casement') and (slidingResult == null or slidingResult == false) and (mullionInputForm == null or mullionInputForm == false) and (show_mullion_result == null or show_mullion_result == false) and (show_central_profile_form == null or show_central_profile_form == false) and(show_central_profile_result == null or show_central_profile_result == false) and (show_outer_profile_form == null or show_outer_profile_form == false)}">
+            <div th:if="${(activeMenu == 'sliding' or activeMenu == 'casement') and (slidingResult == null or slidingResult == false) and (mullionInputForm == null or mullionInputForm == false) and (show_mullion_result == null or show_mullion_result == false) and (show_central_profile_form == null or show_central_profile_form == false) and(show_central_profile_result == null or show_central_profile_result == false) and (show_outer_profile_form == null or show_outer_profile_form == false) and (show_outer_profile_result == null or show_outer_profile_result == false)}">
                 <div th:replace="fragments/window :: window"></div>
 
             </div>
@@ -53,6 +53,11 @@
             <div th:if="${show_outer_profile_form == true}">
 
                 <div th:replace="fragments/outer_profile_input ::outer_profile_input"></div>
+            </div>
+
+            <div th:if="${show_outer_profile_result == true}">
+
+                <div th:replace="fragments/outer_profile_result ::outer_profile_result"></div>
             </div>
 
 

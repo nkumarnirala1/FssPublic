@@ -1,0 +1,28 @@
+
+<div class="result-wrapper-outer" th:fragment="outer_profile_result" th:if="${legBendingStress != null and legShearStress != null}" xmlns:th="http://www.w3.org/1999/xhtml">
+  <link rel="stylesheet" th:href="@{/css/mullian_result.css}">
+  <div class="result-container-outer" th:classappend="${activeMenu == 'sliding'} ? '' : ' hidden'">
+    <h2>outer Profile Results</h2>
+
+    <!-- Bending Stress Result -->
+    <p th:if="${legBendingStress}" style="color: green; font-weight: bold;">
+      ✅ Leg is safe under bending stress
+    </p>
+    <p th:if="${legBendingStress == false}" style="color: red; font-weight: bold;">
+      ❌ Leg is not safe under bending stress
+    </p>
+
+    <!-- Shear Stress Result -->
+    <p th:if="${legShearStress}" style="color: green; font-weight: bold;">
+      ✅ Leg is safe under shear stress
+    </p>
+    <p th:if="${legShearStress == false}" style="color: red; font-weight: bold;">
+      ❌ Leg is not safe under shear stress
+    </p>
+
+    <form th:action="@{/download-pdf}" method="get">
+      <button type="submit" class="header-btn download-btn">Download outer leg report</button>
+    </form>
+
+  </div>
+</div>
