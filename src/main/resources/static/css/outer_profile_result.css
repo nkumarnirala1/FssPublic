@@ -1,0 +1,306 @@
+/* Outer Results Wrapper */
+.result-wrapper-outer {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: calc(100vh - 140px);
+    padding: var(--space-24);
+    animation: fadeIn var(--duration-normal) var(--ease-standard);
+}
+
+/* Main Results Container */
+.result-container-outer {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-32);
+    box-shadow: var(--shadow-lg);
+    border: 2px solid var(--color-border);
+    max-width: 800px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Results Title */
+.result-container-outer h2 {
+    color: var(--color-primary);
+    font-size: var(--font-size-2xl);
+    font-weight: var(--font-weight-semibold);
+    text-align: center;
+    margin-bottom: var(--space-32);
+    letter-spacing: var(--letter-spacing-tight);
+    padding-bottom: var(--space-16);
+    border-bottom: 2px solid var(--color-border);
+}
+
+/* Outer Results Card - Main Content Box */
+.outer-results-card {
+    background: var(--color-background);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-32);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--duration-fast) var(--ease-standard);
+    overflow: hidden;
+}
+
+.outer-results-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary-hover);
+}
+
+/* Card Header */
+.outer-results-card h3 {
+    color: var(--color-primary);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    text-align: center;
+    margin: 0;
+    padding: var(--space-16) var(--space-20);
+    background: rgba(var(--color-primary-rgb), 0.08);
+    border-bottom: 2px solid var(--color-primary);
+    letter-spacing: 0.02em;
+}
+
+/* Results Content Area */
+.results-content {
+    padding: var(--space-24);
+}
+
+/* Status Items Container */
+.status-item {
+    margin-bottom: var(--space-16);
+}
+
+.status-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Status Messages with Enhanced Styling */
+.status-item p {
+    display: flex;
+    align-items: center;
+    padding: var(--space-14) var(--space-18);
+    margin: 0;
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-base);
+    position: relative;
+    transition: all var(--duration-fast) var(--ease-standard);
+    border: 2px solid transparent;
+}
+
+/* Success Status with Strong Border */
+.status-success {
+    background: rgba(var(--color-success-rgb), 0.1);
+    color: var(--color-success);
+    border-color: var(--color-success) !important;
+    box-shadow: 0 3px 8px rgba(var(--color-success-rgb), 0.2);
+}
+
+.status-success:hover {
+    background: rgba(var(--color-success-rgb), 0.15);
+    transform: translateX(3px);
+}
+
+/* Error Status with Strong Border */
+.status-error {
+    background: rgba(var(--color-error-rgb), 0.1);
+    color: var(--color-error);
+    border-color: var(--color-error) !important;
+    box-shadow: 0 3px 8px rgba(var(--color-error-rgb), 0.2);
+}
+
+.status-error:hover {
+    background: rgba(var(--color-error-rgb), 0.15);
+    transform: translateX(3px);
+}
+
+/* Status Icons Enhancement */
+.status-item p::before {
+    content: attr(data-icon);
+    font-size: var(--font-size-xl);
+    margin-right: var(--space-12);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+/* Download Container */
+.download-container {
+    display: flex;
+    justify-content: center;
+    padding-top: var(--space-24);
+    border-top: 2px solid var(--color-border);
+}
+
+/* Download Button Styling */
+.download-btn {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+    color: var(--color-btn-primary-text);
+    border: 2px solid var(--color-primary);
+    border-radius: var(--radius-lg);
+    padding: var(--space-14) var(--space-32);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: all var(--duration-normal) var(--ease-standard);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 220px;
+}
+
+.download-btn:hover {
+    background: linear-gradient(135deg, var(--color-primary-hover), var(--color-primary-active));
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--color-primary-hover);
+}
+
+.download-btn:focus-visible {
+    outline: var(--focus-outline);
+    box-shadow: var(--focus-ring), var(--shadow-lg);
+}
+
+.download-btn:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+/* Button Ripple Effect */
+.download-btn::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: all var(--duration-fast) var(--ease-standard);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.download-btn:active::after {
+    width: 200px;
+    height: 200px;
+}
+
+/* Container Border Enhancement */
+.result-container-outer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover), var(--color-primary));
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+/* Success Indicator Badge */
+.result-container-outer::after {
+    content: "✓";
+    position: absolute;
+    top: var(--space-12);
+    right: var(--space-12);
+    width: 40px;
+    height: 40px;
+    background: var(--color-success);
+    color: var(--color-btn-primary-text);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-lg);
+    box-shadow: var(--shadow-md);
+    border: 2px solid var(--color-background);
+    animation: successBounce 1s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .result-wrapper-outer {
+        padding: var(--space-16);
+    }
+
+    .result-container-outer {
+        padding: var(--space-20);
+        margin: var(--space-4);
+    }
+
+    .result-container-outer h2 {
+        font-size: var(--font-size-xl);
+        margin-bottom: var(--space-24);
+    }
+
+    .outer-results-card h3 {
+        font-size: var(--font-size-base);
+        padding: var(--space-12) var(--space-16);
+    }
+
+    .results-content {
+        padding: var(--space-20);
+    }
+}
+
+@media (max-width: 480px) {
+    .result-container-outer {
+        padding: var(--space-16);
+    }
+
+    .outer-results-card h3 {
+        font-size: var(--font-size-sm);
+        padding: var(--space-10) var(--space-12);
+    }
+
+    .status-item p {
+        font-size: var(--font-size-sm);
+        padding: var(--space-12) var(--space-14);
+    }
+
+    .download-btn {
+        width: 100%;
+        min-width: unset;
+        padding: var(--space-12) var(--space-20);
+        font-size: var(--font-size-base);
+    }
+}
+
+/* Animations */
+@keyframes successBounce {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) rotate(-180deg);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1) rotate(-10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

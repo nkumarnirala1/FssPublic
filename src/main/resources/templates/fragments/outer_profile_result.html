@@ -1,28 +1,42 @@
-
 <div class="result-wrapper-outer" th:fragment="outer_profile_result" th:if="${legBendingStress != null and legShearStress != null}" xmlns:th="http://www.w3.org/1999/xhtml">
-  <link rel="stylesheet" th:href="@{/css/mullian_result.css}">
-  <div class="result-container-outer" th:classappend="${activeMenu == 'sliding'} ? '' : ' hidden'">
-    <h2>outer Profile Results</h2>
+    <link rel="stylesheet" th:href="@{/css/outer_profile_result.css}">
 
-    <!-- Bending Stress Result -->
-    <p th:if="${legBendingStress}" style="color: green; font-weight: bold;">
-      ✅ Leg is safe under bending stress
-    </p>
-    <p th:if="${legBendingStress == false}" style="color: red; font-weight: bold;">
-      ❌ Leg is not safe under bending stress
-    </p>
+    <div class="result-container-outer" th:classappend="${activeMenu == 'sliding'} ? '' : ' hidden'">
+        <h2>outer Profile Results</h2>
 
-    <!-- Shear Stress Result -->
-    <p th:if="${legShearStress}" style="color: green; font-weight: bold;">
-      ✅ Leg is safe under shear stress
-    </p>
-    <p th:if="${legShearStress == false}" style="color: red; font-weight: bold;">
-      ❌ Leg is not safe under shear stress
-    </p>
+        <!-- Results Card Container -->
+        <div class="outer-results-card">
+            <h3>outer leg check results</h3>
 
-    <form th:action="@{/download-pdf}" method="get">
-      <button type="submit" class="header-btn download-btn">Download outer leg report</button>
-    </form>
+            <div class="results-content">
+                <!-- Bending Stress Result -->
+                <div class="status-item">
+                    <p th:if="${legBendingStress}" class="status-success">
+                        ✅ Leg is safe under bending stress
+                    </p>
+                    <p th:if="${legBendingStress == false}" class="status-error">
+                        ❌ Leg is not safe under bending stress
+                    </p>
+                </div>
 
-  </div>
+                <!-- Shear Stress Result -->
+                <div class="status-item">
+                    <p th:if="${legShearStress}" class="status-success">
+                        ✅ Leg is safe under shear stress
+                    </p>
+                    <p th:if="${legShearStress == false}" class="status-error">
+                        ❌ Leg is not safe under shear stress
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Download Button Container -->
+        <div class="download-container">
+            <form th:action="@{/download-pdf}" method="get">
+                <button type="submit" class="header-btn download-btn">Download report</button>
+            </form>
+        </div>
+
+    </div>
 </div>
