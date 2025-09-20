@@ -1019,7 +1019,18 @@ body {
 }
 
 /* Dark Mode Enhancements */
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: dark
+
+
+
+
+
+
+
+
+
+
+) {
     .back-btn {
         background: linear-gradient(135deg, var(--color-gray-400), rgba(var(--color-gray-400-rgb), 0.9));
         color: var(--color-slate-900);
@@ -2222,8 +2233,8 @@ select:focus {
     display: inline-block;  /* ensures button behaves like inline element for centering */
 }
 
-.checkMullion-btn {
     /* If not using SCSS, remove @extend and just reuse the styles */
+.checkMullion-btn {
     padding: 10px 20px;
     border-radius: 5px;
     background-color: #007bff;
@@ -2231,7 +2242,6 @@ select:focus {
     border: none;
     cursor: pointer;
     font-size: 14px;
-
     margin: 10px auto 0 auto; /* top margin + auto horizontal centering */
     display: block; /* allows margin: auto to work */
 }

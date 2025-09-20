@@ -177,9 +177,9 @@
     position: relative;
     overflow: hidden;
     width: 100%;
-    max-width: 180px;
+    max-width: 200px;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
     white-space: nowrap;
 }
 
@@ -263,7 +263,7 @@
     }
 
     .form-submit-wrapper button[type="submit"] {
-        max-width: 200px;
+        max-width: 220px;
     }
 }
 
