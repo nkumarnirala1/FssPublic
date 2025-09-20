@@ -23,7 +23,7 @@
             <!--            <p style="color:red">ActiveMenu_1 = [[${activeMenu}]]</p>-->
             <!--            <p style="color:red">ixx_1 = [[${Ixx}]]</p>-->
             <!-- window Form -->
-            <div th:if="${(activeMenu == 'sliding' or activeMenu == 'casement') and (slidingResult == null or slidingResult == false) and (mullionInputForm == null or mullionInputForm == false)}">
+            <div th:if="${(activeMenu == 'sliding' or activeMenu == 'casement') and (slidingResult == null or slidingResult == false) and (mullionInputForm == null or mullionInputForm == false) and (show_central_profile_form == null or show_central_profile_form == false)}">
                 <div th:replace="fragments/window :: window"></div>
 
             </div>
@@ -40,6 +40,13 @@
             <div th:if="${show_mullion_result == true}">
                 <div th:replace="fragments/mullion_result ::mullion_result"></div>
             </div>
+
+            <div th:if="${show_central_profile_form == true}">
+
+                <div th:replace="fragments/central_profile_input ::central_profile_input"></div>
+            </div>
+
+
             <!-- Semi-Unitized -->
             <div th:if="${activeMenu == 'semi-unitized' and Ixx == null}">
                 <div id="semi-form" class="form-section">

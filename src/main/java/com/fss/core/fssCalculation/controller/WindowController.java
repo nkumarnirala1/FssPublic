@@ -2,6 +2,7 @@ package com.fss.core.fssCalculation.controller;
 
 
 import com.fss.core.fssCalculation.controller.utility.DefaultInput;
+import com.fss.core.fssCalculation.modal.input.CentralProfileInput;
 import com.fss.core.fssCalculation.modal.input.SlidingInput;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,9 +79,23 @@ public class WindowController {
     @GetMapping("/centralProfileCheck")
     public String centralProfileCheck(@RequestParam(required = false) String activeMenu, Model model, HttpSession session) {
 
+        if (activeMenu == null) {
+            activeMenu = "sliding"; // default tab
+        }
+
+        // keep previous inputs if needed
+        model.addAttribute("activeMenu", activeMenu);
+        model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
+
         model.addAttribute("show_central_profile_form", true);
 
         return "glazing-form"; // loads your main page
+    }
+
+    @PostMapping("/submitCentralProfiles")
+    public String submit(@ModelAttribute CentralProfileInput input) {
+        // process input.getShutterA(), input.getShutterB()
+        return "glazing-form";
     }
 
     @GetMapping("/outerProfileCheck")
