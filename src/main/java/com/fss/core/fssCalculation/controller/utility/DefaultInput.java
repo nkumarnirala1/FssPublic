@@ -1,9 +1,6 @@
 package com.fss.core.fssCalculation.controller.utility;
 
-import com.fss.core.fssCalculation.modal.input.GlazingInput;
-import com.fss.core.fssCalculation.modal.input.MullionInput;
-import com.fss.core.fssCalculation.modal.input.SlidingInput;
-import com.fss.core.fssCalculation.modal.input.TransomInput;
+import com.fss.core.fssCalculation.modal.input.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
@@ -11,8 +8,7 @@ import org.springframework.ui.Model;
 @Component
 public class DefaultInput {
 
-    public SlidingInput prepareSlidingWindowInput()
-    {
+    public SlidingInput prepareSlidingWindowInput() {
         SlidingInput slidingInput = new SlidingInput();
 
         slidingInput.setUnsupportedLength(3000.0);
@@ -210,6 +206,15 @@ public class DefaultInput {
         input.setStackBracket(0.0);
 
         return input;
+    }
+
+    public OuterProfileInput prepareOuterProfileInput() {
+        OuterProfileInput outerProfileInput = new OuterProfileInput();
+
+        outerProfileInput.setEccentricity(50.0);
+        outerProfileInput.setLegThickness(5.0);
+
+        return outerProfileInput;
     }
 
 

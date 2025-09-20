@@ -4,7 +4,7 @@
     <div id="sliding-flow" th:classappend="${activeMenu == 'sliding'} ? '' : ' hidden'">
         <h2>central profile Input</h2>
 
-        <form id="centralProfileForm" th:action="@{/submitCentralProfile}" method="post" th:object="${centralProfileInput}">
+        <form id="centralProfileForm" th:action="@{/window/submitCentralProfile}" method="post" th:object="${centralProfileInput}">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
             <!-- THIS IS THE KEY - FORMS CONTAINER WRAPPER -->

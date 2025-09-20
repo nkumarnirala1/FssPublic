@@ -4,6 +4,7 @@ package com.fss.core.fssCalculation.controller;
 import com.fss.core.fssCalculation.controller.utility.DefaultInput;
 import com.fss.core.fssCalculation.modal.input.CentralProfileInput;
 import com.fss.core.fssCalculation.modal.input.MullionInput;
+import com.fss.core.fssCalculation.modal.input.OuterProfileInput;
 import com.fss.core.fssCalculation.modal.input.SlidingInput;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +106,7 @@ public class WindowController {
     }
 
     @PostMapping("/submitCentralProfiles")
-    public String submit(@ModelAttribute CentralProfileInput input) {
+    public String submitCentralProfile(@ModelAttribute CentralProfileInput input) {
         // process input.getShutterA(), input.getShutterB()
         return "glazing-form";
     }
@@ -113,8 +114,21 @@ public class WindowController {
     @GetMapping("/outerProfileCheck")
     public String outerProfileCheck(@RequestParam(required = false) String activeMenu, Model model, HttpSession session) {
 
+        if (activeMenu == null) {
+            activeMenu = "sliding"; // default tab
+        }
+
+        // keep previous inputs if needed
+        model.addAttribute("activeMenu", activeMenu);
         model.addAttribute("show_outer_profile_form", true);
+        model.addAttribute("outerProfileInput", defaultInput.prepareOuterProfileInput());
 
         return "glazing-form"; // loads your main page
+    }
+
+    @PostMapping("/submitOuterProfile")
+    public String submitOuter(@ModelAttribute OuterProfileInput outerProfileInput) {
+        // process input.getShutterA(), input.getShutterB()
+        return "glazing-form";
     }
 }
