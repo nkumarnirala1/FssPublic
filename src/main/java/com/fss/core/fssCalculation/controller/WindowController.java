@@ -105,7 +105,7 @@ public class WindowController {
         return "glazing-form"; // loads your main page
     }
 
-    @PostMapping("/submitCentralProfiles")
+    @PostMapping("/submitCentralProfile")
     public String submitCentralProfile(@ModelAttribute CentralProfileInput input) {
         // process input.getShutterA(), input.getShutterB()
         return "glazing-form";
