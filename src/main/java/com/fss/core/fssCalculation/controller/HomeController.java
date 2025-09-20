@@ -314,7 +314,7 @@ public class HomeController {
 
         model.addAttribute("mullionInputForm", false);
         model.addAttribute("show_mullion_result", true);
-        model.addAttribute("activeMenu", "dummy");//TODO
+        model.addAttribute("activeMenu", "sliding");//TODO
         model.addAttribute("isCentralProfileCheckRequired", isCetralProfileCheckRequired);
 
 
