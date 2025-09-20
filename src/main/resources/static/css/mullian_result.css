@@ -1,0 +1,396 @@
+/* Mullion Results Wrapper */
+.result-wrapper-mullion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 140px);
+    padding: var(--space-32);
+    animation: fadeIn var(--duration-normal) var(--ease-standard);
+}
+
+/* Main Results Container */
+.result-container-mullion {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-32);
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--color-card-border);
+    max-width: 800px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background Gradient Effect */
+.result-container-mullion::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--color-success), var(--color-primary), var(--color-success));
+    animation: gradientShift 3s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% {
+        background: linear-gradient(90deg, var(--color-success), var(--color-primary), var(--color-success));
+    }
+    50% {
+        background: linear-gradient(90deg, var(--color-primary), var(--color-success), var(--color-primary));
+    }
+}
+
+/* Results Title */
+.result-container-mullion h2 {
+    color: var(--color-primary);
+    font-size: var(--font-size-3xl);
+    font-weight: var(--font-weight-semibold);
+    text-align: center;
+    margin-bottom: var(--space-32);
+    letter-spacing: var(--letter-spacing-tight);
+    position: relative;
+}
+
+.result-container-mullion h2::after {
+    content: "";
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover));
+    border-radius: var(--radius-full);
+}
+
+/* Status Message Styling */
+.result-container-mullion p {
+    display: flex;
+    align-items: center;
+    padding: var(--space-16) var(--space-20);
+    margin-bottom: var(--space-20);
+    border-radius: var(--radius-md);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-lg);
+    position: relative;
+    transition: all var(--duration-fast) var(--ease-standard);
+    border-left: 4px solid transparent;
+}
+
+/* Success Status */
+.result-container-mullion p[style*="green"] {
+    background: rgba(var(--color-success-rgb), 0.1);
+    color: var(--color-success);
+    border-left-color: var(--color-success);
+    box-shadow: 0 2px 8px rgba(var(--color-success-rgb), 0.15);
+}
+
+.result-container-mullion p[style*="green"]:hover {
+    background: rgba(var(--color-success-rgb), 0.15);
+    transform: translateX(5px);
+}
+
+/* Error Status */
+.result-container-mullion p[style*="red"] {
+    background: rgba(var(--color-error-rgb), 0.1);
+    color: var(--color-error);
+    border-left-color: var(--color-error);
+    box-shadow: 0 2px 8px rgba(var(--color-error-rgb), 0.15);
+}
+
+.result-container-mullion p[style*="red"]:hover {
+    background: rgba(var(--color-error-rgb), 0.15);
+    transform: translateX(5px);
+}
+
+/* Status Icons Enhancement */
+.result-container-mullion p::before {
+    font-size: var(--font-size-xl);
+    margin-right: var(--space-12);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+}
+
+/* Animated Status Indicators */
+.result-container-mullion p[style*="green"]::after {
+    content: "";
+    position: absolute;
+    right: var(--space-16);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: var(--color-success);
+    border-radius: 50%;
+    animation: statusPulse 2s infinite;
+}
+
+.result-container-mullion p[style*="red"]::after {
+    content: "";
+    position: absolute;
+    right: var(--space-16);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    background: var(--color-error);
+    border-radius: 50%;
+    animation: statusPulse 2s infinite;
+}
+
+@keyframes statusPulse {
+    0%, 100% {
+        opacity: 1;
+        transform: translateY(-50%) scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: translateY(-50%) scale(1.2);
+    }
+}
+
+/* Action Buttons Container */
+.result-container-mullion form {
+    margin: var(--space-24) 0;
+    display: flex;
+    justify-content: center;
+}
+
+/* Download PDF Button */
+.download-btn {
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+    color: var(--color-btn-primary-text);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: var(--space-16) var(--space-32);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: all var(--duration-normal) var(--ease-standard);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 200px;
+}
+
+.download-btn:hover {
+    background: linear-gradient(135deg, var(--color-primary-hover), var(--color-primary-active));
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.download-btn:active {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.download-btn:focus-visible {
+    outline: var(--focus-outline);
+    box-shadow: var(--focus-ring), var(--shadow-lg);
+}
+
+/* Check Profile Buttons */
+.checkCentralProfile-btn {
+    background: linear-gradient(135deg, var(--color-success), rgba(var(--color-success-rgb), 0.8));
+    color: var(--color-btn-primary-text);
+    border: none;
+    border-radius: var(--radius-md);
+    padding: var(--space-16) var(--space-32);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    cursor: pointer;
+    transition: all var(--duration-normal) var(--ease-standard);
+    box-shadow: var(--shadow-md);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    min-width: 220px;
+}
+
+.checkCentralProfile-btn:hover {
+    background: linear-gradient(135deg, rgba(var(--color-success-rgb), 0.9), var(--color-success));
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lg);
+}
+
+.checkCentralProfile-btn:active {
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.checkCentralProfile-btn:focus-visible {
+    outline: var(--focus-outline);
+    box-shadow: var(--focus-ring), var(--shadow-lg);
+}
+
+/* Button Ripple Effect */
+.download-btn::after,
+.checkCentralProfile-btn::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: all var(--duration-fast) var(--ease-standard);
+    transform: translate(-50%, -50%);
+}
+
+.download-btn:active::after,
+.checkCentralProfile-btn:active::after {
+    width: 300px;
+    height: 300px;
+}
+
+/* Overall Success Indicator */
+.result-container-mullion::after {
+    content: "✓";
+    position: absolute;
+    top: var(--space-20);
+    right: var(--space-20);
+    width: 48px;
+    height: 48px;
+    background: var(--color-success);
+    color: var(--color-btn-primary-text);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: var(--font-weight-bold);
+    font-size: var(--font-size-2xl);
+    box-shadow: var(--shadow-md);
+    animation: successBounce 1s ease-out;
+}
+
+@keyframes successBounce {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) rotate(-180deg);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.1) rotate(-10deg);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) rotate(0deg);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .result-wrapper-mullion {
+        padding: var(--space-16);
+        min-height: calc(100vh - 120px);
+    }
+
+    .result-container-mullion {
+        padding: var(--space-24);
+    }
+
+    .result-container-mullion h2 {
+        font-size: var(--font-size-2xl);
+        margin-bottom: var(--space-24);
+    }
+
+    .result-container-mullion p {
+        font-size: var(--font-size-base);
+        padding: var(--space-12) var(--space-16);
+    }
+
+    .download-btn,
+    .checkCentralProfile-btn {
+        padding: var(--space-12) var(--space-24);
+        font-size: var(--font-size-base);
+        min-width: 180px;
+    }
+
+    .result-container-mullion::after {
+        width: 36px;
+        height: 36px;
+        font-size: var(--font-size-lg);
+        top: var(--space-12);
+        right: var(--space-12);
+    }
+}
+
+@media (max-width: 480px) {
+    .result-container-mullion {
+        padding: var(--space-16);
+        margin: var(--space-8);
+    }
+
+    .result-container-mullion h2 {
+        font-size: var(--font-size-xl);
+    }
+
+    .download-btn,
+    .checkCentralProfile-btn {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .result-container-mullion p::before {
+        width: 24px;
+        height: 24px;
+        font-size: var(--font-size-base);
+    }
+}
+
+/* Loading States for Buttons */
+.download-btn.loading,
+.checkCentralProfile-btn.loading {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.download-btn.loading::before,
+.checkCentralProfile-btn.loading::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: buttonSpin 1s linear infinite;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes buttonSpin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Dark Mode Enhancements */
+@media (prefers-color-scheme: dark) {
+    .result-container-mullion::after {
+        background: var(--color-teal-300);
+        color: var(--color-slate-900);
+    }
+
+    .download-btn {
+        background: linear-gradient(135deg, var(--color-teal-300), var(--color-teal-400));
+        color: var(--color-slate-900);
+    }
+
+    .checkCentralProfile-btn {
+        background: linear-gradient(135deg, var(--color-teal-300), var(--color-teal-400));
+        color: var(--color-slate-900);
+    }
+}

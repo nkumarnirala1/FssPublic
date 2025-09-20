@@ -799,37 +799,285 @@ body {
     align-items: center;
     gap: var(--space-12);
 }
-
+/* Enhanced Header Button Base Styles */
 .header-btn {
-    padding: var(--space-8) var(--space-16);
+    padding: var(--space-10) var(--space-20);
     border: none;
-    border-radius: var(--radius-sm);
+    border-radius: var(--radius-base);
     font-size: var(--font-size-base);
-    font-weight: var(--font-weight-medium);
+    font-weight: var(--font-weight-semibold);
     cursor: pointer;
     transition: all var(--duration-normal) var(--ease-standard);
     box-shadow: var(--shadow-sm);
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100px;
+    letter-spacing: 0.3px;
+    border: 1px solid transparent;
 }
 
-.estimation-btn {
-    background: var(--color-success);
+/* Enhanced Back Button linear-gradient(135deg, var(--color-text-secondary), rgba(var(--color-slate-500-rgb), 0.3)); */
+.back-btn {
+    background-color: aquamarine;
     color: var(--color-btn-primary-text);
+    font-size: var(--font-size-base);
+    font-weight: var(--font-weight-semibold);
+    padding: var(--space-10) var(--space-16);
+    border-radius: var(--radius-base);
+    border: 1px solid rgba(var(--color-slate-500-rgb), 0.3);
+    box-shadow: var(--shadow-sm);
+    transition: all var(--duration-normal) var(--ease-standard);
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-6);
+}
+
+.back-btn:hover {
+    background: linear-gradient(135deg, rgba(var(--color-slate-500-rgb), 0.8), rgba(var(--color-slate-500-rgb), 1));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(var(--color-slate-500-rgb), 0.5);
+}
+
+.back-btn:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-xs);
+}
+
+.back-btn:focus-visible {
+    outline: var(--focus-outline);
+    box-shadow: var(--focus-ring), var(--shadow-md);
+}
+
+/* Back Button Icon Enhancement */
+/*.back-btn::before {*/
+/*    content: "⬅";*/
+/*    font-size: var(--font-size-lg);*/
+/*    margin-right: var(--space-4);*/
+/*    transition: transform var(--duration-fast) var(--ease-standard);*/
+/*}*/
+
+.back-btn:hover::before {
+    transform: translateX(-2px);
+}
+
+/* Enhanced Estimation Button */
+.estimation-btn {
+    background: linear-gradient(135deg, var(--color-success), rgba(var(--color-success-rgb), 0.8));
+    color: var(--color-btn-primary-text);
+    border: 1px solid aqua;
+    position: relative;
+    overflow: hidden;
 }
 
 .estimation-btn:hover {
-    background: var(--color-primary-hover);
-    transform: translateY(-1px);
+    background: linear-gradient(135deg, var(--color-primary-hover), var(--color-primary));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: rgba(var(--color-primary-rgb), 0.5);
 }
 
-.download-btn {
-    background: var(--color-primary);
-    color: var(--color-btn-primary-text);
+.estimation-btn:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-xs);
 }
 
-.download-btn:hover {
-    background: var(--color-primary-hover);
-    transform: translateY(-1px);
+.estimation-btn:focus-visible {
+    outline: var(--focus-outline);
+    box-shadow: var(--focus-ring), var(--shadow-md);
 }
+
+/* Button Ripple Effect */
+.header-btn::after,
+.back-btn::after,
+.estimation-btn::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: all var(--duration-fast) var(--ease-standard);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+}
+
+.header-btn:active::after,
+.back-btn:active::after,
+.estimation-btn:active::after {
+    width: 120px;
+    height: 120px;
+}
+
+/* Loading State for Buttons */
+.header-btn.loading,
+.back-btn.loading,
+.estimation-btn.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.header-btn.loading::before,
+.back-btn.loading::before,
+.estimation-btn.loading::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: buttonSpin 1s linear infinite;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+@keyframes buttonSpin {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Button Text Hide During Loading */
+.header-btn.loading,
+.back-btn.loading,
+.estimation-btn.loading {
+    color: transparent;
+}
+
+/* Enhanced Button Group Spacing */
+.header-right form {
+    display: inline-block;
+    margin: 0 var(--space-4);
+}
+
+/* Button Size Variants */
+.header-btn.btn-sm {
+    padding: var(--space-6) var(--space-12);
+    font-size: var(--font-size-sm);
+    min-width: 80px;
+}
+
+.header-btn.btn-lg {
+    padding: var(--space-12) var(--space-24);
+    font-size: var(--font-size-lg);
+    min-width: 120px;
+}
+
+/* Success State Animation */
+.estimation-btn.success {
+    background: linear-gradient(135deg, var(--color-success), var(--color-success));
+    animation: successPulse 0.6s ease-out;
+}
+
+@keyframes successPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .header-btn,
+    .back-btn,
+    .estimation-btn {
+        padding: var(--space-8) var(--space-12);
+        font-size: var(--font-size-sm);
+        min-width: 80px;
+    }
+
+    .header-right {
+        gap: var(--space-8);
+    }
+
+    .header-right form {
+        margin: 0 var(--space-2);
+    }
+}
+
+@media (max-width: 480px) {
+    .header-btn,
+    .back-btn,
+    .estimation-btn {
+        padding: var(--space-6) var(--space-10);
+        font-size: var(--font-size-xs);
+        min-width: 70px;
+        letter-spacing: 0.1px;
+    }
+
+    .back-btn::before {
+        font-size: var(--font-size-base);
+    }
+}
+
+/* Dark Mode Enhancements */
+@media (prefers-color-scheme: dark) {
+    .back-btn {
+        background: linear-gradient(135deg, var(--color-gray-400), rgba(var(--color-gray-400-rgb), 0.9));
+        color: var(--color-slate-900);
+        border-color: rgba(var(--color-gray-400-rgb), 0.3);
+    }
+
+    .back-btn:hover {
+        background: linear-gradient(135deg, rgba(var(--color-gray-400-rgb), 0.8), var(--color-gray-400));
+        border-color: rgba(var(--color-gray-400-rgb), 0.5);
+    }
+
+    .estimation-btn {
+        background: linear-gradient(135deg, var(--color-teal-300), var(--color-teal-400));
+        color: var(--color-slate-900);
+        border-color: rgba(var(--color-teal-300-rgb), 0.3);
+    }
+
+    .estimation-btn:hover {
+        background: linear-gradient(135deg, var(--color-teal-400), var(--color-teal-300));
+        border-color: rgba(var(--color-teal-300-rgb), 0.5);
+    }
+}
+
+/* Accessibility Enhancements */
+.header-btn:focus-visible,
+.back-btn:focus-visible,
+.estimation-btn:focus-visible {
+    outline: var(--focus-outline);
+    outline-offset: 2px;
+    box-shadow: var(--focus-ring);
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+    .header-btn,
+    .back-btn,
+    .estimation-btn {
+        border-width: 2px;
+        font-weight: var(--font-weight-bold);
+    }
+}
+
+/* Reduced Motion Support */
+@media (prefers-reduced-motion: reduce) {
+    .header-btn,
+    .back-btn,
+    .estimation-btn {
+        transition: none;
+        animation: none;
+    }
+
+    .header-btn::after,
+    .back-btn::after,
+    .estimation-btn::after {
+        display: none;
+    }
+}
+
 
 .logout-btn {
     background: var(--color-error);
@@ -840,17 +1088,6 @@ body {
     background: rgba(var(--color-error-rgb), 0.9);
     transform: translateY(-1px);
 }
-
-.back-btn {
-    background: var(--color-text-secondary);
-    color: var(--color-btn-primary-text);
-}
-
-.back-btn:hover {
-    background: rgba(var(--color-slate-500-rgb), 0.9);
-    transform: translateY(-1px);
-}
-
 /* Layout Container - Three Independent Columns */
 .layout-container {
     display: grid;
@@ -1996,6 +2233,6 @@ select:focus {
     font-size: 14px;
 
     margin: 10px auto 0 auto; /* top margin + auto horizontal centering */
-    display: block;            /* allows margin: auto to work */
+    display: block; /* allows margin: auto to work */
 }
 
