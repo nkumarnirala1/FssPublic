@@ -65,9 +65,15 @@
                 <button type="submit" class="header-btn download-btn">Download up to central check report in PDF</button>
             </form>
 
-            <form th:action="@{/window/outerProfileCheck}" method="get">
+            <form th:if="${isCentralProfileCheckRequired and window_calculationMethodIsAB}" th:action="@{/window/centralProfileCheck}" method="get">
+                <button type="submit" class="btn btn-primary checkCentralProfile-btn">Check central profile</button>
+            </form>
+
+            <form th:if="${!(isCentralProfileCheckRequired and window_calculationMethodIsAB) }" th:action="@{/window/outerProfileCheck}" method="get">
                 <button type="submit" class="btn btn-primary checkCentralProfile-btn">Check outer profile</button>
             </form>
+
+
         </div>
     </div>
 </div>

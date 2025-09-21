@@ -84,7 +84,11 @@ public class HomeController {
 
 
     @GetMapping({"/home", "/", "/calculate", "/calculate-deflection"})
-    public String showForm(Model model, @ModelAttribute("inputHistory") List<Map<String, Object>> history) {
+    public String home(@RequestParam(required = false) String activeMenu, Model model, @ModelAttribute("inputHistory") List<Map<String, Object>> history) {
+        if (activeMenu == null) {
+            activeMenu = "sliding"; // default landing form
+        }
+        model.addAttribute("activeMenu", activeMenu);
         model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
         return "glazing-form";
     }

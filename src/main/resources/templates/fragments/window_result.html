@@ -13,7 +13,13 @@
         </tr>
     </table>
 
-    <form th:action="@{/checkMullion}" method="post">
+    <form th:if="${window_calculationMethodIsAB == false }" th:action="@{/checkMullion}" method="post">
         <button type="submit" class="btn btn-primary checkMullion-btn">Check combined interlock profile</button>
     </form>
+
+    <form th:if="${window_calculationMethodIsAB == true }" th:action="@{/window/mullionCheckForAB}" method="get">
+        <button type="submit" class="btn btn-primary checkMullion-btn">Check combined interlock profile</button>
+    </form>
+
+
 </div>
