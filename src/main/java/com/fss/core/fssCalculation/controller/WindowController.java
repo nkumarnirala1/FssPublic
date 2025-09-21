@@ -53,6 +53,9 @@ public class WindowController {
         inputs.put("Wind Pressure (kN/m²)", slidingInput.getWindPressure());
         inputs.put("Glass Thickness (mm)", slidingInput.getGlassThickness());
         inputs.put("Central Meeting Profile", slidingInput.getCentralMeetingProfile());
+        inputs.put("calculation Method",slidingInput.getCalculationMethod());
+        inputs.put("isCentralprofileCheckRequired", slidingInput.getCentralMeetingProfile());
+        inputs.put("Transom to transom Distance", slidingInput.getTransomToTransomDistance());
 
         session.setAttribute("unsupportedLength", slidingInput.getUnsupportedLength());
         session.setAttribute("gridLength", slidingInput.getGridLength());
@@ -127,7 +130,6 @@ public class WindowController {
         model.addAttribute("activeMenu", "sliding");
         model.addAttribute("show_central_profile_result", true);
 
-        //session.setAttribute("window_calculationMethod", slidingInput.getCalculationMethod());
 
         String calculationMethod = session.getAttribute("window_calculationMethod") != null ? session.getAttribute("window_calculationMethod").toString() : null;
 
