@@ -2,7 +2,7 @@
     <link rel="stylesheet" th:href="@{/css/central_profile_result.css}">
 
     <div class="result-container-central" th:classappend="${activeMenu == 'sliding'} ? '' : ' hidden'">
-        <h2>central Profile Results</h2>
+        <h2 th:text="${centralProfileTitle} + ' result'">Default Title</h2>
 
         <!-- Results Container for Side-by-Side Layout -->
         <div class="results-grid">

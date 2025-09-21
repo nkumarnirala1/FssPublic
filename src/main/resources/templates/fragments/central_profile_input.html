@@ -2,7 +2,7 @@
     <link rel="stylesheet" th:href="@{/css/central_profile_input.css}">
 
     <div id="sliding-flow" th:classappend="${activeMenu == 'sliding'} ? '' : ' hidden'">
-        <h2 th:text="${centralProfileTitle}">Default Title</h2>
+        <h2 th:text="${centralProfileTitle} + ' Input'">Default Title</h2>
 
         <form id="centralProfileForm" th:action="@{/window/submitCentralProfile}" method="post" th:object="${centralProfileInput}">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
