@@ -39,7 +39,7 @@ public class WindowController {
         model.addAttribute("activeMenu", activeMenu);
         model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
 
-        return "glazing-form"; // loads your main page
+        return "index"; // loads your main page
     }
 
     // Handle form submit
