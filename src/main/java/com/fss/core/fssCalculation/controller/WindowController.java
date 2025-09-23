@@ -50,12 +50,15 @@ public class WindowController {
         flowContext.setActiveForm(new ArrayList<>(List.of("show_window_form")));
         controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
         model.addAttribute("activeMenu", activeMenu);
+
         model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
+
+        model.addAttribute("casement_input", defaultInput.prepareCasementWindowInput());
 
         return "glazing-form";
     }
 
-    @PostMapping("/calculate")
+    @PostMapping("/sliding")
     public String calculate(@ModelAttribute("sliding_input") SlidingInput slidingInput, @ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model, HttpSession session) {
 
 
@@ -202,22 +205,6 @@ public class WindowController {
 
 
         return "glazing-form";
-    }
-
-    @GetMapping("/mullionCheckForAB")
-    public String mullionProfileCheckAB(Model model, HttpSession session) {
-
-        String activeMenu = flowContext.getActiveMenu();
-        List<String> activeForms = new ArrayList<>();
-
-
-        model.addAttribute("activeMenu", activeMenu);
-        model.addAttribute("centralProfileInput", defaultInput.CentralProfileDefaultInput(model, session));
-        model.addAttribute("show_central_profile_form", true);
-        model.addAttribute("centralProfileTitle", "A+B interlock Profile");
-
-
-        return "glazing-form"; // loads your main page
     }
 
 

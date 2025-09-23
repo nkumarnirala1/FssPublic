@@ -27,6 +27,23 @@ public class DefaultInput {
         return slidingInput;
     }
 
+    public CasementInput prepareCasementWindowInput() {
+        CasementInput casementInput = new CasementInput();
+
+        casementInput.setUnsupportedLength(3000.0);
+        casementInput.setGridLength(1200.0);
+        casementInput.setWindPressure(2.35);
+        casementInput.setGlassThickness(12.00);
+        casementInput.setCentralMeetingProfile(false);
+        casementInput.setTransomToTransomDistance(3000.0);
+        casementInput.setTopPanelHeight(3000.0);
+        casementInput.setBottomPanelHeight(3000.0);
+        casementInput.setSettingBlockLocation(3000.0);
+
+
+        return casementInput;
+    }
+
     public void prepareMullionDefaults(Model model, HttpSession session, MullionInput mullionInput) {
         // Glass Thickness
         Double sessionGlassThickness = (session.getAttribute("glassThickness") instanceof Double)
