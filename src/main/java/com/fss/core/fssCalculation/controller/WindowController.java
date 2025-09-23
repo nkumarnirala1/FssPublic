@@ -40,7 +40,7 @@ public class WindowController {
     }
 
     // Show form
-    @GetMapping("/ui")
+    @GetMapping({"/ui"})
     public String showUi(@RequestParam(required = false) String activeMenu, Model model, HttpSession session) {
         if (activeMenu == null) {
             activeMenu = "sliding"; // default landing form

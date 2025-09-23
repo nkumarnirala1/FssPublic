@@ -95,9 +95,14 @@ public class HomeController {
         if (activeMenu == null) {
             activeMenu = "sliding"; // default landing form
         }
+
+        flowContext.setActiveMenu(activeMenu);
+        flowContext.setActiveForm(new ArrayList<>(List.of("show_window_form")));
+        controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
         model.addAttribute("activeMenu", activeMenu);
         model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
-        return "glazing-form";
+
+        return "index";
     }
 
     @PostMapping("/calculate")
