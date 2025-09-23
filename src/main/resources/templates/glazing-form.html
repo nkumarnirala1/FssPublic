@@ -23,46 +23,39 @@
             <!--            <p style="color:red">ActiveMenu_1 = [[${activeMenu}]]</p>-->
             <!--            <p style="color:red">ixx_1 = [[${Ixx}]]</p>-->
             <!-- window Form -->
-            <div th:if=" ${(activeMenu == 'sliding' or activeMenu == 'casement')
-             and (slidingResult == null or slidingResult == false)
-             and (mullionInputForm == null or mullionInputForm == false)
-             and (show_mullion_result == null or show_mullion_result == false)
-             and (show_central_profile_form == null or show_central_profile_form == false)
-             and (show_central_profile_result == null or show_central_profile_result == false)
-             and (show_outer_profile_form == null or show_outer_profile_form == false)
-             and (show_outer_profile_result == null or show_outer_profile_result == false)}">
+            <div th:if="${show_window_form} ">
 
                 <div th:replace="fragments/window :: window"></div>
             </div>
 
-            <div th:if="${slidingResult == true}">
+            <div th:if="${show_window_result}">
                 <div th:replace="fragments/window_result :: window_result"></div>
             </div>
 
 
-            <div th:if="${mullionInputForm == true}">
+            <div th:if="${show_mullion_Form}">
                 <div th:replace="fragments/mullion_input ::mullion_input"></div>
             </div>
 
-            <div th:if="${show_mullion_result == true}">
+            <div th:if="${show_mullion_result}">
                 <div th:replace="fragments/mullion_result ::mullion_result"></div>
             </div>
 
-            <div th:if="${show_central_profile_form == true}">
+            <div th:if="${show_central_profile_form}">
 
                 <div th:replace="fragments/central_profile_input ::central_profile_input"></div>
             </div>
 
-            <div th:if="${show_central_profile_result == true}">
+            <div th:if="${show_central_profile_result}">
                 <div th:replace="fragments/central_profile_result ::central_profile_result"></div>
             </div>
 
-            <div th:if="${show_outer_profile_form == true}">
+            <div th:if="${show_outer_profile_form}">
 
                 <div th:replace="fragments/outer_profile_input ::outer_profile_input"></div>
             </div>
 
-            <div th:if="${show_outer_profile_result == true}">
+            <div th:if="${show_outer_profile_result}">
 
                 <div th:replace="fragments/outer_profile_result ::outer_profile_result"></div>
             </div>

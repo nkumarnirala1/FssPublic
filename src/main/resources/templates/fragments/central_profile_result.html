@@ -9,7 +9,7 @@
 
             <!-- Shutter A Results -->
             <div class="profile-result-card">
-                <h3>Central Profile result for Shutter A</h3>
+                <h3 th:text="${centralProfileTitle} + ' result for Shutter A'">result for Shutter A</h3>
 
                 <!-- Bending Stress Result -->
                 <div class="status-item">
@@ -34,7 +34,7 @@
 
             <!-- Shutter B Results -->
             <div class="profile-result-card">
-                <h3>Central Profile result for Shutter B</h3>
+                <h3 th:text="${centralProfileTitle} + ' result for Shutter B'">Result for Shutter B</h3>
 
                 <!-- Bending Stress Result -->
                 <div class="status-item">
@@ -62,14 +62,14 @@
         <!-- Action Buttons Container -->
         <div class="actions-container">
             <form th:action="@{/download-pdf}" method="get">
-                <button type="submit" class="header-btn download-btn">Download up to central check report in PDF</button>
+                <button type="submit" class="header-btn download-btn">Download report</button>
             </form>
 
-            <form th:if="${isCentralProfileCheckRequired and window_calculationMethodIsAB}" th:action="@{/window/centralProfileCheck}" method="get">
+            <form th:if="${isRedirectToCentralCheckRequired}" th:action="@{/window/centralProfileCheck}" method="get">
                 <button type="submit" class="btn btn-primary checkCentralProfile-btn">Check central profile</button>
             </form>
 
-            <form th:if="${!(isCentralProfileCheckRequired and window_calculationMethodIsAB) }" th:action="@{/window/outerProfileCheck}" method="get">
+            <form th:if="${isOuterCheckRequired}" th:action="@{/window/outerProfileCheck}" method="get">
                 <button type="submit" class="btn btn-primary checkCentralProfile-btn">Check outer profile</button>
             </form>
 

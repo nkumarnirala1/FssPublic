@@ -10,7 +10,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 
 @Component
-@Scope(value = WebApplicationContext.SCOPE_SESSION,  proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class DefaultInput {
 
     public SlidingInput prepareSlidingWindowInput() {
@@ -220,6 +220,17 @@ public class DefaultInput {
         outerProfileInput.setLegThickness(5.0);
 
         return outerProfileInput;
+    }
+
+    public CentralProfileInput CentralProfileDefaultInput(Model model, HttpSession session) {
+        CentralProfileInput centralProfileDefaultInput = new CentralProfileInput();
+
+        MullionInput mullionInput = new MullionInput();
+        prepareMullionDefaults(model, session, mullionInput);
+        centralProfileDefaultInput.setShutterA(mullionInput);
+        centralProfileDefaultInput.setShutterB(mullionInput);
+
+        return centralProfileDefaultInput;
     }
 
 

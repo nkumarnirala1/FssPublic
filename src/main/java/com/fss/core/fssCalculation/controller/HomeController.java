@@ -1,6 +1,8 @@
 package com.fss.core.fssCalculation.controller;
 
+import com.fss.core.fssCalculation.controller.utility.ControllerHelper;
 import com.fss.core.fssCalculation.controller.utility.DefaultInput;
+import com.fss.core.fssCalculation.controller.utility.FlowContext;
 import com.fss.core.fssCalculation.controller.utility.StoreSessionAttribute;
 import com.fss.core.fssCalculation.modal.*;
 
@@ -76,11 +78,16 @@ public class HomeController {
     @Autowired
     StoreSessionAttribute storeSessionAttribute;
 
+    @Autowired
+    FlowContext flowContext;
+
+    @Autowired
+    ControllerHelper controllerHelper;
+
     @ModelAttribute("inputHistory")
     public List<Map<String, Object>> inputHistory() {
         return new ArrayList<>();
     }
-
 
 
     @GetMapping({"/home", "/", "/calculate", "/calculate-deflection"})
@@ -225,22 +232,37 @@ public class HomeController {
     @PostMapping("/checkMullion")
     public String checkMullionProfile(Model model, HttpSession session) {
         String typeOfGlazing = (String) session.getAttribute("typeOfGlazing");
-        Double gridLength = (Double) session.getAttribute("gridLength");
-        Double windPressure = (Double) session.getAttribute("windPressure");
-        Double unsupportedLength = (Double) session.getAttribute("unsupportedLength");
-        Double stackBracket = (Double) session.getAttribute("stackBracket");
+        Double gridLength = null;
+        Double windPressure = null;
+        Double unsupportedLength = null;
+        Double stackBracket = null;
 
-        model.addAttribute("mullionInputForm", true);
-        // Create a new MullionInput with default values
+        String activeMenu = flowContext.getActiveMenu();
+        model.addAttribute("activeMenu", activeMenu);
+
+        List<String> activeForms = new ArrayList<>();
+        activeForms.add("show_mullion_Form");
+
+
+        if (activeMenu.equalsIgnoreCase("sliding")) {
+            Object slidingObject = flowContext.getInputValuesMap().get("sliding_input");
+
+            if (slidingObject != null) {
+                SlidingInput slidingInput = (SlidingInput) slidingObject;
+                gridLength = slidingInput.getGridLength();
+                windPressure = slidingInput.getWindPressure();
+                unsupportedLength = slidingInput.getUnsupportedLength();
+                stackBracket = 0.0;
+            }
+
+            flowContext.setActiveForm(activeForms);
+        }
+
         MullionInput mullionInput = new MullionInput();
         defaultInput.prepareMullionDefaults(model, session, mullionInput);
 
         // Add the mullionInput object to the model for form binding
-        model.addAttribute("mullion_input", mullionInput);
-        model.addAttribute("mullionInputForm", true);
-        model.addAttribute("activeMenu", "sliding");
-
-
+        flowContext.getInputValuesMap().put("mullion_input", mullionInput);
 
         if (gridLength == null || windPressure == null || unsupportedLength == null) {
             model.addAttribute("input", defaultInput.prepareDefaultInput());
@@ -249,6 +271,7 @@ public class HomeController {
 
         addInputToModel(model, unsupportedLength, windPressure, gridLength, stackBracket, typeOfGlazing);
 
+        controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
 
         return "glazing-form";
     }
@@ -259,11 +282,41 @@ public class HomeController {
                                        HttpSession session) {
 
         String typeOfGlazing = (String) session.getAttribute("typeOfGlazing");
-        Double gridLength = (Double) session.getAttribute("gridLength");
-        Double windPressure = (Double) session.getAttribute("windPressure");
-        Double unsupportedLength = (Double) session.getAttribute("unsupportedLength");
-        Double stackBracket = (Double) session.getAttribute("stackBracket");
+        Double gridLength = null;
+        Double windPressure = null;
+        Double unsupportedLength = null;
+        Double stackBracket = null;
 
+        String activeMenu = flowContext.getActiveMenu();
+        model.addAttribute("activeMenu", activeMenu);
+
+        List<String> activeForms = new ArrayList<>();
+        activeForms.add("show_mullion_result");
+
+
+        if (activeMenu.equalsIgnoreCase("sliding")) {
+            Object slidingObject = flowContext.getInputValuesMap().get("sliding_input");
+
+            boolean isCentralProfileCheckRequired = false;
+            if (slidingObject != null) {
+                SlidingInput slidingInput = (SlidingInput) slidingObject;
+                gridLength = slidingInput.getGridLength();
+                windPressure = slidingInput.getWindPressure();
+                unsupportedLength = slidingInput.getUnsupportedLength();
+                stackBracket = 0.0;
+                isCentralProfileCheckRequired = slidingInput.getCentralMeetingProfile();
+            }
+
+            if (isCentralProfileCheckRequired) {
+                activeForms.add("isCentralProfileCheckRequired");
+            } else {
+                activeForms.add("isOuterProfileCheckRequired");
+            }
+
+            flowContext.setActiveForm(activeForms);
+
+
+        }
         if (gridLength == null || windPressure == null || unsupportedLength == null) {
             model.addAttribute("input", defaultInput.prepareDefaultInput());
             return "glazing-form";//TODO
@@ -283,18 +336,7 @@ public class HomeController {
         defaultInput.prepareMullionDefaults(model, session, mullionInput);
         model.addAttribute("mullionInput", mullionInput);
 
-        Boolean isCetralProfileCheckRequired = false;
-        if(session.getAttribute("slidingInput")!=null)
-        {
-            Object slifingObject = session.getAttribute("slidingInput");
-
-            SlidingInput slidingInput = (SlidingInput) slifingObject;
-
-             isCetralProfileCheckRequired = slidingInput.getCentralMeetingProfile();
-        }
-
-        if(glazingInput.getTypeOfGlazing()==null)
-        {
+        if (glazingInput.getTypeOfGlazing() == null) {
             glazingInput.setTypeOfGlazing(session.getAttribute("typeOfGlazing").toString());
         }
 
@@ -309,20 +351,7 @@ public class HomeController {
             return handleErrorMullion(model, session, "All input values must be positive and non-zero", mullionInput);
         }
 
-        // add back glazing values from session if needed
-        model.addAttribute("unsupportedLength", unsupportedLength);
-        model.addAttribute("gridLength", gridLength);
-        model.addAttribute("windPressure", windPressure);
-        model.addAttribute("stackBracket", stackBracket);
-        model.addAttribute("typeOfGlazing", typeOfGlazing);
-
-        model.addAttribute("mullionInputForm", false);
-        model.addAttribute("show_mullion_result", true);
-        model.addAttribute("activeMenu", "sliding");//TODO
-        model.addAttribute("isCentralProfileCheckRequired", isCetralProfileCheckRequired);
-
-
-
+        controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
         return "glazing-form";
     }
 
@@ -370,7 +399,7 @@ public class HomeController {
 
         defaultInput.prepareTransomDefaults(model, session, transomInput);
         try {
-           TransomOutput transomOutput = checkTransomProfile.checkForTransomProfile(transomInput);
+            TransomOutput transomOutput = checkTransomProfile.checkForTransomProfile(transomInput);
 
             Map<String, Boolean> transomProfileResult = transomOutput.getResultMap();
 

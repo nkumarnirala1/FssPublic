@@ -12,7 +12,7 @@
 
                 <!-- Shutter A Form -->
                 <div class="profile-form">
-                    <h3>Central Profile Input for Shutter A</h3>
+                    <h3 th:text="${centralProfileTitle} + ' Input for Shutter A'">Input for Shutter A</h3>
 
                     <label for="userIxx1">User Ixx (cm⁴)</label>
                     <input type="number" step="0.01" id="userIxx1" name="userIxx" th:value="${userIxx}" required/>
@@ -50,7 +50,7 @@
 
                 <!-- Shutter B Form -->
                 <div class="profile-form">
-                    <h3>Central Profile Input for Shutter B</h3>
+                    <h3 th:text="${centralProfileTitle} + ' Input for Shutter B'">Input for Shutter B</h3>
 
                     <label for="userIxxB">User Ixx (cm⁴)</label>
                     <input type="number" step="0.01" id="userIxxB" name="userIxxB" th:value="${userIxx}" required/>

@@ -1,4 +1,4 @@
-<div id="results-marker" th:fragment="window_result" th:if="${slidingResult == true}" class="results-section fade-in"
+<div id="results-marker" th:fragment="window_result" class="results-section fade-in"
      xmlns:th="http://www.w3.org/1999/xhtml">
     <link rel="stylesheet" th:href="@{/css/window_result.css}">
     <h2 class="results-title">Calculation Results</h2>
@@ -13,11 +13,11 @@
         </tr>
     </table>
 
-    <form th:if="${window_calculationMethodIsAB == false }" th:action="@{/checkMullion}" method="post">
+    <form th:if="${isMullionCheckRequired}" th:action="@{/checkMullion}" method="post">
         <button type="submit" class="btn btn-primary checkMullion-btn">Check combined interlock profile</button>
     </form>
 
-    <form th:if="${window_calculationMethodIsAB == true }" th:action="@{/window/mullionCheckForAB}" method="get">
+    <form th:if="${isMullionCheckForABRequired}" th:action="@{/window/centralProfileCheck}" method="get">
         <button type="submit" class="btn btn-primary checkMullion-btn">Check combined interlock profile</button>
     </form>
 

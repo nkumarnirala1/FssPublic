@@ -1,7 +1,9 @@
 package com.fss.core.fssCalculation.controller;
 
 
+import com.fss.core.fssCalculation.controller.utility.ControllerHelper;
 import com.fss.core.fssCalculation.controller.utility.DefaultInput;
+import com.fss.core.fssCalculation.controller.utility.FlowContext;
 import com.fss.core.fssCalculation.controller.utility.PopulateInputHistory;
 import com.fss.core.fssCalculation.modal.input.CentralProfileInput;
 import com.fss.core.fssCalculation.modal.input.MullionInput;
@@ -13,10 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping("/window")
@@ -29,6 +28,12 @@ public class WindowController {
     @Autowired
     PopulateInputHistory populateInputHistory;
 
+    @Autowired
+    FlowContext flowContext;
+
+    @Autowired
+    ControllerHelper controllerHelper;
+
     @ModelAttribute("inputHistory")
     public List<Map<String, Object>> inputHistory() {
         return new ArrayList<>();
@@ -36,74 +41,127 @@ public class WindowController {
 
     // Show form
     @GetMapping("/ui")
-    public String showUi(@RequestParam(required = false) String activeMenu, Model model) {
+    public String showUi(@RequestParam(required = false) String activeMenu, Model model, HttpSession session) {
         if (activeMenu == null) {
             activeMenu = "sliding"; // default landing form
         }
+
+        flowContext.setActiveMenu(activeMenu);
+        flowContext.setActiveForm(new ArrayList<>(List.of("show_window_form")));
+        controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
         model.addAttribute("activeMenu", activeMenu);
         model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
 
-        return "glazing-form"; 
+        return "glazing-form";
     }
 
-    
     @PostMapping("/calculate")
     public String calculate(@ModelAttribute("sliding_input") SlidingInput slidingInput, @ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model, HttpSession session) {
 
 
+        String activeMenu = flowContext.getActiveMenu();
+        flowContext.setCalculationMethod(slidingInput.getCalculationMethod());
+        HashMap<String, Object> inputMap = new HashMap<>();
+        inputMap.put("sliding_input", slidingInput);
+        flowContext.setInputValuesMap(inputMap);
 
-        history.add(populateInputHistory.populateSlidingWindowHistory(slidingInput));
-        session.setAttribute("typeOfGlazing", "Sliding window");
-        session.setAttribute("slidingInput", slidingInput);
-        session.setAttribute("window_calculationMethod", slidingInput.getCalculationMethod());
+        List<String> activeForms = new ArrayList<>();
 
-        if (slidingInput.getCalculationMethod().equalsIgnoreCase("a+b")) {
-            model.addAttribute("window_calculationMethodIsAB", true);
-        } else {
-            model.addAttribute("window_calculationMethodIsAB", false);
+        if (activeMenu.equalsIgnoreCase("sliding")) {
+
+            history.add(populateInputHistory.populateSlidingWindowHistory(slidingInput));
+            session.setAttribute("typeOfGlazing", "Sliding window");
+
+
+            // Keep input values so form can re-render with them
+            model.addAttribute("sliding_input", slidingInput);
+            model.addAttribute("Ixx", 9.9);
+            model.addAttribute("deflection", 9.9);
+            model.addAttribute("activeMenu", "sliding");
+            activeForms.add("show_window_result");
+            if ("a+b".equalsIgnoreCase(flowContext.getCalculationMethod())) {
+                activeForms.add("isMullionCheckForABRequired");
+            } else {
+
+                activeForms.add("isMullionCheckRequired");
+            }
+
+            flowContext.setActiveForm(activeForms);
+
         }
 
-
-        // Keep input values so form can re-render with them
-        model.addAttribute("sliding_input", slidingInput);
-        model.addAttribute("Ixx", 9.9);
-        model.addAttribute("deflection", 9.9);
-        model.addAttribute("activeMenu", "sliding");
-        model.addAttribute("slidingResult", true);
+        controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
         return "glazing-form"; // or redirect to a result page
     }
 
 
     @GetMapping("/centralProfileCheck")
-    public String centralProfileCheck(@RequestParam(required = false) String activeMenu, Model model, HttpSession session) {
+    public String centralProfileCheck(Model model, HttpSession session) {
 
-        if (activeMenu == null) {
-            activeMenu = "sliding"; // default tab
+        String activeMenu = flowContext.getActiveMenu();
+        model.addAttribute("activeMenu", activeMenu);
+        model.addAttribute("centralProfileInput", defaultInput.CentralProfileDefaultInput(model, session));
+
+
+        if ("sliding".equalsIgnoreCase(activeMenu)) {
+
+
+            if ("a+b".equalsIgnoreCase(flowContext.getCalculationMethod())) {
+                model.addAttribute("centralProfileTitle", "A+B interlock Profile");
+
+            } else {
+                model.addAttribute("centralProfileTitle", "central Profile");
+            }
         }
 
-        // keep previous inputs if needed
-        model.addAttribute("activeMenu", activeMenu);
-
-        CentralProfileInput centralProfileDefaultInput = new CentralProfileInput();
-
-        MullionInput mullionInput = new MullionInput();
-        defaultInput.prepareMullionDefaults(model, session, mullionInput);
-        centralProfileDefaultInput.setShutterA(mullionInput);
-        centralProfileDefaultInput.setShutterB(mullionInput);
-
-
-        model.addAttribute("centralProfileInput", centralProfileDefaultInput);
-
-
         model.addAttribute("show_central_profile_form", true);
-        model.addAttribute("centralProfileTitle", "central Profile");
 
         return "glazing-form"; // loads your main page
     }
 
     @PostMapping("/submitCentralProfile")
     public String submitCentralProfile(@ModelAttribute CentralProfileInput input, Model model, HttpSession session) {
-        // process input.getShutterA(), input.getShutterB()
+
+        String activeMenu = flowContext.getActiveMenu();
+        model.addAttribute("activeMenu", activeMenu);
+
+        List<String> activeForms = new ArrayList<>();
+        activeForms.add("show_central_profile_result");
+
+
+        boolean isCentralProfileCheckRequired = false;
+        if (activeMenu.equalsIgnoreCase("sliding")) {
+
+            Object slidingObject = flowContext.getInputValuesMap().get("sliding_input");
+
+            if (slidingObject != null) {
+                SlidingInput slidingInput = (SlidingInput) slidingObject;
+
+                isCentralProfileCheckRequired = slidingInput.getCentralMeetingProfile();
+            }
+            if ("a+b".equalsIgnoreCase(flowContext.getCalculationMethod())) {
+                model.addAttribute("centralProfileTitle", "A+B interlock Profile");
+
+                if (isCentralProfileCheckRequired && (null == flowContext.getRedirectToCentralProfile() || !flowContext.getRedirectToCentralProfile())) {
+                    flowContext.setRedirectToCentralProfile(true);
+                } else {
+                    flowContext.setRedirectToCentralProfile(false);
+                }
+
+
+            } else {
+                model.addAttribute("centralProfileTitle", "central Profile");
+            }
+
+            if (null != flowContext.getRedirectToCentralProfile() && flowContext.getRedirectToCentralProfile()) {
+                activeForms.add("isRedirectToCentralCheckRequired");
+            } else {
+                activeForms.add("isOuterCheckRequired");
+            }
+
+            flowContext.setActiveForm(activeForms);
+        }
+
 
         model.addAttribute("bendingStressA", true);
         model.addAttribute("shearStressA", true);
@@ -112,57 +170,8 @@ public class WindowController {
         model.addAttribute("shearStressB", true);
 
         model.addAttribute("activeMenu", "sliding");
-        model.addAttribute("show_central_profile_result", true);
 
-
-        String calculationMethod = session.getAttribute("window_calculationMethod") != null ? session.getAttribute("window_calculationMethod").toString() : null;
-
-        if (calculationMethod != null && calculationMethod.equalsIgnoreCase("a+b")) {
-
-
-            Object obj = session.getAttribute("redirectedFromMullionAB");
-
-            boolean redirectedFromMullionAB= false;
-            if(obj!=null)
-            {
-                redirectedFromMullionAB = (Boolean) obj;
-            }
-
-
-            model.addAttribute("window_calculationMethodIsAB", redirectedFromMullionAB);
-            session.setAttribute("redirectedFromMullionAB", false);
-
-
-            Boolean isCetralProfileCheckRequired = false;
-            if (session.getAttribute("slidingInput") != null) {
-                Object slifingObject = session.getAttribute("slidingInput");
-
-                SlidingInput slidingInput = (SlidingInput) slifingObject;
-
-                isCetralProfileCheckRequired = slidingInput.getCentralMeetingProfile();
-            }
-            model.addAttribute("isCentralProfileCheckRequired", isCetralProfileCheckRequired);
-
-            if(!isCetralProfileCheckRequired)
-            {
-                model.addAttribute("centralProfileTitle", "A+B interlock Profile");
-
-            }
-            else {
-                model.addAttribute("centralProfileTitle", "central Profile");
-
-            }
-
-        }
-        else
-        {
-            model.addAttribute("centralProfileTitle", "central Profile");
-            model.addAttribute("window_calculationMethodIsAB", false);
-            model.addAttribute("isCentralProfileCheckRequired", false);
-
-
-        }
-
+        controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
 
         return "glazing-form";
     }
@@ -196,31 +205,20 @@ public class WindowController {
     }
 
     @GetMapping("/mullionCheckForAB")
-    public String mullionProfileCheckAB(@RequestParam(required = false) String activeMenu, Model model, HttpSession session) {
+    public String mullionProfileCheckAB(Model model, HttpSession session) {
 
-        if (activeMenu == null) {
-            activeMenu = "sliding"; // default tab
-        }
+        String activeMenu = flowContext.getActiveMenu();
+        List<String> activeForms = new ArrayList<>();
 
-        // keep previous inputs if needed
+
         model.addAttribute("activeMenu", activeMenu);
-
-        CentralProfileInput centralProfileDefaultInput = new CentralProfileInput();
-
-        MullionInput mullionInput = new MullionInput();
-        defaultInput.prepareMullionDefaults(model, session, mullionInput);
-        centralProfileDefaultInput.setShutterA(mullionInput);
-        centralProfileDefaultInput.setShutterB(mullionInput);
-
-
-        model.addAttribute("centralProfileInput", centralProfileDefaultInput);
-
-
+        model.addAttribute("centralProfileInput", defaultInput.CentralProfileDefaultInput(model, session));
         model.addAttribute("show_central_profile_form", true);
         model.addAttribute("centralProfileTitle", "A+B interlock Profile");
-        session.setAttribute("redirectedFromMullionAB", true);
+
 
         return "glazing-form"; // loads your main page
     }
+
 
 }
