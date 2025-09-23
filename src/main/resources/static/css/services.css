@@ -1,0 +1,132 @@
+.services-section {
+    background: #F6FBFF;
+    padding: 44px 0 44px 0;
+    text-align: center;
+    scroll-margin-top: 70px;
+}
+
+.services-headline {
+    font-size: 2.7rem;
+    font-weight: bold;
+    margin-bottom: 18px;
+    color: #18212F;
+}
+.services-subheading {
+    font-size: 1.38rem;
+    color: #6987B4;
+    margin-bottom: 40px;
+}
+
+.services-cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 36px;
+    justify-content: center;
+    align-items: stretch;
+    max-width: 1110px;
+    margin: 0 auto 36px auto;
+}
+
+.service-card {
+    background: #fff;
+    border: 2px solid #F0F6FF;
+    border-radius: 22px;
+    box-shadow: 0 4px 24px rgba(48,141,255,0.07);
+    width: 350px;
+    min-width: 320px;
+    max-width: 370px;
+    padding: 38px 24px 34px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 1rem;
+    position: relative;
+    transition: border-color .2s, box-shadow .2s;
+}
+.service-card:hover {
+    border-color: #308DFF;
+    box-shadow: 0 8px 32px rgba(48,141,255,0.16);
+}
+
+.primary-card {
+    border: 2px solid #308DFF;
+    box-shadow: 0 6px 38px rgba(48,141,255,0.15);
+}
+
+.card-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    font-size: 2.3rem;
+}
+
+.service-card h2 {
+    font-size: 1.26rem;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+    color: #1A2947;
+}
+.service-card p {
+    color: #6987B4;
+    margin-bottom: 14px;
+    font-size: 1.07rem;
+}
+.service-card ul {
+    margin: 0 0 17px 0;
+    padding-left: 18px;
+    color: #29354D;
+    font-size: 1.04rem;
+}
+.service-card ul li {
+    margin-bottom: 7px;
+}
+
+.get-quote-btn {
+    background: #fff;
+    color: #308DFF;
+    border: 2px solid #308DFF;
+    font-weight: 600;
+    border-radius: 14px;
+    padding: 13px 0;
+    width: 98%;
+    box-shadow: 0 2px 4px rgba(48,141,255,0.11);
+    text-align: center;
+    text-decoration: none;
+    font-size: 1.09rem;
+    margin-top: auto;
+    transition: background .17s, color .17s;
+    display: block;
+}
+.get-quote-btn:hover {
+    background: #308DFF;
+    color: #fff;
+}
+.primary-btn {
+    background: #308DFF;
+    color: #fff;
+    border: 2px solid #308DFF;
+}
+.primary-btn:hover {
+    background: #308DFF;
+    color: #fff;
+}
+
+@media (max-width: 1100px) {
+    .services-cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 32px;
+        max-width: 98vw;
+    }
+    .service-card {
+        width: 98vw;
+        max-width: 410px;
+        margin-bottom: 0;
+    }
+}
