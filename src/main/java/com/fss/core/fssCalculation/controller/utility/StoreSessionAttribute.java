@@ -6,7 +6,10 @@ import com.fss.core.fssCalculation.service.ReportGen.Utility;
 import com.fss.core.fssCalculation.service.elements.inertia.ZxxCal;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 
 @Component
 public class StoreSessionAttribute {
@@ -38,5 +41,10 @@ public class StoreSessionAttribute {
 
         double zxx = zxxCal.calculateZxx(mullionInput.getUserIxx(), mullionInput.getBoundingboxy());
         session.setAttribute("zxx_mullion", zxx);
+    }
+
+    public void manageSlidingWindowSession()
+    {
+
     }
 }

@@ -2,10 +2,15 @@ package com.fss.core.fssCalculation.controller.utility;
 
 import com.fss.core.fssCalculation.modal.input.*;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
+import org.springframework.context.annotation.Scope;
+import org.springframework.web.context.WebApplicationContext;
+
 
 @Component
+@Scope(value = WebApplicationContext.SCOPE_SESSION,  proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class DefaultInput {
 
     public SlidingInput prepareSlidingWindowInput() {

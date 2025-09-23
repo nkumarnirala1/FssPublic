@@ -2,6 +2,7 @@ package com.fss.core.fssCalculation.controller;
 
 
 import com.fss.core.fssCalculation.controller.utility.DefaultInput;
+import com.fss.core.fssCalculation.controller.utility.PopulateInputHistory;
 import com.fss.core.fssCalculation.modal.input.CentralProfileInput;
 import com.fss.core.fssCalculation.modal.input.MullionInput;
 import com.fss.core.fssCalculation.modal.input.OuterProfileInput;
@@ -25,6 +26,9 @@ public class WindowController {
     @Autowired
     DefaultInput defaultInput;
 
+    @Autowired
+    PopulateInputHistory populateInputHistory;
+
     @ModelAttribute("inputHistory")
     public List<Map<String, Object>> inputHistory() {
         return new ArrayList<>();
@@ -39,38 +43,18 @@ public class WindowController {
         model.addAttribute("activeMenu", activeMenu);
         model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
 
-        return "index"; // loads your main page
+        return "glazing-form"; 
     }
 
-    // Handle form submit
+    
     @PostMapping("/calculate")
     public String calculate(@ModelAttribute("sliding_input") SlidingInput slidingInput, @ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model, HttpSession session) {
 
 
-        Map<String, Object> inputs = new LinkedHashMap<>();
-        inputs.put("Unsupported Length (mm)", slidingInput.getUnsupportedLength());
-        inputs.put("Grid Length (mm)", slidingInput.getGridLength());
-        inputs.put("Wind Pressure (kN/m²)", slidingInput.getWindPressure());
-        inputs.put("Glass Thickness (mm)", slidingInput.getGlassThickness());
-        inputs.put("Central Meeting Profile", slidingInput.getCentralMeetingProfile());
-        inputs.put("calculation Method",slidingInput.getCalculationMethod());
-        inputs.put("isCentralprofileCheckRequired", slidingInput.getCentralMeetingProfile());
-        inputs.put("Transom to transom Distance", slidingInput.getTransomToTransomDistance());
 
-        session.setAttribute("unsupportedLength", slidingInput.getUnsupportedLength());
-        session.setAttribute("gridLength", slidingInput.getGridLength());
-        session.setAttribute("windPressure", slidingInput.getWindPressure());
+        history.add(populateInputHistory.populateSlidingWindowHistory(slidingInput));
         session.setAttribute("typeOfGlazing", "Sliding window");
         session.setAttribute("slidingInput", slidingInput);
-
-        // entry wrapper
-        Map<String, Object> entry = new LinkedHashMap<>();
-        entry.put("formName", "Combined Input");   // friendly title
-        entry.put("inputs", inputs);
-
-        history.add(entry);
-
-
         session.setAttribute("window_calculationMethod", slidingInput.getCalculationMethod());
 
         if (slidingInput.getCalculationMethod().equalsIgnoreCase("a+b")) {
@@ -112,7 +96,7 @@ public class WindowController {
 
 
         model.addAttribute("show_central_profile_form", true);
-        model.addAttribute("centralProfileTitle", "central Profile Input");
+        model.addAttribute("centralProfileTitle", "central Profile");
 
         return "glazing-form"; // loads your main page
     }
@@ -135,6 +119,7 @@ public class WindowController {
 
         if (calculationMethod != null && calculationMethod.equalsIgnoreCase("a+b")) {
 
+
             Object obj = session.getAttribute("redirectedFromMullionAB");
 
             boolean redirectedFromMullionAB= false;
@@ -143,7 +128,8 @@ public class WindowController {
                 redirectedFromMullionAB = (Boolean) obj;
             }
 
-                model.addAttribute("window_calculationMethodIsAB", redirectedFromMullionAB);
+
+            model.addAttribute("window_calculationMethodIsAB", redirectedFromMullionAB);
             session.setAttribute("redirectedFromMullionAB", false);
 
 
@@ -157,9 +143,20 @@ public class WindowController {
             }
             model.addAttribute("isCentralProfileCheckRequired", isCetralProfileCheckRequired);
 
+            if(!isCetralProfileCheckRequired)
+            {
+                model.addAttribute("centralProfileTitle", "A+B interlock Profile");
+
+            }
+            else {
+                model.addAttribute("centralProfileTitle", "central Profile");
+
+            }
+
         }
         else
         {
+            model.addAttribute("centralProfileTitle", "central Profile");
             model.addAttribute("window_calculationMethodIsAB", false);
             model.addAttribute("isCentralProfileCheckRequired", false);
 
@@ -220,7 +217,7 @@ public class WindowController {
 
 
         model.addAttribute("show_central_profile_form", true);
-        model.addAttribute("centralProfileTitle", "A+B interlock Profile Input");
+        model.addAttribute("centralProfileTitle", "A+B interlock Profile");
         session.setAttribute("redirectedFromMullionAB", true);
 
         return "glazing-form"; // loads your main page
