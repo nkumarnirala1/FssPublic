@@ -43,7 +43,7 @@ public class WindowController {
         model.addAttribute("activeMenu", activeMenu);
         model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
 
-        return "glazing-form"; 
+        return "index";
     }
 
     

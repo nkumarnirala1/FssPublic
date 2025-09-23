@@ -1,49 +1,186 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Fascade Home</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            color: #333;
-        }
-        .container {
-            text-align: center;
-            background: #ffffffc9;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        }
-        h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
-        p {
-            font-size: 1.2em;
-            color: #555;
-        }
-        img {
-            max-width: 60%;
-            height: auto;
-            margin-top: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-    </style>
+    <title>Facade Structural Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/services.css">
+    <link rel="stylesheet" href="/css/testimonial.css">
+    <link rel="stylesheet" href="/css/about.css">
+    <link rel="stylesheet" href="/css/contact.css">
 </head>
 <body>
-<div class="container">
-    <h1>Welcome to the world of  Facade</h1>
-    <p>This is a simple and beautiful homepage built using Spring Boot and Thymeleaf.</p>
-    <img src="https://scontent.fdel27-7.fna.fbcdn.net/v/t1.6435-9/141287776_168730871706075_6536969184547929140_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=KKI4qdrnRRkQ7kNvwGiST1d&_nc_oc=AdmhamBrqkvLkxnml44mQdK_0mtebGhzPona1EgLTP5FXEGRlOL9fpNr5w7M23djXKt56zgCWXMDalLEpiHKjdZE&_nc_zt=23&_nc_ht=scontent.fdel27-7.fna&_nc_gid=oSaQd2QUpx-Gyev0bBIzeA&oh=00_AfIxscetK2RIMDQXE2FgeqanU0Wq1oGJHLeaSefas_PiRw&oe=68575486" alt="Fascade Image">
-</div>
+<!-- Navigation Bar -->
+<nav class="navbar">
+    <div class="logo">Facade Structural Services</div>
+    <ul class="nav-links">
+        <li><a href="#hero">Home</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="#login">Login</a></li>
+        <li><a href="#register">Register</a></li>
+    </ul>
+</nav>
+<!-- Hero Section -->
+<section id="hero" class="hero-section">
+    <div class="hero-bg">
+        <!-- facade image or background -->
+    </div>
+    <div class="hero-content">
+        <h1>Expert Facade Structural Solutions</h1>
+        <p>For Commercial & Residential Projects.<br>Precision, Excellence, Trust.</p>
+        <a href="#" class="cta-btn">Request a Quote</a>
+    </div>
+</section>
+<!-- Place each new section below with its own id: e.g. id="services", etc. -->
+<section id="services" class="services-section">
+    <h1 class="services-headline">For Architects, Developers & Consultants</h1>
+    <p class="services-subheading">Comprehensive design and consultation services to bring your façade vision to life with technical precision and cost efficiency.</p>
+    <div class="services-cards">
+        <!-- Card 1 -->
+        <div class="service-card">
+            <div class="card-icon" style="background:#D1F3EA;">
+                <span>🏢</span>
+            </div>
+            <h2>Façade Design & Consultation</h2>
+            <p>Complete façade design solutions for architects and developers</p>
+            <ul>
+                <li>Architectural façade concept development</li>
+                <li>Performance analysis and optimization</li>
+                <li>Building code compliance review</li>
+            </ul>
+            <a href="#" class="get-quote-btn">Get Quote &rarr;</a>
+        </div>
+        <!-- Card 2 -->
+        <div class="service-card primary-card">
+            <div class="card-icon" style="background:#CFE3FC;">
+                <span>🧮</span>
+            </div>
+            <h2>Estimation & Cost Planning</h2>
+            <p>Accurate cost estimation and budget planning services</p>
+            <ul>
+                <li>Detailed quantity take-offs</li>
+                <li>Material and labor cost analysis</li>
+                <li>Value engineering recommendations</li>
+            </ul>
+            <a href="#" class="get-quote-btn primary-btn">Get Quote &rarr;</a>
+        </div>
+        <!-- Card 3 -->
+        <div class="service-card">
+            <div class="card-icon" style="background:#D1F3EA;">
+                <span>📄</span>
+            </div>
+            <h2>System Design & Tender Drawings</h2>
+            <p>Technical drawings and specifications for tender processes</p>
+            <ul>
+                <li>Detailed technical specifications</li>
+                <li>Construction documentation</li>
+                <li>Contractor coordination support</li>
+            </ul>
+            <a href="#" class="get-quote-btn">Get Quote &rarr;</a>
+        </div>
+    </div>
+</section>
+<!-- testimonials----------->
+<section id="testimonials" class="testimonials-section">
+    <h2>What Our Clients Say</h2>
+    <div class="testimonials-cards">
+        <div class="testimonial-card">
+            <div class="testimonial-info">
+                <span class="testimonial-name">Amit Kumar</span>
+                <span class="testimonial-role">Project Manager</span>
+                <span class="testimonial-rating">★★★★★</span>
+            </div>
+            <p>"Professional approach and stunning results. Highly recommended for all facade needs."</p>
+        </div>
+        <div class="testimonial-card">
+            <div class="testimonial-info">
+                <span class="testimonial-name">Priya Singh</span>
+                <span class="testimonial-role">Architect</span>
+                <span class="testimonial-rating">★★★★★</span>
+            </div>
+            <p>"Expert technical team and great design solutions. Made our work much easier!"</p>
+        </div>
+        <div class="testimonial-card">
+            <div class="testimonial-info">
+                <span class="testimonial-name">Suresh Patel</span>
+                <span class="testimonial-role">Builder</span>
+                <span class="testimonial-rating">★★★★☆</span>
+            </div>
+            <p>"Quick estimation and fabrication services, very satisfied with their process."</p>
+        </div>
+    </div>
+    <div class="client-stats">
+        <div class="client-stat">
+            <h3>800+</h3>
+            <span>Happy Clients</span>
+        </div>
+        <div class="client-stat">
+            <h3>97%</h3>
+            <span>Satisfaction Rate</span>
+        </div>
+        <div class="client-stat">
+            <h3>85%</h3>
+            <span>Repeat Clients</span>
+        </div>
+    </div>
+</section>
+<!-- about------ -->
+<section id="about" class="about-section">
+    <div class="about-content">
+        <h2>Why Choose Us</h2>
+        <p class="about-mission">Delivering excellence in facade structural services since <span class="about-year">2015</span>. Our mission is precision, performance, and client success on every project.</p>
+        <ul class="about-values">
+            <li><strong>Quality Assurance:</strong> Certified processes & skilled engineers</li>
+            <li><strong>Innovative Solutions:</strong> Modern tech for design & fabrication</li>
+            <li><strong>Client Commitment:</strong> Transparent communication & timely delivery</li>
+        </ul>
+    </div>
+    <div class="about-stats">
+        <div class="about-stat">
+            <h3>10+ Years</h3>
+            <span>Industry Experience</span>
+        </div>
+        <div class="about-stat">
+            <h3>250+ Projects</h3>
+            <span>Completed</span>
+        </div>
+        <div class="about-stat">
+            <h3>ISO 9001</h3>
+            <span>Certified Company</span>
+        </div>
+    </div>
+</section>
+<!-- contact------- -->
+<section id="contact" class="contact-section">
+    <div class="contact-info">
+        <h2>Contact Us</h2>
+        <p>Get in touch for inquiries, quotes, or collaboration. Our team will respond promptly to help you start your next project!</p>
+        <ul class="contact-details">
+            <li><strong>Email:</strong> info@facadestructural.com</li>
+            <li><strong>Phone:</strong> +91 90090 12345</li>
+            <li><strong>Location:</strong> New Delhi, India</li>
+            <li><strong>Business Hours:</strong> Mon-Sat 9AM–7PM</li>
+        </ul>
+    </div>
+    <div class="contact-form-map">
+        <form class="contact-form">
+            <h3>Send Inquiry</h3>
+            <input type="text" name="name" placeholder="Your Name" required>
+            <input type="email" name="email" placeholder="Your Email" required>
+            <input type="tel" name="phone" placeholder="Phone Number" required>
+            <textarea name="details" rows="4" placeholder="Project Details"></textarea>
+            <button type="submit" class="contact-submit">Send Message</button>
+            <div class="form-note">We respect your privacy and keep all inquiries confidential.</div>
+        </form>
+        <div class="contact-map">
+            <div class="map-placeholder">[Map Placeholder]</div>
+        </div>
+    </div>
+</section>
+
 </body>
 </html>
