@@ -1,0 +1,68 @@
+<div id="mullion-flow-content" class="mullion-flow-content" th:fragment="transom_input" xmlns:th="http://www.w3.org/1999/xhtml">
+    <link rel="stylesheet" th:href="@{/css/mullion-form.css}">
+
+    <div id="sliding-flow" th:classappend="${activeMenu == 'sliding' or activeMenu == 'casement' or activeMenu == 'semi-unitized'} ? '' : ' hidden'">
+        <h2 >Transom Profile Input</h2>
+        <form th:action="@{/submitTransomProfile}" th:object="${transomInput}" method="post" class="transom-form">
+
+            <!-- Grid Length -->
+            <label>Grid Length:</label>
+            <input type="number" step="0.01" th:field="*{gridLength}" required />
+
+            <!-- Wind Pressure -->
+            <label>Wind Pressure:</label>
+            <input type="number" step="0.01" th:field="*{windPressure}" required />
+
+            <!-- Glass Thickness -->
+            <label>Glass Thickness:</label>
+            <input type="number" step="0.01" th:field="*{glassThickness}" required />
+
+            <!-- Top Panel Height -->
+            <label>Transom Top Panel Height:</label>
+            <input type="number" step="0.01" th:field="*{transomTopPanelHeight}" required />
+
+            <!-- Bottom Panel Height -->
+            <label>Transom Bottom Panel Height:</label>
+            <input type="number" step="0.01" th:field="*{transomBottomPanelHeight}" required />
+
+            <!-- Depth of Section -->
+            <label>Depth of Section (Transom):</label>
+            <input type="number" step="0.01" th:field="*{depthOfSectionTransom}" required />
+
+            <!-- Thickness t2 -->
+            <label>T2 (Transom):</label>
+            <input type="number" step="0.01" th:field="*{t2Transom}" required />
+
+            <!-- Thickness t1 -->
+            <label>T1 (Transom):</label>
+            <input type="number" step="0.01" th:field="*{thicknessTaTransom_t1}" required />
+
+            <!-- Ixx -->
+            <label>Transom Ixx:</label>
+            <input type="number" step="0.01" th:field="*{transomIxx}" required />
+
+            <!-- Iyy -->
+            <label>Transom Iyy:</label>
+            <input type="number" step="0.01" th:field="*{transomIyy}" required />
+
+            <!-- Bounding Box Y -->
+            <label>Bounding Box Y:</label>
+            <input type="number" step="0.01" th:field="*{transomBoundingBoxY}" required />
+
+            <!-- Cross Sectional Area -->
+            <label>Cross Sectional Area:</label>
+            <input type="number" step="0.01" th:field="*{transomCrossSectionalArea}" required />
+
+            <!-- Unsupported Length -->
+            <label>Unsupported Length (Transom):</label>
+            <input type="number" step="0.01" th:field="*{transomUnsupportedLength}" required />
+
+            <!-- Section Width B -->
+            <label>Section Width (B):</label>
+            <input type="number" step="0.01" th:field="*{sectionWidthB}" required />
+
+            <!-- Submit Button -->
+            <button type="submit">Submit Transom Profile</button>
+        </form>
+    </div>
+</div>

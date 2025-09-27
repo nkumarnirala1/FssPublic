@@ -1,0 +1,63 @@
+<div id="semiUnitized-flow-content" class="semiUnitized-flow-content" th:fragment="semiUnitized_input" xmlns:th="http://www.w3.org/1999/xhtml">
+    <link rel="stylesheet" th:href="@{/css/semiUnitized-form.css}">
+
+    <div id="semi-unitized-flow" th:classappend="${activeMenu == 'semi-unitized'} ? '' : ' hidden'">
+        <h2>Semi-Unitized profile Input</h2>
+        <form th:action="@{/unitized/semi-unitized}" method="post" th:object="${semiUnitizedInput}" class="glazing-form">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
+            <div class="semi-unitized-form-split">
+                <!-- Left Column -->
+                <div class="form-column-left">
+                    <div class="form-group">
+                        <label for="calculationMethod">Calculation Method</label>
+                        <select id="calculationMethod" th:field="*{calculationMethod}" required>
+                            <option value="" disabled>Select calculation Method</option>
+                            <option value="IN TO IN SEMI UNITIZED">In To In</option>
+                            <option value="SINGLE BRACKET SEMI UNITIZED">Single Bracket</option>
+                            <option value="DOUBLE BRACKET SEMI UNITIZED">Double Bracket</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="unsupportedLength">Unsupported Length (mm)</label>
+                        <input type="number" id="unsupportedLength" th:field="*{unsupportedLength}"
+                               placeholder="Enter length in mm" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="gridLength">Grid Length (mm)</label>
+                        <input type="number" id="gridLength" th:field="*{gridLength}"
+                               placeholder="Enter length in mm" required/>
+                    </div>
+                </div>
+
+                <!-- Right Column -->
+                <div class="form-column-right">
+                    <div class="form-group">
+                        <label for="windPressure">Wind Pressure (kN/m²)</label>
+                        <input type="number" id="windPressure" th:field="*{windPressure}"
+                               step="0.01" placeholder="Enter pressure" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="glassThickness">Glass Thickness (mm)</label>
+                        <input type="number" step="0.01" id="glassThickness" th:field="*{glassThickness}" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="semi-unitized_topPanelHeight">Top Panel height (mm)</label>
+                        <input type="number" step="0.01" id="semi-unitized_topPanelHeight" th:field="*{topPanelHeight}" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="semi-unitized_bottomPanelHeight">Bottom Panel height (mm)</label>
+                        <input type="number" step="0.01" id="semi-unitized_bottomPanelHeight" th:field="*{bottomPanelHeight}" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="semi-unitized_settingBlockLocation">Setting Block Location (mm)</label>
+                        <input type="number" step="0.01" id="semi-unitized_settingBlockLocation" th:field="*{settingBlockLocation}" required/>
+                    </div>
+                    <div class="form-submit-wrapper">
+                        <button type="submit">Calculate</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

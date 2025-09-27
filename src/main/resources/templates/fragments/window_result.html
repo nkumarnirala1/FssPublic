@@ -1,14 +1,14 @@
 <div id="results-marker" th:fragment="window_result" class="results-section fade-in"
      xmlns:th="http://www.w3.org/1999/xhtml">
     <link rel="stylesheet" th:href="@{/css/window_result.css}">
-    <h2 class="results-title">Calculation Results</h2>
+    <h2 class="results-title">Preliminary Results</h2>
     <table class="results-table">
         <tr>
-            <th>Ixx</th>
+            <th>Required Ixx</th>
             <td th:text="${Ixx}"></td>
         </tr>
         <tr>
-            <th>Deflection</th>
+            <th>Required Deflection</th>
             <td th:text="${deflection}"></td>
         </tr>
     </table>

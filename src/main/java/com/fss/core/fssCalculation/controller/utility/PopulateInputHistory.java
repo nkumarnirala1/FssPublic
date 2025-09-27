@@ -1,6 +1,7 @@
 package com.fss.core.fssCalculation.controller.utility;
 
 import com.fss.core.fssCalculation.modal.input.CasementInput;
+import com.fss.core.fssCalculation.modal.input.SemiUnitizedInput;
 import com.fss.core.fssCalculation.modal.input.SlidingInput;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -46,6 +47,26 @@ public class PopulateInputHistory {
         inputs.put("Setting Block Location", casementInput.getSettingBlockLocation());
         Map<String, Object> entry = new LinkedHashMap<>();
         entry.put("formName", "Casement Window Input");   // friendly title
+        entry.put("inputs", inputs);
+
+        return entry;
+    }
+
+    public Map<String, Object> populateSemiUnitizedInputHistory(SemiUnitizedInput semiUnitizedInput) {
+        Map<String, Object> inputs = new LinkedHashMap<>();
+        inputs.put("Unsupported Length (mm)", semiUnitizedInput.getUnsupportedLength());
+        inputs.put("Grid Length (mm)", semiUnitizedInput.getGridLength());
+        inputs.put("Wind Pressure (kN/m²)", semiUnitizedInput.getWindPressure());
+        inputs.put("Glass Thickness (mm)", semiUnitizedInput.getGlassThickness());
+        inputs.put("Central Meeting Profile", semiUnitizedInput.getCentralMeetingProfile());
+        inputs.put("calculation Method", semiUnitizedInput.getCalculationMethod());
+        inputs.put("isCentralProfileCheckRequired", semiUnitizedInput.getCentralMeetingProfile());
+        inputs.put("Transom to transom Distance", semiUnitizedInput.getTransomToTransomDistance());
+        inputs.put("Top panel Height", semiUnitizedInput.getTopPanelHeight());
+        inputs.put("Bottom panel Height", semiUnitizedInput.getBottomPanelHeight());
+        inputs.put("Setting Block Location", semiUnitizedInput.getSettingBlockLocation());
+        Map<String, Object> entry = new LinkedHashMap<>();
+        entry.put("formName", "Semi-Unitized Input");
         entry.put("inputs", inputs);
 
         return entry;

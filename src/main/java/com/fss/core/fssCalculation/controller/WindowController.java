@@ -244,7 +244,7 @@ public class WindowController {
     }
 
     @GetMapping("/horizontal")
-    public String HorizontalProfileLoad(@RequestParam(required = false) String activeMenu, Model model, HttpSession session) {
+    public String loadHorizontalProfile(@RequestParam(required = false) String activeMenu, Model model, HttpSession session) {
 
         if (activeMenu == null) {
             activeMenu = "casement"; // default tab
@@ -265,10 +265,15 @@ public class WindowController {
     @PostMapping("/submitHorizontalProfile")
     public String submitHorizontalProfile(@ModelAttribute MullionInput mullionInput, Model model) {
 
+        String activeMenu = flowContext.getActiveMenu();
+        if (activeMenu == null) {
+            activeMenu = "casement"; // default tab
+        }
+
+        // keep previous inputs if needed
+        model.addAttribute("activeMenu", activeMenu);
         model.addAttribute("horizontalBendingStress", true);
         model.addAttribute("horizontalShearStress", true);
-
-        model.addAttribute("activeMenu", "sliding");
         model.addAttribute("show_horizontal_profile_result", true);
 
 
