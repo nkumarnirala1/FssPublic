@@ -6,10 +6,7 @@ import com.fss.core.fssCalculation.controller.utility.FlowContext;
 import com.fss.core.fssCalculation.controller.utility.StoreSessionAttribute;
 import com.fss.core.fssCalculation.modal.*;
 
-import com.fss.core.fssCalculation.modal.input.GlazingInput;
-import com.fss.core.fssCalculation.modal.input.MullionInput;
-import com.fss.core.fssCalculation.modal.input.SlidingInput;
-import com.fss.core.fssCalculation.modal.input.TransomInput;
+import com.fss.core.fssCalculation.modal.input.*;
 import com.fss.core.fssCalculation.modal.output.MullionProfileOutput;
 import com.fss.core.fssCalculation.modal.output.TransomOutput;
 import com.fss.core.fssCalculation.service.ReportGen.ExcelSheetGenerator;
@@ -249,8 +246,12 @@ public class HomeController {
         activeForms.add("show_mullion_Form");
 
 
-        if (activeMenu.equalsIgnoreCase("sliding")) {
+        if ("sliding".equalsIgnoreCase(activeMenu)) {
             Object slidingObject = flowContext.getInputValuesMap().get("sliding_input");
+            if (!("a+b".equalsIgnoreCase(flowContext.getCalculationMethod()))) {
+                model.addAttribute("centralProfileTitle", "combined interlock Profile");
+
+            }
 
             if (slidingObject != null) {
                 SlidingInput slidingInput = (SlidingInput) slidingObject;
@@ -299,7 +300,7 @@ public class HomeController {
         activeForms.add("show_mullion_result");
 
 
-        if (activeMenu.equalsIgnoreCase("sliding")) {
+        if ("sliding".equalsIgnoreCase(activeMenu)) {
             Object slidingObject = flowContext.getInputValuesMap().get("sliding_input");
 
             boolean isCentralProfileCheckRequired = false;
@@ -322,6 +323,7 @@ public class HomeController {
 
 
         }
+
         if (gridLength == null || windPressure == null || unsupportedLength == null) {
             model.addAttribute("input", defaultInput.prepareDefaultInput());
             return "glazing-form";//TODO

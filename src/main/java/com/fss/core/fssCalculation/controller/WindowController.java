@@ -5,10 +5,7 @@ import com.fss.core.fssCalculation.controller.utility.ControllerHelper;
 import com.fss.core.fssCalculation.controller.utility.DefaultInput;
 import com.fss.core.fssCalculation.controller.utility.FlowContext;
 import com.fss.core.fssCalculation.controller.utility.PopulateInputHistory;
-import com.fss.core.fssCalculation.modal.input.CentralProfileInput;
-import com.fss.core.fssCalculation.modal.input.MullionInput;
-import com.fss.core.fssCalculation.modal.input.OuterProfileInput;
-import com.fss.core.fssCalculation.modal.input.SlidingInput;
+import com.fss.core.fssCalculation.modal.input.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -59,7 +56,7 @@ public class WindowController {
     }
 
     @PostMapping("/sliding")
-    public String calculate(@ModelAttribute("sliding_input") SlidingInput slidingInput, @ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model, HttpSession session) {
+    public String sliding(@ModelAttribute("sliding_input") SlidingInput slidingInput, @ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model, HttpSession session) {
 
 
         String activeMenu = flowContext.getActiveMenu();
@@ -207,5 +204,75 @@ public class WindowController {
         return "glazing-form";
     }
 
+    @PostMapping("/casement")
+    public String casement(@ModelAttribute("casement_input") CasementInput casementInput, @ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model, HttpSession session) {
+
+
+        String activeMenu = flowContext.getActiveMenu();
+        flowContext.setCalculationMethod(casementInput.getCalculationMethod());
+        HashMap<String, Object> inputMap = new HashMap<>();
+        inputMap.put("casement_input", casementInput);
+        flowContext.setInputValuesMap(inputMap);
+
+        List<String> activeForms = new ArrayList<>();
+
+        if (activeMenu.equalsIgnoreCase("casement")) {
+
+            history.add(populateInputHistory.populateCasementInputHistory(casementInput));
+
+
+            // Keep input values so form can re-render with them
+            model.addAttribute("casement_input", casementInput);
+            model.addAttribute("Ixx", 9.9);
+            model.addAttribute("deflection", 9.9);
+            model.addAttribute("activeMenu", "casement");
+            activeForms.add("show_window_result");
+//            if ("a+b".equalsIgnoreCase(flowContext.getCalculationMethod())) {
+//                activeForms.add("isMullionCheckForABRequired");
+//            } else {
+//
+//                activeForms.add("isMullionCheckRequired");
+//            }
+
+            activeForms.add("isHorizontalCheckRequired");
+            flowContext.setActiveForm(activeForms);
+
+        }
+
+        controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
+        return "glazing-form"; // or redirect to a result page
+    }
+
+    @GetMapping("/horizontal")
+    public String HorizontalProfileLoad(@RequestParam(required = false) String activeMenu, Model model, HttpSession session) {
+
+        if (activeMenu == null) {
+            activeMenu = "casement"; // default tab
+        }
+
+        // keep previous inputs if needed
+        model.addAttribute("activeMenu", activeMenu);
+        model.addAttribute("show_Horizontal_form", true);
+
+        MullionInput mullionInput = new MullionInput();
+        defaultInput.prepareMullionDefaults(model, session, mullionInput);
+
+        model.addAttribute("mullion_input", mullionInput);
+
+        return "glazing-form"; // loads your main page
+    }
+
+    @PostMapping("/submitHorizontalProfile")
+    public String submitHorizontalProfile(@ModelAttribute MullionInput mullionInput, Model model) {
+
+        model.addAttribute("horizontalBendingStress", true);
+        model.addAttribute("horizontalShearStress", true);
+
+        model.addAttribute("activeMenu", "sliding");
+        model.addAttribute("show_horizontal_profile_result", true);
+
+
+        return "glazing-form";
+    }
 
 }
