@@ -60,6 +60,14 @@
                 <div th:replace="fragments/outer_profile_result ::outer_profile_result"></div>
             </div>
 
+            <div th:if="${show_Horizontal_form}">
+                <div th:replace="fragments/horizontal_input ::horizontal_input"></div>
+            </div>
+
+            <div th:if="${show_horizontal_profile_result}">
+                <div th:replace="fragments/horizontal_result ::horizontal_result"></div>
+            </div>
+
 
             <!-- Semi-Unitized -->
             <div th:if="${activeMenu == 'semi-unitized' and Ixx == null}">

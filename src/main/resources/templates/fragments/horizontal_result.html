@@ -1,0 +1,33 @@
+
+<div class="result-wrapper-mullion" th:fragment="horizontal_result" th:if="${horizontalBendingStress != null and horizontalShearStress != null}" xmlns:th="http://www.w3.org/1999/xhtml">
+    <link rel="stylesheet" th:href="@{/css/mullian_result.css}">
+    <div class="result-container-mullion" th:classappend="${activeMenu == 'sliding' or activeMenu == 'casement'} ? '' : ' hidden'">
+        <h2>Horizontal Profile Results</h2>
+
+        <!-- Bending Stress Result -->
+        <p th:if="${horizontalBendingStress}" style="color: green; font-weight: bold;">
+            ✅ Profile is safe under combined axial and bending stress
+        </p>
+        <p th:if="${horizontalBendingStress == false}" style="color: red; font-weight: bold;">
+            ❌ Profile is unsafe under combined axial and bending stress
+        </p>
+
+        <!-- Shear Stress Result -->
+        <p th:if="${horizontalShearStress}" style="color: green; font-weight: bold;">
+            ✅ Profile is safe under shear stress
+        </p>
+        <p th:if="${horizontalShearStress == false}" style="color: red; font-weight: bold;">
+            ❌ Profile is unsafe under shear stress
+        </p>
+
+        <form th:action="@{/download-pdf}" method="get">
+            <button type="submit" class="header-btn download-btn">Download PDF</button>
+        </form>
+
+        <form th:action="@{/window/ui(activeMenu=${'sliding'})}" method="get">
+            <button type="submit" class="btn btn-primary checkCentralProfile-btn">Check for Sliding Window</button>
+        </form>
+
+
+    </div>
+</div>

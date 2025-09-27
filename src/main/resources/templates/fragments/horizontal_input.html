@@ -1,10 +1,10 @@
-<div id="mullion-flow-content" class="mullion-flow-content" th:fragment="mullion_input" xmlns:th="http://www.w3.org/1999/xhtml">
+<div id="mullion-flow-content" class="mullion-flow-content" th:fragment="horizontal_input" xmlns:th="http://www.w3.org/1999/xhtml">
     <link rel="stylesheet" th:href="@{/css/mullion-form.css}">
 
     <div id="sliding-flow" th:classappend="${activeMenu == 'sliding' or activeMenu == 'casement'} ? '' : ' hidden'">
-        <h2>combined interlock profile Input</h2>
+        <h2 >Horizontal profile Input</h2>
 
-        <form th:action="@{/submitMullionProfile}" method="post" class="profile-form-split" th:object="${mullion_input}">
+        <form th:action="@{/window/submitHorizontalProfile}" method="post" class="profile-form-split" th:object="${mullion_input}">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
             <!-- Left Column - 6 inputs -->

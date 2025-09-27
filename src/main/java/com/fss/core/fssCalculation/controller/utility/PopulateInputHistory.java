@@ -1,5 +1,6 @@
 package com.fss.core.fssCalculation.controller.utility;
 
+import com.fss.core.fssCalculation.modal.input.CasementInput;
 import com.fss.core.fssCalculation.modal.input.SlidingInput;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -25,6 +26,26 @@ public class PopulateInputHistory {
         inputs.put("Transom to transom Distance", slidingInput.getTransomToTransomDistance());
         Map<String, Object> entry = new LinkedHashMap<>();
         entry.put("formName", "Combined Input");   // friendly title
+        entry.put("inputs", inputs);
+
+        return entry;
+    }
+
+    public Map<String, Object> populateCasementInputHistory(CasementInput casementInput) {
+        Map<String, Object> inputs = new LinkedHashMap<>();
+        inputs.put("Unsupported Length (mm)", casementInput.getUnsupportedLength());
+        inputs.put("Grid Length (mm)", casementInput.getGridLength());
+        inputs.put("Wind Pressure (kN/m²)", casementInput.getWindPressure());
+        inputs.put("Glass Thickness (mm)", casementInput.getGlassThickness());
+        inputs.put("Central Meeting Profile", casementInput.getCentralMeetingProfile());
+        inputs.put("calculation Method", casementInput.getCalculationMethod());
+        inputs.put("isCentralProfileCheckRequired", casementInput.getCentralMeetingProfile());
+        inputs.put("Transom to transom Distance", casementInput.getTransomToTransomDistance());
+        inputs.put("Top panel Height", casementInput.getTopPanelHeight());
+        inputs.put("Bottom panel Height", casementInput.getBottomPanelHeight());
+        inputs.put("Setting Block Location", casementInput.getSettingBlockLocation());
+        Map<String, Object> entry = new LinkedHashMap<>();
+        entry.put("formName", "Casement Window Input");   // friendly title
         entry.put("inputs", inputs);
 
         return entry;

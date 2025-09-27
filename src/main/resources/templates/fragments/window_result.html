@@ -21,5 +21,9 @@
         <button type="submit" class="btn btn-primary checkMullion-btn">Check combined interlock profile</button>
     </form>
 
+    <form th:if="${isHorizontalCheckRequired}" th:action="@{/window/horizontal}" method="get">
+        <button type="submit" class="btn btn-primary checkMullion-btn">Check horizontal profile</button>
+    </form>
+
 
 </div>
