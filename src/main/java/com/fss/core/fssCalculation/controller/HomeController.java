@@ -233,7 +233,7 @@ public class HomeController {
 
     @PostMapping("/checkMullion")
     public String checkMullionProfile(Model model, HttpSession session) {
-        String typeOfGlazing = (String) session.getAttribute("typeOfGlazing");
+        String typeOfGlazing = null;
         Double gridLength = null;
         Double windPressure = null;
         Double unsupportedLength = null;
@@ -259,9 +259,24 @@ public class HomeController {
                 windPressure = slidingInput.getWindPressure();
                 unsupportedLength = slidingInput.getUnsupportedLength();
                 stackBracket = 0.0;
+                typeOfGlazing = "Sliding window";
+            }
+            model.addAttribute("mullionProfileTitle", "Combined Interlock Profile");
+
+
+        } else if ("semi-unitized".equalsIgnoreCase(activeMenu)) {
+            Object semiUnitizedObject = flowContext.getInputValuesMap().get("semiUnitized_input");
+
+            if (semiUnitizedObject != null) {
+                SemiUnitizedInput semiUnitizedInput = (SemiUnitizedInput) semiUnitizedObject;
+                gridLength = semiUnitizedInput.getGridLength();
+                windPressure = semiUnitizedInput.getWindPressure();
+                unsupportedLength = semiUnitizedInput.getUnsupportedLength();
+                stackBracket = 0.0;
+                typeOfGlazing = semiUnitizedInput.getCalculationMethod();
             }
 
-            flowContext.setActiveForm(activeForms);
+            model.addAttribute("mullionProfileTitle", "Mullion Profile");
         }
 
         MullionInput mullionInput = new MullionInput();
@@ -276,6 +291,8 @@ public class HomeController {
         }
 
         addInputToModel(model, unsupportedLength, windPressure, gridLength, stackBracket, typeOfGlazing);
+
+        flowContext.setActiveForm(activeForms);
 
         controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
 
@@ -319,9 +336,22 @@ public class HomeController {
                 activeForms.add("isOuterProfileCheckRequired");
             }
 
-            flowContext.setActiveForm(activeForms);
+            model.addAttribute("mullionProfileResultTitle", "Combined Interlock Profile");
 
 
+        } else if ("semi-unitized".equalsIgnoreCase(activeMenu)) {
+            Object semiUnitizedObject = flowContext.getInputValuesMap().get("semiUnitized_input");
+
+            if (semiUnitizedObject != null) {
+                SemiUnitizedInput semiUnitizedInput = (SemiUnitizedInput) semiUnitizedObject;
+                gridLength = semiUnitizedInput.getGridLength();
+                windPressure = semiUnitizedInput.getWindPressure();
+                unsupportedLength = semiUnitizedInput.getUnsupportedLength();
+                stackBracket = 0.0;
+            }
+
+            activeForms.add("isTransomProfileCheckRequired");
+            model.addAttribute("mullionProfileResultTitle", "Mullion Profile");
         }
 
         if (gridLength == null || windPressure == null || unsupportedLength == null) {
@@ -358,17 +388,36 @@ public class HomeController {
             return handleErrorMullion(model, session, "All input values must be positive and non-zero", mullionInput);
         }
 
+        flowContext.setActiveForm(activeForms);
+
         controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
         return "glazing-form";
     }
 
-    @PostMapping("/checkTransom")
+    @GetMapping("/checkTransom")
     public String checkTransomProfile(Model model, HttpSession session) {
-        String typeOfGlazing = (String) session.getAttribute("typeOfGlazing");
-        Double gridLength = (Double) session.getAttribute("gridLength");
-        Double windPressure = (Double) session.getAttribute("windPressure");
-        Double unsupportedLength = (Double) session.getAttribute("unsupportedLength");
-        Double stackBracket = (Double) session.getAttribute("stackBracket");
+        String typeOfGlazing = null;
+        Double gridLength = null;
+        Double windPressure = null;
+        Double unsupportedLength = null;
+
+        String activeMenu = flowContext.getActiveMenu();
+        model.addAttribute("activeMenu", activeMenu);
+
+        List<String> activeForms = new ArrayList<>();
+        activeForms.add("show_transom_form");
+        if ("semi-unitized".equalsIgnoreCase(activeMenu)) {
+            Object semiUnitizedObject = flowContext.getInputValuesMap().get("semiUnitized_input");
+
+            if (semiUnitizedObject != null) {
+                SemiUnitizedInput semiUnitizedInput = (SemiUnitizedInput) semiUnitizedObject;
+                gridLength = semiUnitizedInput.getGridLength();
+                windPressure = semiUnitizedInput.getWindPressure();
+                unsupportedLength = semiUnitizedInput.getUnsupportedLength();
+                typeOfGlazing = semiUnitizedInput.getCalculationMethod();
+            }
+
+        }
 
         if (gridLength == null || windPressure == null || unsupportedLength == null) {
             model.addAttribute("input", defaultInput.prepareDefaultInput());
@@ -379,7 +428,10 @@ public class HomeController {
         defaultInput.prepareTransomDefaults(model, session, transomInput);
         model.addAttribute("transomInput", transomInput);
 
-        return "transom-form";
+        flowContext.setActiveForm(activeForms);
+        controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
+
+        return "glazing-form";
     }
 
     @PostMapping("/submitTransomProfile")
@@ -387,11 +439,29 @@ public class HomeController {
                                        Model model,
                                        HttpSession session) {
 
-        String typeOfGlazing = (String) session.getAttribute("typeOfGlazing");
-        Double gridLength = (Double) session.getAttribute("gridLength");
-        Double windPressure = (Double) session.getAttribute("windPressure");
-        Double unsupportedLength = (Double) session.getAttribute("unsupportedLength");
-        Double stackBracket = (Double) session.getAttribute("stackBracket");
+        String typeOfGlazing = null;
+        Double gridLength = null;
+        Double windPressure = null;
+        Double unsupportedLength = null;
+        Double stackBracket = 0.0;
+
+        String activeMenu = flowContext.getActiveMenu();
+        model.addAttribute("activeMenu", activeMenu);
+
+        List<String> activeForms = new ArrayList<>();
+        activeForms.add("show_transom_result");
+        if ("semi-unitized".equalsIgnoreCase(activeMenu)) {
+            Object semiUnitizedObject = flowContext.getInputValuesMap().get("semiUnitized_input");
+
+            if (semiUnitizedObject != null) {
+                SemiUnitizedInput semiUnitizedInput = (SemiUnitizedInput) semiUnitizedObject;
+                gridLength = semiUnitizedInput.getGridLength();
+                windPressure = semiUnitizedInput.getWindPressure();
+                unsupportedLength = semiUnitizedInput.getUnsupportedLength();
+                typeOfGlazing = semiUnitizedInput.getCalculationMethod();
+            }
+
+        }
 
         if (gridLength == null || windPressure == null || unsupportedLength == null) {
             model.addAttribute("input", defaultInput.prepareDefaultInput());
@@ -423,8 +493,9 @@ public class HomeController {
         model.addAttribute("windPressure", windPressure);
         model.addAttribute("stackBracket", stackBracket);
         model.addAttribute("typeOfGlazing", typeOfGlazing);
-
-        return "transom-form";
+        flowContext.setActiveForm(activeForms);
+        controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
+        return "glazing-form";
     }
 
     @GetMapping("/download-pdf")

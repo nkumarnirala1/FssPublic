@@ -1,8 +1,8 @@
 
-<div class="result-wrapper-mullion" th:fragment="mullion_result" th:if="${bendingStress != null and shearStress != null}" xmlns:th="http://www.w3.org/1999/xhtml">
+<div class="result-wrapper-mullion" th:fragment="transom_result" th:if="${bendingStress != null and shearStress != null}" xmlns:th="http://www.w3.org/1999/xhtml">
     <link rel="stylesheet" th:href="@{/css/mullian_result.css}">
     <div class="result-container-mullion" th:classappend="${activeMenu == 'sliding' or activeMenu == 'casement' or activeMenu == 'semi-unitized'} ? '' : ' hidden'">
-        <h2 th:text="${mullionProfileResultTitle} + ' Result'">Mullion Profile Results</h2>
+        <h2>Transom Profile Results</h2>
 
         <!-- Bending Stress Result -->
         <p th:if="${bendingStress}" style="color: green; font-weight: bold;">
@@ -22,18 +22,6 @@
 
         <form th:action="@{/download-pdf}" method="get">
             <button type="submit" class="header-btn download-btn">Download PDF</button>
-        </form>
-
-        <form th:if="${isCentralProfileCheckRequired}" th:action="@{/window/centralProfileCheck}" method="get">
-            <button type="submit" class="btn btn-primary checkCentralProfile-btn">Check central profile</button>
-        </form>
-
-        <form th:if="${isOuterProfileCheckRequired}" th:action="@{/window/outerProfileCheck}" method="get">
-            <button type="submit" class="btn btn-primary checkCentralProfile-btn">Check outer profile</button>
-        </form>
-
-        <form th:if="${isTransomProfileCheckRequired}" th:action="@{/checkTransom}" method="get">
-            <button type="submit" class="btn btn-primary checkCentralProfile-btn">Check Mullion profile</button>
         </form>
     </div>
 </div>

@@ -16,6 +16,7 @@ public class DefaultInput {
     public SlidingInput prepareSlidingWindowInput() {
         SlidingInput slidingInput = new SlidingInput();
 
+
         slidingInput.setUnsupportedLength(3000.0);
         slidingInput.setGridLength(1200.0);
         slidingInput.setWindPressure(2.35);
@@ -42,6 +43,24 @@ public class DefaultInput {
 
 
         return casementInput;
+    }
+
+    public CommonInput prepareSemiUnitizedInput() {
+        CommonInput semiUnitizedInput = new SemiUnitizedInput();
+
+        semiUnitizedInput.setCalculationMethod("inToIn");
+        semiUnitizedInput.setUnsupportedLength(3000.0);
+        semiUnitizedInput.setGridLength(1200.0);
+        semiUnitizedInput.setWindPressure(2.35);
+        semiUnitizedInput.setGlassThickness(12.00);
+        semiUnitizedInput.setCentralMeetingProfile(false);
+        semiUnitizedInput.setTransomToTransomDistance(3000.0);
+        semiUnitizedInput.setTopPanelHeight(3000.0);
+        semiUnitizedInput.setBottomPanelHeight(3000.0);
+        semiUnitizedInput.setSettingBlockLocation(3000.0);
+
+
+        return semiUnitizedInput;
     }
 
     public void prepareMullionDefaults(Model model, HttpSession session, MullionInput mullionInput) {

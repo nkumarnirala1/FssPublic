@@ -27,69 +27,64 @@
 
                 <div th:replace="fragments/window :: window"></div>
             </div>
-
             <div th:if="${show_window_result}">
                 <div th:replace="fragments/window_result :: window_result"></div>
             </div>
-
-
             <div th:if="${show_mullion_Form}">
                 <div th:replace="fragments/mullion_input ::mullion_input"></div>
             </div>
-
             <div th:if="${show_mullion_result}">
                 <div th:replace="fragments/mullion_result ::mullion_result"></div>
             </div>
-
             <div th:if="${show_central_profile_form}">
 
                 <div th:replace="fragments/central_profile_input ::central_profile_input"></div>
             </div>
-
             <div th:if="${show_central_profile_result}">
                 <div th:replace="fragments/central_profile_result ::central_profile_result"></div>
             </div>
-
             <div th:if="${show_outer_profile_form}">
-
                 <div th:replace="fragments/outer_profile_input ::outer_profile_input"></div>
             </div>
-
             <div th:if="${show_outer_profile_result}">
 
                 <div th:replace="fragments/outer_profile_result ::outer_profile_result"></div>
             </div>
-
             <div th:if="${show_Horizontal_form}">
                 <div th:replace="fragments/horizontal_input ::horizontal_input"></div>
             </div>
-
             <div th:if="${show_horizontal_profile_result}">
                 <div th:replace="fragments/horizontal_result ::horizontal_result"></div>
             </div>
 
 
             <!-- Semi-Unitized -->
-            <div th:if="${activeMenu == 'semi-unitized' and Ixx == null}">
-                <div id="semi-form" class="form-section">
-                    <h2>Semi Unitized Form</h2>
-                    <!-- form here -->
+            <div th:if="${activeMenu == 'semi-unitized'}">
+                <div th:if="${show_semiUnitized_form}">
+                    <div th:replace="fragments/semiUnitized_input ::semiUnitized_input"></div>
+                </div>
+
+                <div th:if="${show_semiUnitized_result}">
+                    <div th:replace="fragments/semiUnitized_result ::semiUnitized_result"></div>
+                </div>
+
+                <div th:if="${show_transom_form}">
+                    <div th:replace="fragments/transom_input ::transom_input"></div>
+                </div>
+
+                <div th:if="${show_transom_result}">
+                    <div th:replace="fragments/transom_result ::transom_result"></div>
                 </div>
             </div>
 
             <!-- Fully Unitized -->
-            <div th:if="${activeMenu == 'fully-unitized' and Ixx == null}">
+            <div th:if="${activeMenu == 'fully-unitized' }">
                 <div id="fully-form" class="form-section">
                     <h2>Fully Unitized Form</h2>
                     <!-- form here -->
                 </div>
             </div>
 
-
-            <!-- Default Placeholder -->
-            <div th:if="${activeMenu == null}">
-                Please select a form from the left sidebar to begin.
-            </div>
 
         </div>
     </main>
