@@ -50,14 +50,19 @@
 
                 <div th:replace="fragments/outer_profile_result ::outer_profile_result"></div>
             </div>
-            <div th:if="${show_Horizontal_form}">
-                <div th:replace="fragments/horizontal_input ::horizontal_input"></div>
-            </div>
-            <div th:if="${show_horizontal_profile_result}">
-                <div th:replace="fragments/horizontal_result ::horizontal_result"></div>
-            </div>
 
 
+            <div th:if="${activeMenu == 'casement'}">
+                <div th:if="${show_window_casement_form}">
+                    <div th:replace="fragments/window_casement_input ::window_casement_input"></div>
+                </div>
+                <div th:if="${show_Horizontal_form}">
+                    <div th:replace="fragments/horizontal_input ::horizontal_input"></div>
+                </div>
+                <div th:if="${show_horizontal_profile_result}">
+                    <div th:replace="fragments/horizontal_result ::horizontal_result"></div>
+                </div>
+            </div>
             <!-- Semi-Unitized -->
             <div th:if="${activeMenu == 'semi-unitized'}">
                 <div th:if="${show_semiUnitized_form}">

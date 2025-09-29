@@ -1,11 +1,13 @@
 package com.fss.core.fssCalculation.controller;
 
+import com.fss.core.fssCalculation.constants.Constants;
 import com.fss.core.fssCalculation.controller.utility.ControllerHelper;
 import com.fss.core.fssCalculation.controller.utility.DefaultInput;
 import com.fss.core.fssCalculation.controller.utility.FlowContext;
 import com.fss.core.fssCalculation.controller.utility.StoreSessionAttribute;
-import com.fss.core.fssCalculation.modal.*;
 
+import com.fss.core.fssCalculation.modal.generic.DownloadReportElement;
+import com.fss.core.fssCalculation.modal.generic.ExcelElement;
 import com.fss.core.fssCalculation.modal.input.*;
 import com.fss.core.fssCalculation.modal.output.MullionProfileOutput;
 import com.fss.core.fssCalculation.modal.output.TransomOutput;
@@ -391,6 +393,11 @@ public class HomeController {
         flowContext.setActiveForm(activeForms);
 
         controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
+
+        DownloadReportElement downloadReportElement = new DownloadReportElement(Constants.OUTER_LEG_CHECK_EXCEL);
+        downloadReportElement.getObjectList().add("");//TODO add output Object
+        flowContext.getDownloadFormList().add(downloadReportElement);
+
         return "glazing-form";
     }
 
@@ -495,6 +502,10 @@ public class HomeController {
         model.addAttribute("typeOfGlazing", typeOfGlazing);
         flowContext.setActiveForm(activeForms);
         controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
+
+        DownloadReportElement downloadReportElement = new DownloadReportElement(Constants.OUTER_LEG_CHECK_EXCEL);
+        downloadReportElement.getObjectList().add("");//TODO add output Object
+        flowContext.getDownloadFormList().add(downloadReportElement);
         return "glazing-form";
     }
 

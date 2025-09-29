@@ -1,7 +1,7 @@
 <div id="window-flow-content" class="flow-content" th:fragment="window" xmlns:th="http://www.thymeleaf.org">
     <link rel="stylesheet" th:href="@{/css/window.css}">
     <!-- Sliding Flow -->
-    <div id="sliding-flow" th:classappend="${activeMenu == 'sliding'} ? '' : ' hidden'">
+    <div id="sliding-flow" th:classappend="${activeMenu == 'sliding' or activeMenu == 'casement'} ? '' : ' hidden'">
         <h2>Sliding Window Input</h2>
         <form th:action="@{/window/sliding}" method="post" th:object="${sliding_input}" class="glazing-form">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
@@ -63,88 +63,4 @@
         </form>
     </div>
 
-    <!-- Casement Flow (unchanged, as before) -->
-    <div id="casement-flow" th:classappend="${activeMenu == 'casement'} ? '' : ' hidden'">
-        <h2>Casement Window Forms</h2>
-        <form th:action="@{/window/casement}" method="post" th:object="${casement_input}" class="glazing-form">
-            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-
-            <div class="sliding-form-split">
-                <!-- Left Column: 4 Inputs -->
-                <div class="form-column-left">
-                    <div class="form-group">
-                        <label for="casement_calculationMethod">Calculation Method</label>
-                        <select id="casement_calculationMethod" th:field="*{calculationMethod}" required>
-                            <option value="" disabled>Select calculation Method</option>
-                            <option value="combined">Combined</option>
-                            <option value="a+b">A+B</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="casement_unsupportedLength">Unsupported Length/Horizontal Profile (mm)</label>
-                        <input type="number" id="casement_unsupportedLength" name="casement_unsupportedLength"
-                               th:value="*{unsupportedLength}"
-                               placeholder="Enter length in mm" required/>
-                    </div>
-                    <div class="form-group">
-                        <label for="casement_transomToTransomDistance">Transom To Transom Distance (mm)</label>
-                        <input type="number" id="casement_transomToTransomDistance"
-                               name="casement_transomToTransomDistance"
-                               th:value="*{transomToTransomDistance}" placeholder="Enter length in mm" required/>
-                    </div>
-                    <div class="form-group">
-                        <label for="casement_gridLength">Grid Length (mm)</label>
-                        <input type="number" id="casement_gridLength" name="casement_gridLength"
-                               th:value="*{gridLength}"
-                               placeholder="Enter length in mm" required/>
-                    </div>
-                </div>
-                <!-- Right Column: 3 Inputs + Button -->
-                <div class="form-column-right">
-                    <div class="form-group">
-                        <label for="casement_windPressure">Wind Pressure (kN/m²)</label>
-                        <input type="number" id="casement_windPressure" name="casement_windPressure"
-                               th:value="*{windPressure}" step="0.01"
-                               placeholder="Enter pressure" required/>
-                    </div>
-                    <div class="form-group">
-                        <label for="casement_glassThickness">Glass Thickness (mm)</label>
-                        <input type="number" step="0.01" id="casement_glassThickness" th:field="*{glassThickness}"
-                               required/>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="casement_topPanelHeight">Top Panel height (mm)</label>
-                        <input type="number" step="0.01" id="casement_topPanelHeight" th:field="*{topPanelHeight}"
-                               required/>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="casement_bottomPanelHeight">Bottom Panel height (mm)</label>
-                        <input type="number" step="0.01" id="casement_bottomPanelHeight" th:field="*{bottomPanelHeight}"
-                               required/>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="casement_settingBlockLocation">Setting Block Location (mm)</label>
-                        <input type="number" step="0.01" id="casement_settingBlockLocation"
-                               th:field="*{settingBlockLocation}" required/>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="casement_centralMeetingProfile">Central Meeting Profile</label>
-                        <select id="casement_centralMeetingProfile" th:field="*{centralMeetingProfile}" required>
-                            <option value="" disabled selected>Select Yes/No</option>
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
-                        </select>
-                    </div>
-                    <div class="form-submit-wrapper">
-                        <button type="submit">Calculate</button>
-                    </div>
-                </div>
-            </div>
-        </form>
-
-    </div>
 </div>

@@ -1,10 +1,12 @@
 package com.fss.core.fssCalculation.controller;
 
 
+import com.fss.core.fssCalculation.constants.Constants;
 import com.fss.core.fssCalculation.controller.utility.ControllerHelper;
 import com.fss.core.fssCalculation.controller.utility.DefaultInput;
 import com.fss.core.fssCalculation.controller.utility.FlowContext;
 import com.fss.core.fssCalculation.controller.utility.PopulateInputHistory;
+import com.fss.core.fssCalculation.modal.generic.DownloadReportElement;
 import com.fss.core.fssCalculation.modal.input.*;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,20 +39,28 @@ public class WindowController {
     }
 
     // Show form
-    @GetMapping({"/ui"})
+    @GetMapping({"/ui",""})
     public String showUi(@RequestParam(required = false) String activeMenu, Model model, HttpSession session) {
         if (activeMenu == null) {
             activeMenu = "sliding"; // default landing form
         }
 
         flowContext.setActiveMenu(activeMenu);
-        flowContext.setActiveForm(new ArrayList<>(List.of("show_window_form")));
-        controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
         model.addAttribute("activeMenu", activeMenu);
+        List<String> activeForms = new ArrayList<>();
 
-        model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
+        if ("sliding".equalsIgnoreCase(activeMenu)) {
+            activeForms.add("show_window_form");
+            model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
 
-        model.addAttribute("casement_input", defaultInput.prepareCasementWindowInput());
+        } else if ("casement".equalsIgnoreCase(activeMenu)) {
+            activeForms.add("show_window_casement_form");
+            model.addAttribute("casement_input", defaultInput.prepareCasementWindowInput());
+
+        }
+        flowContext.setActiveForm(activeForms);
+        controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
+        flowContext.getDownloadFormList().clear(); //clear form
 
         return "glazing-form";
     }
@@ -173,6 +183,10 @@ public class WindowController {
 
         controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
 
+        DownloadReportElement downloadReportElement = new DownloadReportElement(Constants.CENTRAL_CHECK_EXCEL);
+        downloadReportElement.getObjectList().add("");//TODO add output Object
+        flowContext.getDownloadFormList().add(downloadReportElement);
+
         return "glazing-form";
     }
 
@@ -200,6 +214,10 @@ public class WindowController {
         model.addAttribute("activeMenu", "sliding");
         model.addAttribute("show_outer_profile_result", true);
 
+        DownloadReportElement downloadReportElement = new DownloadReportElement(Constants.OUTER_LEG_CHECK_EXCEL);
+        downloadReportElement.getObjectList().add("");//TODO add output Object
+        flowContext.getDownloadFormList().add(downloadReportElement);
+
 
         return "glazing-form";
     }
@@ -225,14 +243,8 @@ public class WindowController {
             model.addAttribute("casement_input", casementInput);
             model.addAttribute("Ixx", 9.9);
             model.addAttribute("deflection", 9.9);
-            model.addAttribute("activeMenu", "casement");
+            model.addAttribute("activeMenu", activeMenu);
             activeForms.add("show_window_result");
-//            if ("a+b".equalsIgnoreCase(flowContext.getCalculationMethod())) {
-//                activeForms.add("isMullionCheckForABRequired");
-//            } else {
-//
-//                activeForms.add("isMullionCheckRequired");
-//            }
 
             activeForms.add("isHorizontalCheckRequired");
             flowContext.setActiveForm(activeForms);
@@ -240,6 +252,8 @@ public class WindowController {
         }
 
         controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
+
+        flowContext.getDownloadFormList().clear(); //clear form
         return "glazing-form"; // or redirect to a result page
     }
 
@@ -276,6 +290,9 @@ public class WindowController {
         model.addAttribute("horizontalShearStress", true);
         model.addAttribute("show_horizontal_profile_result", true);
 
+        DownloadReportElement downloadReportElement = new DownloadReportElement(Constants.HORIZONTAL_CHECK_EXCEL);
+        downloadReportElement.getObjectList().add("");//TODO add output Object
+        flowContext.getDownloadFormList().add(downloadReportElement);
 
         return "glazing-form";
     }
