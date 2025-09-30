@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>Facade Structural Services</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Preload logo for crisp header rendering -->
+    <link rel="preload" as="image" href="/images/fsslogo2.jpg">
     <link rel="stylesheet" href="/css/home.css">
     <link rel="stylesheet" href="/css/services.css">
     <link rel="stylesheet" href="/css/testimonial.css">
@@ -13,38 +15,48 @@
 <body>
 <!-- Navigation Bar -->
 <nav class="navbar">
-    <div class="logo">Facade Structural Services</div>
+    <a href="/" class="brand" aria-label="Facade Structural Services Home">
+        <img src="/images/fsslogo2.jpg" class="brand-logo" alt="Facade Structural Services logo">
+        <span class="brand-text">Facade Structural Services</span>
+    </a>
     <ul class="nav-links">
         <li><a href="#hero">Home</a></li>
         <li><a href="#services">Services</a></li>
         <li><a href="#testimonials">Testimonials</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/register">Register</a></li>
+        <li><a href="#login">Login</a></li>
+        <li><a href="#register">Register</a></li>
     </ul>
 </nav>
+
 <!-- Hero Section -->
 <section id="hero" class="hero-section">
-    <div class="hero-bg">
-        <!-- facade image or background -->
-    </div>
-    <div class="hero-content">
+    <div class="hero-left">
         <h1>Expert Facade Structural Solutions</h1>
         <p>For Commercial & Residential Projects.<br>Precision, Excellence, Trust.</p>
         <a href="#" class="cta-btn">Request a Quote</a>
     </div>
+    <div class="hero-right">
+        <img src="/images/fssImage.jpg" class="hero-img" alt="Facade Structural Example">
+    </div>
+    <div class="hero-bg-gradient"></div>
 </section>
-<!-- Place each new section below with its own id: e.g. id="services", etc. -->
-<section id="services" class="services-section">
-    <h1 class="services-headline">For Architects, Developers & Consultants</h1>
-    <p class="services-subheading">Comprehensive design and consultation services to bring your façade vision to life with technical precision and cost efficiency.</p>
-    <div class="services-cards">
-        <!-- Card 1 -->
+
+<!-- SVG curve directly after hero-section -->
+<div class="hero-curve">
+    <svg viewBox="0 0 1440 95" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;width:100vw;height:95px;">
+        <path d="M0,0 C400,65 1040,65 1440,0 V95 H0 V0 Z" fill="#111"/>
+    </svg>
+</div>
+
+<!-- Services -->
+<section id="services" class="cards-bg">
+    <h1 class="cards-headline">For Architects, Developers & Consultants</h1>
+    <p class="cards-subtext">Comprehensive design and consultation services to bring your façade vision to life with technical precision and cost efficiency.</p>
+    <div class="cards-wrapper">
         <div class="service-card">
-            <div class="card-icon" style="background:#D1F3EA;">
-                <span>🏢</span>
-            </div>
+            <div class="card-icon" style="background: var(--aqua);"><span>🏢</span></div>
             <h2>Façade Design & Consultation</h2>
             <p>Complete façade design solutions for architects and developers</p>
             <ul>
@@ -52,13 +64,10 @@
                 <li>Performance analysis and optimization</li>
                 <li>Building code compliance review</li>
             </ul>
-            <a href="#" class="get-quote-btn">Get Quote &rarr;</a>
+            <button class="button">Get Quote →</button>
         </div>
-        <!-- Card 2 -->
         <div class="service-card primary-card">
-            <div class="card-icon" style="background:#CFE3FC;">
-                <span>🧮</span>
-            </div>
+            <div class="card-icon" style="background: var(--royal-purple);"><span>🧮</span></div>
             <h2>Estimation & Cost Planning</h2>
             <p>Accurate cost estimation and budget planning services</p>
             <ul>
@@ -66,13 +75,10 @@
                 <li>Material and labor cost analysis</li>
                 <li>Value engineering recommendations</li>
             </ul>
-            <a href="#" class="get-quote-btn primary-btn">Get Quote &rarr;</a>
+            <button class="button primary-btn">Get Quote →</button>
         </div>
-        <!-- Card 3 -->
         <div class="service-card">
-            <div class="card-icon" style="background:#D1F3EA;">
-                <span>📄</span>
-            </div>
+            <div class="card-icon" style="background: var(--aqua);"><span>📄</span></div>
             <h2>System Design & Tender Drawings</h2>
             <p>Technical drawings and specifications for tender processes</p>
             <ul>
@@ -80,11 +86,12 @@
                 <li>Construction documentation</li>
                 <li>Contractor coordination support</li>
             </ul>
-            <a href="#" class="get-quote-btn">Get Quote &rarr;</a>
+            <button class="button">Get Quote →</button>
         </div>
     </div>
 </section>
-<!-- testimonials----------->
+
+<!-- Testimonials -->
 <section id="testimonials" class="testimonials-section">
     <h2>What Our Clients Say</h2>
     <div class="testimonials-cards">
@@ -128,7 +135,8 @@
         </div>
     </div>
 </section>
-<!-- about------ -->
+
+<!-- About -->
 <section id="about" class="about-section">
     <div class="about-content">
         <h2>Why Choose Us</h2>
@@ -154,7 +162,8 @@
         </div>
     </div>
 </section>
-<!-- contact------- -->
+
+<!-- Contact -->
 <section id="contact" class="contact-section">
     <div class="contact-info">
         <h2>Contact Us</h2>

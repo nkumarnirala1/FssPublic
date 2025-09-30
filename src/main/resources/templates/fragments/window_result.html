@@ -1,29 +1,46 @@
 <div id="results-marker" th:fragment="window_result" class="results-section fade-in"
      xmlns:th="http://www.w3.org/1999/xhtml">
     <link rel="stylesheet" th:href="@{/css/window_result.css}">
-    <h2 class="results-title">Preliminary Results</h2>
-    <table class="results-table">
-        <tr>
-            <th>Required Ixx</th>
-            <td th:text="${Ixx}"></td>
-        </tr>
-        <tr>
-            <th>Required Deflection</th>
-            <td th:text="${deflection}"></td>
-        </tr>
-    </table>
 
-    <form th:if="${isMullionCheckRequired}" th:action="@{/checkMullion}" method="post">
-        <button type="submit" class="btn btn-primary checkMullion-btn">Check combined interlock profile</button>
-    </form>
+    <div class="results-header">
+        <h2 class="results-title">Preliminary Results</h2>
+        <div class="results-subtitle">Calculated structural parameters</div>
+    </div>
 
-    <form th:if="${isMullionCheckForABRequired}" th:action="@{/window/centralProfileCheck}" method="get">
-        <button type="submit" class="btn btn-primary checkMullion-btn">Check combined interlock profile</button>
-    </form>
+    <div class="results-cards-container">
+        <div class="result-card">
+            <div class="result-label">Required Ixx</div>
+            <div class="result-value" th:text="${Ixx}">9.9</div>
+            <div class="result-unit">mm⁴</div>
+        </div>
 
-    <form th:if="${isHorizontalCheckRequired}" th:action="@{/window/horizontal}" method="get">
-        <button type="submit" class="btn btn-primary checkMullion-btn">Check horizontal profile</button>
-    </form>
+        <div class="result-card">
+            <div class="result-label">Required Deflection</div>
+            <div class="result-value" th:text="${deflection}">9.9</div>
+            <div class="result-unit">mm</div>
+        </div>
+    </div>
 
+    <div class="action-buttons-container">
+        <form th:if="${isMullionCheckRequired}" th:action="@{/checkMullion}" method="post">
+            <button type="submit" class="action-btn primary-btn">
+                <span class="btn-icon">🔍</span>
+                <span class="btn-text">Check Combined Interlock Profile</span>
+            </button>
+        </form>
 
+        <form th:if="${isMullionCheckForABRequired}" th:action="@{/window/centralProfileCheck}" method="get">
+            <button type="submit" class="action-btn primary-btn">
+                <span class="btn-icon">🔍</span>
+                <span class="btn-text">Check Combined Interlock Profile</span>
+            </button>
+        </form>
+
+        <form th:if="${isHorizontalCheckRequired}" th:action="@{/window/horizontal}" method="get">
+            <button type="submit" class="action-btn secondary-btn">
+                <span class="btn-icon">📐</span>
+                <span class="btn-text">Check Horizontal Profile</span>
+            </button>
+        </form>
+    </div>
 </div>

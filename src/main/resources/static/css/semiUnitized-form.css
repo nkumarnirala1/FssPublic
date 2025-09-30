@@ -1,5 +1,5 @@
-/* Sliding Window Content Container */
-.flow-content {
+/* Semi-Unitized Form Container */
+.semiUnitized-flow-content {
     background: var(--color-surface);
     padding: var(--space-16);
     border-radius: var(--radius-lg);
@@ -12,7 +12,7 @@
 }
 
 /* Header Title */
-.flow-content h2 {
+.semiUnitized-flow-content h2 {
     color: var(--color-primary);
     font-size: var(--font-size-lg);
     font-weight: var(--font-weight-semibold);
@@ -23,8 +23,8 @@
     letter-spacing: var(--letter-spacing-tight);
 }
 
-/* Split Columns */
-.sliding-form-split {
+/* Form Split Layout */
+.semi-unitized-form-split {
     display: flex;
     gap: var(--space-16);
     align-items: flex-start;
@@ -33,7 +33,7 @@
     margin-bottom: var(--space-16);
 }
 
-/* Left Column */
+/* Left Column (4 inputs) */
 .form-column-left {
     flex: 1;
     max-width: 50%;
@@ -45,7 +45,7 @@
     gap: var(--space-8);
 }
 
-/* Right Column */
+/* Right Column (4 inputs) */
 .form-column-right {
     flex: 1;
     max-width: 50%;
@@ -88,7 +88,7 @@
     flex-shrink: 0;
 }
 
-/* Input/Select Styles—compact */
+/* Input/Select Styles */
 .form-group input,
 .form-group select {
     padding: var(--space-6) var(--space-8);
@@ -112,16 +112,19 @@
     background: var(--color-background);
     transform: translateY(-1px);
 }
+
 .form-group input:hover,
 .form-group select:hover {
     border-color: var(--color-primary-hover);
     background: var(--color-background);
 }
+
 .form-group input:valid,
 .form-group select:valid {
     border-color: var(--color-success);
     background: rgba(var(--color-success-rgb), 0.05);
 }
+
 .form-group input:invalid,
 .form-group select:invalid {
     border-color: var(--color-error);
@@ -137,7 +140,7 @@
     padding-right: var(--space-24);
 }
 
-/* Button Wrapper - BOTTOM CENTER for all forms */
+/* Button Wrapper - Bottom Center */
 .form-submit-wrapper {
     display: flex;
     justify-content: center;
@@ -152,13 +155,25 @@
     /* Inherits from unified button styles in main CSS */
 }
 
-/* Responsive tweaks */
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
 @media (max-width: 900px) {
-    .flow-content {
+    .semiUnitized-flow-content {
         max-width: 99vw;
         padding: var(--space-10);
     }
-    .sliding-form-split {
+    .semi-unitized-form-split {
         flex-direction: column;
         gap: var(--space-8);
     }
@@ -178,19 +193,17 @@
         width: 100%;
     }
 }
+
 @media (max-width: 600px) {
-    .flow-content {
+    .semiUnitized-flow-content {
         padding: var(--space-6);
     }
-    .flow-content h2 {
+    .semiUnitized-flow-content h2 {
         font-size: var(--font-size-base);
         margin-bottom: var(--space-8);
     }
 }
+
 /* Box model fix */
 * { box-sizing: border-box; }
-.flow-content * { max-width: 100%; }
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px);}
-    to { opacity: 1; transform: translateY(0);}
-}
+.semiUnitized-flow-content * { max-width: 100%; }

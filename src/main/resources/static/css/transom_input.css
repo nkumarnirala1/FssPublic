@@ -1,0 +1,120 @@
+/* mullion-form.css */
+
+/* Container */
+.mullion-flow-content {
+  background: var(--color-surface);
+  padding: var(--space-24);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-card-border);
+  max-width: 900px;
+  margin: var(--space-24) auto;
+  animation: fadeIn var(--duration-normal) var(--ease-standard);
+}
+
+/* Header */
+.mullion-flow-content h2 {
+  color: var(--color-primary);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  margin-bottom: var(--space-16);
+  border-bottom: 2px solid var(--color-border);
+  padding-bottom: var(--space-8);
+}
+
+/* Two-Column Grid */
+.transom-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-16);
+  margin-bottom: var(--space-24);
+}
+
+/* Form Groups */
+.transom-form .form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.transom-form label {
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  font-size: var(--font-size-xs);
+  margin-bottom: var(--space-2);
+}
+
+/* Inputs */
+.transom-form input {
+  padding: var(--space-8) var(--space-12);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  width: 100%;
+  box-sizing: border-box;
+  transition: all var(--duration-fast) var(--ease-standard);
+}
+
+.transom-form input:focus {
+  border-color: var(--color-primary);
+  box-shadow: var(--focus-ring);
+  transform: translateY(-1px);
+}
+
+.transom-form input:hover {
+  border-color: var(--color-primary-hover);
+}
+
+/* Submit Button */
+.transom-form button[type="submit"] {
+  grid-column: 1 / -1;
+  justify-self: center;
+  padding: var(--space-16) var(--space-32);
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-hover));
+  color: var(--color-btn-primary-text);
+  border: none;
+  border-radius: var(--radius-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  transition: all var(--duration-normal) var(--ease-standard);
+  text-transform: uppercase;
+}
+
+.transom-form button[type="submit"]:hover {
+  background: linear-gradient(135deg, var(--color-primary-hover), var(--color-primary-active));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.transom-form button[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-sm);
+}
+
+.transom-form button[type="submit"]:focus-visible {
+  outline: var(--focus-outline);
+  box-shadow: var(--focus-ring), var(--shadow-lg);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+  .mullion-flow-content {
+    padding: var(--space-16);
+  }
+  .transom-form {
+    grid-template-columns: 1fr;
+  }
+  .transom-form button[type="submit"] {
+    width: 100%;
+  }
+}
+
+/* Animation Keyframes */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

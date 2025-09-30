@@ -2,12 +2,12 @@
     <link rel="stylesheet" th:href="@{/css/semiUnitized-form.css}">
 
     <div id="semi-unitized-flow" th:classappend="${activeMenu == 'semi-unitized'} ? '' : ' hidden'">
-        <h2>Semi-Unitized profile Input</h2>
+        <h2>Semi-Unitized Profile Input</h2>
         <form th:action="@{/unitized/semi-unitized}" method="post" th:object="${semiUnitizedInput}" class="glazing-form">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
             <div class="semi-unitized-form-split">
-                <!-- Left Column -->
+                <!-- Left Column: 4 Inputs -->
                 <div class="form-column-left">
                     <div class="form-group">
                         <label for="calculationMethod">Calculation Method</label>
@@ -28,35 +28,41 @@
                         <input type="number" id="gridLength" th:field="*{gridLength}"
                                placeholder="Enter length in mm" required/>
                     </div>
-                </div>
-
-                <!-- Right Column -->
-                <div class="form-column-right">
                     <div class="form-group">
                         <label for="windPressure">Wind Pressure (kN/m²)</label>
                         <input type="number" id="windPressure" th:field="*{windPressure}"
                                step="0.01" placeholder="Enter pressure" required/>
                     </div>
+                </div>
+
+                <!-- Right Column: 4 Inputs -->
+                <div class="form-column-right">
                     <div class="form-group">
                         <label for="glassThickness">Glass Thickness (mm)</label>
-                        <input type="number" step="0.01" id="glassThickness" th:field="*{glassThickness}" required/>
+                        <input type="number" step="0.01" id="glassThickness" th:field="*{glassThickness}"
+                               placeholder="Enter thickness" required/>
                     </div>
                     <div class="form-group">
-                        <label for="semi-unitized_topPanelHeight">Top Panel height (mm)</label>
-                        <input type="number" step="0.01" id="semi-unitized_topPanelHeight" th:field="*{topPanelHeight}" required/>
+                        <label for="semi-unitized_topPanelHeight">Top Panel Height (mm)</label>
+                        <input type="number" step="0.01" id="semi-unitized_topPanelHeight" th:field="*{topPanelHeight}"
+                               placeholder="Enter height" required/>
                     </div>
                     <div class="form-group">
-                        <label for="semi-unitized_bottomPanelHeight">Bottom Panel height (mm)</label>
-                        <input type="number" step="0.01" id="semi-unitized_bottomPanelHeight" th:field="*{bottomPanelHeight}" required/>
+                        <label for="semi-unitized_bottomPanelHeight">Bottom Panel Height (mm)</label>
+                        <input type="number" step="0.01" id="semi-unitized_bottomPanelHeight" th:field="*{bottomPanelHeight}"
+                               placeholder="Enter height" required/>
                     </div>
                     <div class="form-group">
                         <label for="semi-unitized_settingBlockLocation">Setting Block Location (mm)</label>
-                        <input type="number" step="0.01" id="semi-unitized_settingBlockLocation" th:field="*{settingBlockLocation}" required/>
-                    </div>
-                    <div class="form-submit-wrapper">
-                        <button type="submit">Calculate</button>
+                        <input type="number" step="0.01" id="semi-unitized_settingBlockLocation" th:field="*{settingBlockLocation}"
+                               placeholder="Enter location" required/>
                     </div>
                 </div>
+            </div>
+
+            <!-- Button at Bottom Center -->
+            <div class="form-submit-wrapper">
+                <button type="submit">Calculate</button>
             </div>
         </form>
     </div>
