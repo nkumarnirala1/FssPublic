@@ -35,7 +35,7 @@ public class UnitizedController {
 
     // Show form
     @GetMapping({"/semi-unitized"})
-    public String loadsSemiUnitized(@RequestParam(required = false) String activeMenu, Model model, HttpSession session) {
+    public String loadsSemiUnitizedForm(@RequestParam(required = false) String activeMenu, Model model, HttpSession session) {
         if (activeMenu == null) {
             activeMenu = "sliding";
             model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
@@ -48,6 +48,7 @@ public class UnitizedController {
         model.addAttribute("activeMenu", activeMenu);
 
         model.addAttribute("semiUnitizedInput", defaultInput.prepareSemiUnitizedInput());
+        flowContext.getDownloadFormList().clear(); //clear form
 
         return "glazing-form";
     }

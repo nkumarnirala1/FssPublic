@@ -1,12 +1,14 @@
 package com.fss.core.fssCalculation.controller.utility;
 
 
+import com.fss.core.fssCalculation.modal.generic.DownloadReportElement;
 import lombok.Data;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,6 +23,7 @@ public class FlowContext {
     private String calculationMethod;
     private HashMap<String, String> replaceableModelMap;
     private HashMap<String, Object> inputValuesMap;
+    private List<DownloadReportElement> downloadFormList = new ArrayList<>();
 
 
 }

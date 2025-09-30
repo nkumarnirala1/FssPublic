@@ -1,7 +1,7 @@
 package com.fss.core.fssCalculation.service.ReportGen;
 
 
-import com.fss.core.fssCalculation.modal.ExcelElement;
+import com.fss.core.fssCalculation.modal.generic.ExcelElement;
 import com.fss.core.fssCalculation.persistance.S3Service;
 import jakarta.servlet.http.HttpSession;
 import org.apache.poi.ss.usermodel.Cell;
@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
 public class ExcelSheetGenerator {
