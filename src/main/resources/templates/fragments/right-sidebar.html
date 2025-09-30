@@ -3,19 +3,23 @@
     <div class="sidebar-content">
         <div class="history-section">
             <h4>Input History</h4>
-            <ul class="history-list">
-                <li th:each="entry, iterStat : ${inputHistory}">
-                    <div class="history-item">
-                        <strong th:text="|${entry['formName']} #${iterStat.index + 1}|"></strong>
-                        <ul>
-                            <li th:each="mapEntry : ${entry.entrySet()}"
-                                th:if="${mapEntry.key != 'formName'}"
-                                th:text="|${mapEntry.key}: ${mapEntry.value}|">
-                            </li>
-                        </ul>
+            <p style="font-size: 13px; color: #808080; margin-bottom: 8px;">
+                <em>This panel shows your step-by-step input in clear language.</em>
+            </p>
+            <div class="input-history-list">
+                <div class="input-history-card" th:each="entry, iterStat : ${inputHistory}">
+                    <div class="input-history-header">
+                        <span class="input-history-number" th:text="${iterStat.index + 1}"></span>
+                        <span class="input-history-form" th:text="${entry.formName}"></span>
                     </div>
-                </li>
-            </ul>
+                    <div class="input-history-details">
+                        <div class="input-history-row" th:each="inputEntry : ${entry.inputs.entrySet()}">
+                            <span class="input-history-key" th:text="${inputEntry.key}"></span>:
+                            <span class="input-history-value" th:text="${inputEntry.value}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </aside>

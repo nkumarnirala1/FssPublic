@@ -1,20 +1,33 @@
 <div id="results-marker" th:fragment="semiUnitized_result" class="results-section fade-in"
      xmlns:th="http://www.w3.org/1999/xhtml">
     <link rel="stylesheet" th:href="@{/css/window_result.css}">
-    <h2 class="results-title">Preliminary Results</h2>
-    <table class="results-table">
-        <tr>
-            <th>Required Ixx</th>
-            <td th:text="${Ixx}"></td>
-        </tr>
-        <tr>
-            <th>Required Deflection</th>
-            <td th:text="${deflection}"></td>
-        </tr>
-    </table>
 
-    <form th:action="@{/checkMullion}" method="post">
-        <button type="submit" class="btn btn-primary checkMullion-btn">Check Mullion profile</button>
-    </form>
+    <!-- ADD: Results Header (same as window_result.html) -->
+    <div class="results-header">
+        <h2 class="results-title">Preliminary Results</h2>
+        <div class="results-subtitle">Calculated structural parameters</div>
+    </div>
 
+    <div class="results-cards-container">
+        <div class="result-card">
+            <div class="result-label">Required Ixx</div>
+            <div class="result-value" th:text="${Ixx}">0</div>
+            <div class="result-unit">mm⁴</div>
+        </div>
+        <div class="result-card">
+            <div class="result-label">Required Deflection</div>
+            <div class="result-value" th:text="${deflection}">0</div>
+            <div class="result-unit">mm</div>
+        </div>
+    </div>
+
+    <!-- ADD: Action Buttons Container (same as window_result.html) -->
+    <div class="action-buttons-container">
+        <form th:action="@{/checkMullion}" method="post">
+            <button type="submit" class="action-btn primary-btn">
+                <span class="btn-icon">🔍</span>
+                <span class="btn-text">Check Mullion Profile</span>
+            </button>
+        </form>
+    </div>
 </div>

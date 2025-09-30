@@ -22,13 +22,12 @@ public class PopulateInputHistory {
         inputs.put("Wind Pressure (kN/m²)", slidingInput.getWindPressure());
         inputs.put("Glass Thickness (mm)", slidingInput.getGlassThickness());
         inputs.put("Central Meeting Profile", slidingInput.getCentralMeetingProfile());
-        inputs.put("calculation Method", slidingInput.getCalculationMethod());
-        inputs.put("isCentralProfileCheckRequired", slidingInput.getCentralMeetingProfile());
-        inputs.put("Transom to transom Distance", slidingInput.getTransomToTransomDistance());
+        inputs.put("Calculation Method", slidingInput.getCalculationMethod());
+        inputs.put("Is Central Profile Check Required", slidingInput.getCentralMeetingProfile());
+        inputs.put("Transom to Transom Distance", slidingInput.getTransomToTransomDistance());
         Map<String, Object> entry = new LinkedHashMap<>();
-        entry.put("formName", "Combined Input");   // friendly title
+        entry.put("formName", "Sliding Window Input");
         entry.put("inputs", inputs);
-
         return entry;
     }
 
@@ -39,16 +38,15 @@ public class PopulateInputHistory {
         inputs.put("Wind Pressure (kN/m²)", casementInput.getWindPressure());
         inputs.put("Glass Thickness (mm)", casementInput.getGlassThickness());
         inputs.put("Central Meeting Profile", casementInput.getCentralMeetingProfile());
-        inputs.put("calculation Method", casementInput.getCalculationMethod());
-        inputs.put("isCentralProfileCheckRequired", casementInput.getCentralMeetingProfile());
-        inputs.put("Transom to transom Distance", casementInput.getTransomToTransomDistance());
-        inputs.put("Top panel Height", casementInput.getTopPanelHeight());
-        inputs.put("Bottom panel Height", casementInput.getBottomPanelHeight());
+        inputs.put("Calculation Method", casementInput.getCalculationMethod());
+        inputs.put("Is Central Profile Check Required", casementInput.getCentralMeetingProfile());
+        inputs.put("Transom to Transom Distance", casementInput.getTransomToTransomDistance());
+        inputs.put("Top Panel Height", casementInput.getTopPanelHeight());
+        inputs.put("Bottom Panel Height", casementInput.getBottomPanelHeight());
         inputs.put("Setting Block Location", casementInput.getSettingBlockLocation());
         Map<String, Object> entry = new LinkedHashMap<>();
-        entry.put("formName", "Casement Window Input");   // friendly title
+        entry.put("formName", "Casement Window Input");
         entry.put("inputs", inputs);
-
         return entry;
     }
 
@@ -59,16 +57,15 @@ public class PopulateInputHistory {
         inputs.put("Wind Pressure (kN/m²)", semiUnitizedInput.getWindPressure());
         inputs.put("Glass Thickness (mm)", semiUnitizedInput.getGlassThickness());
         inputs.put("Central Meeting Profile", semiUnitizedInput.getCentralMeetingProfile());
-        inputs.put("calculation Method", semiUnitizedInput.getCalculationMethod());
-        inputs.put("isCentralProfileCheckRequired", semiUnitizedInput.getCentralMeetingProfile());
-        inputs.put("Transom to transom Distance", semiUnitizedInput.getTransomToTransomDistance());
-        inputs.put("Top panel Height", semiUnitizedInput.getTopPanelHeight());
-        inputs.put("Bottom panel Height", semiUnitizedInput.getBottomPanelHeight());
+        inputs.put("Calculation Method", semiUnitizedInput.getCalculationMethod());
+        inputs.put("Is Central Profile Check Required", semiUnitizedInput.getCentralMeetingProfile());
+        inputs.put("Transom to Transom Distance", semiUnitizedInput.getTransomToTransomDistance());
+        inputs.put("Top Panel Height", semiUnitizedInput.getTopPanelHeight());
+        inputs.put("Bottom Panel Height", semiUnitizedInput.getBottomPanelHeight());
         inputs.put("Setting Block Location", semiUnitizedInput.getSettingBlockLocation());
         Map<String, Object> entry = new LinkedHashMap<>();
         entry.put("formName", "Semi-Unitized Input");
         entry.put("inputs", inputs);
-
         return entry;
     }
 }
