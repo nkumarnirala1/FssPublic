@@ -2,7 +2,7 @@
 <div class="result-wrapper-mullion" th:fragment="transom_result" th:if="${bendingStress != null and shearStress != null}" xmlns:th="http://www.w3.org/1999/xhtml">
     <link rel="stylesheet" th:href="@{/css/mullian_result.css}">
     <div class="result-container-mullion" th:classappend="${activeMenu == 'sliding' or activeMenu == 'casement' or activeMenu == 'semi-unitized'} ? '' : ' hidden'">
-        <h2>Transom Profile Results</h2>
+        <h2>TRANSOM PROFILE RESULTS</h2>
 
         <!-- Bending Stress Result -->
         <p th:if="${bendingStress}" style="color: green; font-weight: bold;">

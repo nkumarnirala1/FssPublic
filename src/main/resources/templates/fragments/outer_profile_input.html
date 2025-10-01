@@ -2,7 +2,7 @@
     <link rel="stylesheet" th:href="@{/css/outer_profile_input.css}">
 
     <div id="sliding-flow" th:classappend="${activeMenu == 'sliding'} ? '' : ' hidden'">
-        <h2>outer profile Input</h2>
+        <h2>OUTER PROFILE INPUT</h2>
 
         <form id="outerProfileForm" th:action="@{/window/submitOuterProfile}" method="post" th:object="${outerProfileInput}">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
