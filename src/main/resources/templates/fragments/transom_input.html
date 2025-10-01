@@ -4,7 +4,7 @@
 
     <div id="sliding-flow"
          th:classappend="${activeMenu == 'sliding' or activeMenu == 'casement' or activeMenu == 'semi-unitized'} ? '' : ' hidden'">
-        <h2>Transom Profile Input</h2>
+        <h2>TRANSOM PROFILE INPUT</h2>
         <form th:action="@{/submitTransomProfile}" th:object="${transomInput}" method="post" class="transom-form">
             <div class="form-group">
                 <label for="gridLength">Grid Length (mm)</label>

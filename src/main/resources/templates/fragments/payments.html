@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextGen Facade — Subscription Plans</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Razorpay SDK -->
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="payments.css">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+</head>
+
+<body>
+<!-- Header -->
+<header class="header">
+    <div class="container">
+        <div class="header-content">
+            <div class="brand">
+                <div class="brand-icon">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="#12DAD1" aria-hidden="true">
+                        <path d="M3 3h18v2H3V3zm2 4h14v2H5V7zm-2 4h18v2H3v-2zm2 4h14v2H5v-2z"/>
+                    </svg>
+                </div>
+                <div class="brand-text">
+                    <span class="nextgen">NextGen</span> <span class="facade">Facade</span>
+                </div>
+            </div>
+
+            <div class="security-badge">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="#12DAD1">
+                    <path d="M12 2L3 7l9 13 9-13-9-5zM12 7c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/>
+                </svg>
+                <span>Secure Payments • Razorpay Certified</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<main class="main">
+    <div class="container">
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-badge">
+                <span>Professional Facade Engineering Solutions</span>
+            </div>
+            <h1 class="hero-title">Choose Your Subscription Plan</h1>
+            <p class="hero-subtitle">
+                Access advanced structural calculation tools, professional drawing templates,
+                and engineering reports. Pay securely with UPI, cards, or net banking.
+            </p>
+        </section>
+
+        <!-- Pricing Plans -->
+        <section class="plans-section">
+            <div class="plans-grid">
+
+                <!-- Basic Plan -->
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <h3 class="plan-name">Starter</h3>
+                    </div>
+                    <div class="plan-pricing">
+                        <span class="plan-price">₹799</span>
+                        <span class="plan-period">per month</span>
+                    </div>
+                    <p class="plan-description">
+                        Essential tools for small facade projects and individual consultants.
+                    </p>
+
+                    <div class="plan-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>10 calculation templates/month</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Basic load analysis tools</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Email support</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Standard report templates</span>
+                        </div>
+                    </div>
+
+                    <div class="plan-actions">
+                        <button class="btn-primary" onclick="initiatePayment('starter', 79900)">
+                            Subscribe Now
+                        </button>
+                        <button class="btn-secondary" onclick="openUPIPayment(79900, 'Starter Plan')">
+                            Pay via UPI
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pro Plan (Featured) -->
+                <div class="plan-card featured">
+                    <div class="plan-header">
+                        <h3 class="plan-name">Professional</h3>
+                        <span class="popular-badge">Most Popular</span>
+                    </div>
+                    <div class="plan-pricing">
+                        <span class="plan-price">₹1,499</span>
+                        <span class="plan-period">per month</span>
+                    </div>
+                    <p class="plan-description">
+                        Complete facade engineering toolkit for consultants and small teams.
+                    </p>
+
+                    <div class="plan-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Unlimited calculations & templates</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Advanced wind load analysis</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>WhatsApp priority support</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Custom drawing export (DWG/PDF)</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Engineering sign-off reports</span>
+                        </div>
+                    </div>
+
+                    <div class="plan-actions">
+                        <button class="btn-primary" onclick="initiatePayment('professional', 149900)">
+                            Subscribe Now
+                        </button>
+                        <button class="btn-secondary" onclick="openUPIPayment(149900, 'Professional Plan')">
+                            Pay via UPI
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="plan-card">
+                    <div class="plan-header">
+                        <h3 class="plan-name">Enterprise</h3>
+                    </div>
+                    <div class="plan-pricing">
+                        <span class="plan-price">₹4,999</span>
+                        <span class="plan-period">per month</span>
+                    </div>
+                    <p class="plan-description">
+                        Full-service solution for engineering firms and large construction companies.
+                    </p>
+
+                    <div class="plan-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Up to 10 team seats</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Custom calculation modules</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>Dedicated engineer support (8h/month)</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>White-label reports with your branding</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">✓</span>
+                            <span>API access for integrations</span>
+                        </div>
+                    </div>
+
+                    <div class="plan-actions">
+                        <button class="btn-primary" onclick="initiatePayment('enterprise', 499900)">
+                            Subscribe Now
+                        </button>
+                        <button class="btn-secondary" onclick="openUPIPayment(499900, 'Enterprise Plan')">
+                            Pay via UPI
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Trust Section -->
+        <section class="trust-section">
+            <div class="trust-content">
+                <h3>Secure & Reliable Payments</h3>
+                <div class="trust-features">
+                    <div class="trust-item">
+                        <span class="trust-icon">🔒</span>
+                        <span>256-bit SSL encryption</span>
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-icon">💳</span>
+                        <span>All major cards & UPI supported</span>
+                    </div>
+                    <div class="trust-item">
+                        <span class="trust-icon">🏆</span>
+                        <span>PCI DSS compliant</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <p>
+                <strong>Note:</strong> This is a demo implementation. In production, always create orders
+                on your secure backend server and never expose API keys in frontend code.
+                All payments are processed securely through Razorpay's certified gateway.
+            </p>
+        </div>
+
+    </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; <span id="current-year"></span> NextGen Facade — Professional Structural Engineering Solutions</p>
+    </div>
+</footer>
+
+<!-- JavaScript -->
+<script src="/js/payments.js"></script>
+</body>
+</html>

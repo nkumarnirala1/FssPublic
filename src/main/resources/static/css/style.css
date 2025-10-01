@@ -1204,6 +1204,29 @@ button[type="submit"]:not(.logout-btn):focus-visible {
     font-weight: var(--font-weight-semibold);
     text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
+.header-title {
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  /* Split with span for each part */
+}
+
+.header-title .nextgen {
+  color: #32b8c6; /* uses --color-teal-300 from your palette */
+}
+
+.header-title .facade {
+  color: #e68161; /* uses --color-orange-400 from your palette */
+}
+
+/* Responsive adjustment (optional) */
+@media (max-width: 480px) {
+  .header-title {
+    font-size: 17px;
+    text-align: center;
+  }
+}
+
 
 .header-right {
     display: flex;
