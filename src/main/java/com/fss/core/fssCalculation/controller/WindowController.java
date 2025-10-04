@@ -117,7 +117,7 @@ public class WindowController {
 
 
             if ("a+b".equalsIgnoreCase(flowContext.getCalculationMethod())) {
-                model.addAttribute("centralProfileTitle", "A+B interlock Profile");
+                model.addAttribute("centralProfileTitle", "A+B INTERLOCK PROFILE");
 
             } else {
                 model.addAttribute("centralProfileTitle", "central Profile");
