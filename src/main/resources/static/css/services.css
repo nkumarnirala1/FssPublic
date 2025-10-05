@@ -29,6 +29,9 @@
   font-size: 1.2rem;
   margin-bottom: 54px;
 }
+.cards-subheadings{
+color: var(--navy)
+}
 .cards-wrapper {
   display: flex;
   gap: 36px;

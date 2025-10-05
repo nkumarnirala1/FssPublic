@@ -48,7 +48,9 @@
   font-weight: 600;
   font-size: 1.04rem;
 }
-
+.sub-heading{
+color:var(--navy);
+}
 .contact-form-map {
   flex: 2 1 420px;
   max-width: 670px;
@@ -93,7 +95,7 @@
   outline: none;
 }
 .contact-submit {
-  background: linear-gradient(90deg, var(--tangerine) 80%, var(--aqua) 100%);
+  background: var(--aqua);
   color: var(--navy);
   padding: 15px 42px;
   border-radius: 34px;

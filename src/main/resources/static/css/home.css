@@ -46,10 +46,42 @@ body{
 
 /* Brand */
 .brand{
-  display:flex; align-items:center; gap:12px;
+  display:flex; align-items:center; gap:18px;
   text-decoration:none; color:var(--text-primary);
 }
-.brand-logo{ height:38px; width:auto; object-fit:contain; display:block; border-radius:6px; }
+
+/* --- UPDATED LOGO STYLES FOR WHITE SVG ON DARK NAVBAR --- */
+.brand-logo{
+    height: 48px;
+    width: 48px;
+    object-fit: contain;
+    display: block;
+    border-radius: 8px;
+    padding: 4px;
+    border: 2px solid var(--brand-teal);
+    background: transparent;
+    filter:
+        drop-shadow(0 0 4px rgba(18,218,209,0.8))
+        drop-shadow(0 0 16px rgba(18,218,209,0.4))
+        drop-shadow(0 0 2px rgba(255,255,255,0.9))
+        brightness(1.15)
+        contrast(1.1);
+    box-shadow:
+        0 0 0 1px rgba(255,255,255,0.3),
+        0 2px 12px rgba(0,0,0,0.4);
+    transition: all 0.3s ease;
+}
+.brand-logo:hover{
+    filter:
+        drop-shadow(0 0 6px rgba(18,218,209,1))
+        drop-shadow(0 0 20px rgba(18,218,209,0.6))
+        drop-shadow(0 0 4px rgba(255,255,255,1))
+        brightness(1.25)
+        contrast(1.15);
+    transform: scale(1.08);
+    border-color: var(--accent-copper);
+}
+
 .brand-center{ display:flex; flex-direction:column; align-items:flex-start; justify-content:center; line-height:1.1; }
 .brand-text{ font-size:1.6rem; font-weight:800; letter-spacing:1.5px; line-height:1.1; white-space:nowrap; }
 .nextgen-highlight{ color:var(--brand-teal); font-weight:900; letter-spacing:1.2px; }
@@ -135,28 +167,34 @@ a:focus-visible, button:focus-visible{ box-shadow:0 0 0 3px rgba(18,218,209,0.25
 
 /* ===== Responsive (home only) ===== */
 @media (max-width: 900px){
-  .navbar{ padding:15px 12px; }
-  .brand-logo{ height:30px; }
-  .brand-text{ font-size:1.3rem; letter-spacing:1.1px; }
-  .brand-center{ max-width:87vw; }
-
-  .hero-section{
-    flex-direction:column; min-height:350px; height:auto;
-    border-bottom-left-radius:55px; border-bottom-right-radius:55px;
-  }
-  .hero-left, .hero-right{
-    min-width:210px; width:100%; padding-left:18px; justify-content:center; max-width:98vw; margin:0;
-  }
-  .hero-img{ width:100vw; min-width:60vw; }
-  .hero-bg-gradient{ width:100vw; height:100%; }
-  .brand-tagline{ font-size:.99rem !important; }
+    .navbar{ padding:15px 12px; }
+    .brand-logo{ height: 40px; width: 40px; padding: 3px; border-width: 1.5px;}
+    .brand{ gap: 15px; }
+    .brand-text{ font-size:1.3rem; letter-spacing:1.1px; }
+    .brand-center{ max-width:87vw; }
+    .hero-section{
+      flex-direction:column; min-height:350px; height:auto;
+      border-bottom-left-radius:55px; border-bottom-right-radius:55px;
+    }
+    .hero-left, .hero-right{
+      min-width:210px; width:100%; padding-left:18px; justify-content:center; max-width:98vw; margin:0;
+    }
+    .hero-img{ width:100vw; min-width:60vw; }
+    .hero-bg-gradient{ width:100vw; height:100%; }
+    .brand-tagline{ font-size:.99rem !important; }
 }
 
 @media (max-width: 600px){
-  .brand-logo{ height:26px; }
-  .brand-text{ font-size:1.08rem !important; letter-spacing:.8px; }
-  .nav-links{ gap:10px; }
-  .brand-tagline{ font-size:.93rem !important; }
-  .hero-left h1{ font-size:1.45rem; }
-  .hero-left{ padding-left:10px; }
+    .brand-logo{
+        height: 34px;
+        width: 34px;
+        padding: 2px;
+        border-width: 1.5px;
+    }
+    .brand{ gap: 12px; }
+    .brand-text{ font-size:1.08rem !important; letter-spacing:.8px; }
+    .nav-links{ gap:10px; }
+    .brand-tagline{ font-size:.93rem !important; }
+    .hero-left h1{ font-size:1.45rem; }
+    .hero-left{ padding-left:10px; }
 }

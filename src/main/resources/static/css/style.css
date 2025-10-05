@@ -344,6 +344,8 @@ h3 {
 }
 h4 {
   font-size: var(--font-size-xl);
+  text-align:center;
+  background-color: #00FFFF;
 }
 h5 {
   font-size: var(--font-size-lg);

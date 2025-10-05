@@ -263,7 +263,7 @@ public class HomeController {
                 stackBracket = 0.0;
                 typeOfGlazing = "Sliding window";
             }
-            model.addAttribute("mullionProfileTitle", "Combined Interlock Profile");
+            model.addAttribute("mullionProfileTitle", "COMBINED INTERLOCK PROFILE");
 
 
         } else if ("semi-unitized".equalsIgnoreCase(activeMenu)) {
@@ -278,7 +278,7 @@ public class HomeController {
                 typeOfGlazing = semiUnitizedInput.getCalculationMethod();
             }
 
-            model.addAttribute("mullionProfileTitle", "Mullion Profile");
+            model.addAttribute("mullionProfileTitle", "MULLION PROFILE");
         }
 
         MullionInput mullionInput = new MullionInput();
