@@ -30,7 +30,7 @@ public class PaymentService {
 
 
         JSONObject orderRequest = new JSONObject();
-        orderRequest.put("amount", amount.intValue() * 100); // in paise
+        orderRequest.put("amount", 50000); // in paise
         orderRequest.put("currency", "INR");
         orderRequest.put("receipt", receiptEmail + "_receipt");
         Map<String, Object> response = new HashMap<>();
@@ -42,7 +42,7 @@ public class PaymentService {
             response.put("id", order.get("id"));
             response.put("amount", order.get("amount"));
             response.put("currency", order.get("currency"));
-            response.put("key", secretKey);
+            response.put("key", keyId);
         } catch (Exception ex) {
 
             //TODO
