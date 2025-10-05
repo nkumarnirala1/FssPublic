@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -34,4 +35,13 @@ public class User {
     private String otp;
 
     private LocalDateTime otpExpiry;
+
+
+    @ManyToOne
+    private SubscriptionPlan subscriptionPlan;
+
+
+    private LocalDate subscriptionStart;
+    private LocalDate subscriptionEnd;
+    private boolean active;
 }

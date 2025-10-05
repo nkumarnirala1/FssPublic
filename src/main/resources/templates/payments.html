@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +13,7 @@
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="payments.css">
+    <link rel="stylesheet" th:href="@{/css/payments.css}">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
@@ -98,12 +98,10 @@
                     </div>
 
                     <div class="plan-actions">
-                        <button class="btn-primary" onclick="initiatePayment('starter', 79900)">
-                            Subscribe Now
-                        </button>
-                        <button class="btn-secondary" onclick="openUPIPayment(79900, 'Starter Plan')">
-                            Pay via UPI
-                        </button>
+                        <form th:action="@{/payment/subscribe}" method="post">
+                            <input type="hidden" name="planId" value="2"/> <!-- Starter Plan ID -->
+                            <button type="submit" class="btn-primary">Subscribe Now</button>
+                        </form>
                     </div>
                 </div>
 
@@ -145,9 +143,10 @@
                     </div>
 
                     <div class="plan-actions">
-                        <button class="btn-primary" onclick="initiatePayment('professional', 149900)">
-                            Subscribe Now
-                        </button>
+                        <form th:action="@{/subscribe}" method="post">
+                            <input type="hidden" name="planId" value="3"/> <!-- Starter Plan ID -->
+                            <button type="submit" class="btn-primary">Subscribe Now</button>
+                        </form>
                         <button class="btn-secondary" onclick="openUPIPayment(149900, 'Professional Plan')">
                             Pay via UPI
                         </button>

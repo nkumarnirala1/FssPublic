@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Complete Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+<h2>Complete Your Payment for <span th:text="${plan.planname}"></span></h2>
+<!--<p style="color:red">Planname_1 = [[${plan.planname}]]</p>-->
+<!--<p style="color:red">order.amount_1 = [[${order.amount}]]</p>-->
+
+<button id="rzp-button"
+        th:data-key="${order.key}"
+        th:data-amount="${order.amount}"
+        th:data-currency="${order.currency}"
+        th:data-orderid="${order.id}"
+        th:data-planname="${plan.planname}">
+    Pay Now
+</button>
+
+<script>
+    var button = document.getElementById('rzp-button');
+
+    var options = {
+        "key": button.getAttribute("data-key"),
+        "amount": button.getAttribute("data-amount"), // in paise
+        "currency": button.getAttribute("data-currency"),
+        "name": "NextGen Facade",
+        "description": "Subscription Payment for " + button.getAttribute("data-planname"),
+        "order_id": button.getAttribute("data-orderid"),
+        "handler": function (response) {
+            alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+            window.location.href = "/payment/success?razorpay_payment_id=" + response.razorpay_payment_id +
+                                   "&razorpay_order_id=" + response.razorpay_order_id +
+                                   "&razorpay_signature=" + response.razorpay_signature;
+        },
+        "prefill": {
+            "name": "Test User",
+            "email": "test@example.com",
+            "contact": "9999999999"
+        },
+        "theme": {
+            "color": "#12DAD1"
+        }
+    };
+
+    button.onclick = function(e){
+        var rzp = new Razorpay(options);
+        rzp.open();
+        e.preventDefault();
+    }
+</script>
+</body>
+</html>

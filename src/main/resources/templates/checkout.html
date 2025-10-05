@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Checkout</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body>
+<h2 th:text="${plan.planName} + ' Plan Payment'"></h2>
+
+
+<form action="/payment/success" method="POST">
+    <script
+            src="https://checkout.razorpay.com/v1/checkout.js"
+            data-key="[[${razorpayKey}]]"
+            data-amount="[[${plan.price}]]"
+            data-currency="INR"
+            data-order_id="[[${razorpayOrderId}]]"
+            data-buttontext="Pay [[${plan.price}]] INR"
+            data-name="Subscription App"
+            data-description="Payment for [[${plan.planName}]] Plan"
+            data-theme.color="#528FF0">
+    </script>
+    <input type="hidden" name="email" th:value="${email}"/>
+    <input type="hidden" name="password" th:value="${password}"/>
+    <input type="hidden" name="planId" th:value="${plan.id}"/>
+</form>
+</body>
+</html>

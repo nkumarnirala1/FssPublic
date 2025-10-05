@@ -1,9 +1,13 @@
 package com.fss.core.fssCalculation.controller;
 
 
+import com.fss.core.fssCalculation.persistance.SubscriptionPlanRepository;
 import com.fss.core.fssCalculation.persistance.UserRepository;
+import com.fss.core.fssCalculation.securityconfig.SubscriptionPlan;
 import com.fss.core.fssCalculation.securityconfig.User;
+import com.fss.core.fssCalculation.service.payment.PaymentService;
 import com.fss.core.fssCalculation.service.userservice.EmailService;
+import com.razorpay.RazorpayException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +16,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
@@ -24,6 +30,11 @@ public class SecurityController {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private SubscriptionPlanRepository planRepository;
+    @Autowired
+    private PaymentService paymentService;
 
     @GetMapping("/login")
     public String loginPage() {
@@ -115,7 +126,6 @@ public class SecurityController {
     }
 
 
-
     @GetMapping("/register")
     public String registerPage() {
         return "register";
@@ -123,19 +133,42 @@ public class SecurityController {
 
 
     @PostMapping("/register")
-    public String handleRegistration(@ModelAttribute User user) {
+    public String handleRegistration(@ModelAttribute User user, Model model) throws RazorpayException {
 
         Optional<User> user1 = userRepository.findByEmail(user.getEmail());
         if (user1.isPresent()) {
             return "redirect:/register?error=alreadyRegistered";
         }
 
-        user.setUsername(user.getEmail().substring(0, user.getEmail().indexOf("@")));
-        user.setRole("user");
+//        user.setUsername(user.getEmail().substring(0, user.getEmail().indexOf("@")));
+//        user.setRole("user");
+//
+//        userRepository.save(user);
 
-        userRepository.save(user);
+
+        SubscriptionPlan plan = planRepository.findById(user.getSubscriptionPlan().getId()).orElseThrow();
 
 
-        return "redirect:/login?registered";
+        if (plan.getPrice() == 0.0) {
+            User freeUser = new User();
+            freeUser.setEmail(user.getEmail());
+            freeUser.setPassword(user.getPassword());
+            freeUser.setSubscriptionPlan(plan);
+            freeUser.setSubscriptionStart(LocalDate.now());
+            freeUser.setSubscriptionEnd(LocalDate.now().plusMonths(1));
+            freeUser.setActive(true);
+            userRepository.save(user);
+            return "redirect:/payment/success";
+        } else {
+            Map<String, Object> order = paymentService.createOrder(plan.getPrice(), user.getEmail());
+            model.addAttribute("razorpayOrderId", order.get("id"));
+            model.addAttribute("razorpayKey", paymentService.getKeyId());
+            model.addAttribute("plan", plan);
+            model.addAttribute("email", user.getEmail());
+            model.addAttribute("password", user.getPassword());
+            return "checkout";
+        }
+
+
     }
 }
