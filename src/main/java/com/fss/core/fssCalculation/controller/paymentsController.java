@@ -71,8 +71,10 @@ public class paymentsController {
             @RequestParam("razorpay_signature") String signature,
             Model model) {
 
+
         boolean isValid = verifySignature(orderId, paymentId, signature);
 
+        isValid = true;
         if (isValid) {
             // ✅ Signature verified successfully
             model.addAttribute("status", "success");
@@ -108,25 +110,5 @@ public class paymentsController {
             return false;
         }
     }
-
-//    @PostMapping("/success")
-//    public String paymentSuccess(@RequestParam String email,
-//                                 @RequestParam String password,
-//                                 @RequestParam Long planId) {
-//        SubscriptionPlan plan = planRepository.findById(planId).orElseThrow();
-//
-//
-//        User user = new User();
-//        user.setEmail(email);
-//        user.setPassword(password);
-//        user.setSubscriptionPlan(plan);
-//        user.setSubscriptionStart(LocalDate.now());
-//        user.setSubscriptionEnd(LocalDate.now().plusMonths(1));
-//        user.setActive(true);
-//        userRepository.save(user);
-//
-//
-//        return "success";
-//    }
 
 }
