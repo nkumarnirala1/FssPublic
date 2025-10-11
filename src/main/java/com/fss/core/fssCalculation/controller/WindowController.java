@@ -18,7 +18,6 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/window")
-@SessionAttributes("inputHistory")
 public class WindowController {
 
     @Autowired
@@ -33,13 +32,9 @@ public class WindowController {
     @Autowired
     ControllerHelper controllerHelper;
 
-    @ModelAttribute("inputHistory")
-    public List<Map<String, Object>> inputHistory() {
-        return new ArrayList<>();
-    }
 
     // Show form
-    @GetMapping({"/ui",""})
+    @GetMapping({"/ui", ""})
     public String showUi(@RequestParam(required = false) String activeMenu, Model model, HttpSession session) {
         if (activeMenu == null) {
             activeMenu = "sliding"; // default landing form
@@ -61,12 +56,14 @@ public class WindowController {
         flowContext.setActiveForm(activeForms);
         controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
         flowContext.getDownloadFormList().clear(); //clear form
+        populateInputHistory.handleInputHistory(session,  null, model);
+
 
         return "glazing-form";
     }
 
     @PostMapping("/sliding")
-    public String sliding(@ModelAttribute("sliding_input") SlidingInput slidingInput, @ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model, HttpSession session) {
+    public String sliding(@ModelAttribute("sliding_input") SlidingInput slidingInput,  Model model, HttpSession session) {
 
 
         String activeMenu = flowContext.getActiveMenu();
@@ -79,7 +76,7 @@ public class WindowController {
 
         if (activeMenu.equalsIgnoreCase("sliding")) {
 
-            history.add(populateInputHistory.populateSlidingWindowHistory(slidingInput));
+            populateInputHistory.handleInputHistory(session, populateInputHistory.populateSlidingWindowHistory(slidingInput), model);
             session.setAttribute("typeOfGlazing", "Sliding window");
 
             // Keep input values so form can re-render with them
@@ -98,6 +95,7 @@ public class WindowController {
             flowContext.setActiveForm(activeForms);
 
         }
+
 
         controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
         return "glazing-form"; // or redirect to a result page
@@ -125,11 +123,14 @@ public class WindowController {
 
         model.addAttribute("show_central_profile_form", true);
 
+        populateInputHistory.handleInputHistory(session,  null, model);
+
+
         return "glazing-form"; // loads your main page
     }
 
     @PostMapping("/submitCentralProfile")
-    public String submitCentralProfile(@ModelAttribute CentralProfileInput input,@ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model, HttpSession session) {
+    public String submitCentralProfile(@ModelAttribute CentralProfileInput input,  Model model, HttpSession session) {
 
         String activeMenu = flowContext.getActiveMenu();
         model.addAttribute("activeMenu", activeMenu);
@@ -137,7 +138,6 @@ public class WindowController {
         List<String> activeForms = new ArrayList<>();
         activeForms.add("show_central_profile_result");
 
-        history.add(populateInputHistory.populateCentralProfileHistory(input));
 
         boolean isCentralProfileCheckRequired = false;
         if (activeMenu.equalsIgnoreCase("sliding")) {
@@ -152,6 +152,8 @@ public class WindowController {
             if ("a+b".equalsIgnoreCase(flowContext.getCalculationMethod())) {
                 model.addAttribute("centralProfileTitle", "A+B interlock Profile");
 
+                populateInputHistory.handleInputHistory(session, populateInputHistory.populateCentralProfileHistory(input, "A+B interlock Profile Input"), model);
+
                 if (isCentralProfileCheckRequired && (null == flowContext.getRedirectToCentralProfile() || !flowContext.getRedirectToCentralProfile())) {
                     flowContext.setRedirectToCentralProfile(true);
                 } else {
@@ -160,7 +162,10 @@ public class WindowController {
 
 
             } else {
-                model.addAttribute("centralProfileTitle", "central Profile");
+                model.addAttribute("centralProfileTitle", "Central Profile");
+
+                populateInputHistory.handleInputHistory(session, populateInputHistory.populateCentralProfileHistory(input, "Central Profile Input"), model);
+
             }
 
             if (null != flowContext.getRedirectToCentralProfile() && flowContext.getRedirectToCentralProfile()) {
@@ -202,11 +207,14 @@ public class WindowController {
         model.addAttribute("show_outer_profile_form", true);
         model.addAttribute("outerProfileInput", defaultInput.prepareOuterProfileInput());
 
+        populateInputHistory.handleInputHistory(session,  null, model);
+
+
         return "glazing-form"; // loads your main page
     }
 
     @PostMapping("/submitOuterProfile")
-    public String submitOuter(@ModelAttribute OuterProfileInput outerProfileInput, @ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model) {
+    public String submitOuter(@ModelAttribute OuterProfileInput outerProfileInput,  Model model, HttpSession session) {
 
         model.addAttribute("legBendingStress", true);
         model.addAttribute("legShearStress", true);
@@ -214,7 +222,7 @@ public class WindowController {
         model.addAttribute("activeMenu", "sliding");
         model.addAttribute("show_outer_profile_result", true);
 
-        history.add(populateInputHistory.populateOuterProfileHistory(outerProfileInput));
+        populateInputHistory.handleInputHistory(session, populateInputHistory.populateOuterProfileHistory(outerProfileInput), model);
 
         DownloadReportElement downloadReportElement = new DownloadReportElement(Constants.OUTER_LEG_CHECK_EXCEL);
         downloadReportElement.getObjectList().add("");//TODO add output Object
@@ -225,7 +233,7 @@ public class WindowController {
     }
 
     @PostMapping("/casement")
-    public String casement(@ModelAttribute("casement_input") CasementInput casementInput, @ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model, HttpSession session) {
+    public String casement(@ModelAttribute("casement_input") CasementInput casementInput,  Model model, HttpSession session) {
 
 
         String activeMenu = flowContext.getActiveMenu();
@@ -233,7 +241,8 @@ public class WindowController {
         HashMap<String, Object> inputMap = new HashMap<>();
         inputMap.put("casement_input", casementInput);
         flowContext.setInputValuesMap(inputMap);
-        history.add(populateInputHistory.populateCasementInputHistory(casementInput));
+
+        populateInputHistory.handleInputHistory(session, populateInputHistory.populateCasementInputHistory(casementInput), model);
 
         List<String> activeForms = new ArrayList<>();
 
@@ -271,12 +280,14 @@ public class WindowController {
         defaultInput.prepareMullionDefaults(model, session, mullionInput);
 
         model.addAttribute("mullion_input", mullionInput);
+        populateInputHistory.handleInputHistory(session,  null, model);
+
 
         return "glazing-form"; // loads your main page
     }
 
     @PostMapping("/submitHorizontalProfile")
-    public String submitHorizontalProfile(@ModelAttribute MullionInput mullionInput,@ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model) {
+    public String submitHorizontalProfile(@ModelAttribute MullionInput mullionInput,  Model model, HttpSession session) {
 
         String activeMenu = flowContext.getActiveMenu();
         if (activeMenu == null) {
@@ -288,14 +299,14 @@ public class WindowController {
         model.addAttribute("horizontalBendingStress", true);
         model.addAttribute("horizontalShearStress", true);
         model.addAttribute("show_horizontal_profile_result", true);
-        history.add(populateInputHistory.populateHorizontalProfileHistory(mullionInput));
 
-
+        populateInputHistory.handleInputHistory(session, populateInputHistory.populateHorizontalProfileHistory(mullionInput, "Horizontal Profile Input"), model);
         DownloadReportElement downloadReportElement = new DownloadReportElement(Constants.HORIZONTAL_CHECK_EXCEL);
         downloadReportElement.getObjectList().add("");//TODO add output Object
         flowContext.getDownloadFormList().add(downloadReportElement);
 
         return "glazing-form";
     }
+
 
 }

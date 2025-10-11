@@ -1,17 +1,51 @@
 package com.fss.core.fssCalculation.controller.utility;
 
 import com.fss.core.fssCalculation.modal.input.*;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.ui.Model;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PopulateInputHistory {
+
+    public void handleInputHistory(HttpSession session, Map<String, Object> input, Model model) {
+
+        List<Map<String, Object>> inputHistory =
+                (List<Map<String, Object>>) session.getAttribute("inputHistory");
+
+        if (inputHistory == null) {
+            inputHistory = new ArrayList<>();
+        } else {
+            // create a copy to avoid referencing old session object if it wasn’t cleared properly
+            inputHistory = new ArrayList<>(inputHistory);
+        }
+
+// Insert latest entry at top
+        if (input != null) {
+            inputHistory.add(0, input);
+        }
+
+// Save back cleanly
+        session.setAttribute("inputHistory", inputHistory);
+
+        List<Map<String, Object>> sessionHistory =
+                (List<Map<String, Object>>) session.getAttribute("inputHistory");
+        if (sessionHistory != null) {
+            model.addAttribute("inputHistory", sessionHistory);
+        } else {
+            model.addAttribute("inputHistory", new ArrayList<>());
+        }
+
+    }
 
     public Map<String, Object> populateSlidingWindowHistory(SlidingInput slidingInput) {
         Map<String, Object> inputs = new LinkedHashMap<>();
@@ -67,7 +101,7 @@ public class PopulateInputHistory {
         return entry;
     }
 
-    public Map<String, Object> populateCentralProfileHistory(CentralProfileInput centralProfileInput) {
+    public Map<String, Object> populateCentralProfileHistory(CentralProfileInput centralProfileInput, String formName) {
         Map<String, Object> inputs = new LinkedHashMap<>();
 
         MullionInput shutterA = centralProfileInput.getShutterA();
@@ -91,7 +125,7 @@ public class PopulateInputHistory {
         inputs.put("ShutterB T2", shutterB.getT2());
 
         Map<String, Object> entry = new LinkedHashMap<>();
-        entry.put("formName", "central Profile Input");
+        entry.put("formName", formName);
         entry.put("inputs", inputs);
         return entry;
     }
@@ -107,7 +141,7 @@ public class PopulateInputHistory {
 
     }
 
-    public Map<String, Object> populateHorizontalProfileHistory(MullionInput mullionInput) {
+    public Map<String, Object> populateHorizontalProfileHistory(MullionInput mullionInput, String formName) {
         Map<String, Object> inputs = new LinkedHashMap<>();
 
         inputs.put("UserIxx", mullionInput.getUserIxx());
@@ -120,7 +154,7 @@ public class PopulateInputHistory {
         inputs.put("T2", mullionInput.getT2());
 
         Map<String, Object> entry = new LinkedHashMap<>();
-        entry.put("formName", "Horizontal Profile Input");
+        entry.put("formName", formName);
         entry.put("inputs", inputs);
         return entry;
 

@@ -2,11 +2,12 @@
        xmlns:th="http://www.w3.org/1999/xhtml">
     <div class="sidebar-content">
         <div class="history-section">
-            <h4>Input History</h4>
-<!--            <p style="font-size: 13px; color: #808080; margin-bottom: 8px;">-->
-<!--                <em>This panel shows your step-by-step input in clear language.</em>-->
-<!--            </p>-->
-            <div class="input-history-list">
+            <div class="history-header">
+                <h4>Input History</h4>
+                <button class="clear-history-btn" type="button" onclick="clearInputHistory()">Clear</button>
+            </div>
+
+            <div class="input-history-list" id="input-history-list">
                 <div class="input-history-card" th:each="entry, iterStat : ${inputHistory}">
                     <div class="input-history-header">
                         <span class="input-history-number" th:text="${iterStat.index + 1}"></span>
@@ -20,6 +21,36 @@
                     </div>
                 </div>
             </div>
+
+            <p id="no-history-msg" style="display:none; color:#808080; font-size:13px; text-align:center;">
+                No input history available.
+            </p>
         </div>
     </div>
+    <script th:inline="javascript">
+        const csrfHeader = /*[[${_csrf.headerName}]]*/ 'X-CSRF-TOKEN';
+        const csrfToken = /*[[${_csrf.token}]]*/ '';
+
+        async function clearInputHistory() {
+            const list = document.getElementById("input-history-list");
+            const msg = document.getElementById("no-history-msg");
+
+            // Clear UI instantly
+            list.innerHTML = "";
+            msg.style.display = "block";
+
+            try {
+                await fetch(/*[[@{/clearHistory}]]*/, {
+                    method: 'POST',
+                    headers: {
+                        [csrfHeader]: csrfToken,
+                        'Content-Type': 'application/json'
+                    }
+                });
+            } catch (err) {
+                console.error("Failed to clear backend history:", err);
+            }
+        }
+    </script>
+
 </aside>

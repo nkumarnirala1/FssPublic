@@ -38,7 +38,6 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@SessionAttributes("inputHistory")
 public class HomeController {
 
     @Autowired
@@ -84,10 +83,6 @@ public class HomeController {
     PopulateInputHistory populateInputHistory;
 
 
-    @ModelAttribute("inputHistory")
-    public List<Map<String, Object>> inputHistory() {
-        return new ArrayList<>();
-    }
 
 
     @GetMapping({"/home", "/", "/calculate", "/calculate-deflection"})
@@ -103,6 +98,16 @@ public class HomeController {
         model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
 
         return "index";
+    }
+
+    @PostMapping("/clearHistory")
+    @ResponseBody
+    public String clearInputHistory(HttpSession session) {
+
+        session.removeAttribute("inputHistory");
+        // Optional safety reset to an empty list:
+        session.setAttribute("inputHistory", new ArrayList<Map<String, Object>>());
+        return "cleared";
     }
 
     @PostMapping("/calculate")
@@ -299,12 +304,15 @@ public class HomeController {
 
         controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
 
+        populateInputHistory.handleInputHistory(session,  null, model);
+
+
         return "glazing-form";
     }
 
     @PostMapping("/submitMullionProfile")
     public String submitMullionProfile(@ModelAttribute MullionInput mullionInput,
-                                       Model model,@ModelAttribute("inputHistory") List<Map<String, Object>> history,
+                                       Model model,
                                        HttpSession session) {
 
         String typeOfGlazing = (String) session.getAttribute("typeOfGlazing");
@@ -313,7 +321,8 @@ public class HomeController {
         Double unsupportedLength = null;
         Double stackBracket = null;
 
-        history.add(populateInputHistory.populateHorizontalProfileHistory(mullionInput));
+        populateInputHistory.handleInputHistory(session, populateInputHistory.populateHorizontalProfileHistory(mullionInput, "Combined Interlock Profile Input"), model);
+
         String activeMenu = flowContext.getActiveMenu();
         model.addAttribute("activeMenu", activeMenu);
 
