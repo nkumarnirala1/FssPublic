@@ -254,7 +254,7 @@ public class HomeController {
         activeForms.add("show_mullion_Form");
 
 
-        if ("sliding".equalsIgnoreCase(activeMenu)) {
+        if ("sliding".equalsIgnoreCase(activeMenu) || "casement".equalsIgnoreCase(activeMenu)) {
             Object slidingObject = flowContext.getInputValuesMap().get("sliding_input");
             if (!("a+b".equalsIgnoreCase(flowContext.getCalculationMethod()))) {
                 model.addAttribute("centralProfileTitle", "combined interlock Profile");
@@ -330,7 +330,7 @@ public class HomeController {
         activeForms.add("show_mullion_result");
 
 
-        if ("sliding".equalsIgnoreCase(activeMenu)) {
+        if ("sliding".equalsIgnoreCase(activeMenu) || "casement".equalsIgnoreCase(activeMenu)) {
             Object slidingObject = flowContext.getInputValuesMap().get("sliding_input");
 
             boolean isCentralProfileCheckRequired = false;

@@ -2,7 +2,7 @@
      th:fragment="central_profile_input" xmlns:th="http://www.w3.org/1999/xhtml">
     <link rel="stylesheet" th:href="@{/css/central_profile_input.css}">
 
-    <div id="sliding-flow" th:classappend="${activeMenu == 'sliding'} ? '' : ' hidden'">
+    <div id="sliding-flow" th:classappend="${activeMenu == 'sliding' or activeMenu == 'casement'} ? '' : ' hidden'">
         <h2 th:text="${centralProfileTitle} + ' INPUT'">Default Title</h2>
 
         <form id="centralProfileForm"

@@ -1,7 +1,7 @@
 <div class="result-wrapper-outer" th:fragment="outer_profile_result" th:if="${legBendingStress != null and legShearStress != null}" xmlns:th="http://www.w3.org/1999/xhtml">
     <link rel="stylesheet" th:href="@{/css/outer_profile_result.css}">
 
-    <div class="result-container-outer" th:classappend="${activeMenu == 'sliding'} ? '' : ' hidden'">
+    <div class="result-container-outer" th:classappend="${activeMenu == 'sliding' or activeMenu == 'casement'} ? '' : ' hidden'">
         <h2>OUTER PROFILE RESULTS</h2>
 
         <!-- Results Card Container -->

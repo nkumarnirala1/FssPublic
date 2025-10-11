@@ -1,7 +1,7 @@
 <div id="outerProfile-flow-content" class="outerProfile-flow-content" th:fragment="outer_profile_input" xmlns:th="http://www.w3.org/1999/xhtml">
     <link rel="stylesheet" th:href="@{/css/outer_profile_input.css}">
 
-    <div id="sliding-flow" th:classappend="${activeMenu == 'sliding'} ? '' : ' hidden'">
+    <div id="sliding-flow" th:classappend="${activeMenu == 'sliding' or activeMenu == 'casement'} ? '' : ' hidden'">
         <h2>OUTER PROFILE INPUT</h2>
 
         <form id="outerProfileForm" th:action="@{/window/submitOuterProfile}" method="post" th:object="${outerProfileInput}">

@@ -19,7 +19,8 @@ public class FlowContext {
 
     private String activeMenu;
     private List<String> activeForm;
-    private  Boolean redirectToCentralProfile;
+    private  Boolean redirectToCentralProfile = false;
+    private  Boolean isAB_InterlockCheckDone = false;
     private String calculationMethod;
     private HashMap<String, String> replaceableModelMap;
     private HashMap<String, Object> inputValuesMap;
