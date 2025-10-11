@@ -1,8 +1,6 @@
 package com.fss.core.fssCalculation.controller.utility;
 
-import com.fss.core.fssCalculation.modal.input.CasementInput;
-import com.fss.core.fssCalculation.modal.input.SemiUnitizedInput;
-import com.fss.core.fssCalculation.modal.input.SlidingInput;
+import com.fss.core.fssCalculation.modal.input.*;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
@@ -12,7 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Component
-@Scope(value = WebApplicationContext.SCOPE_SESSION,  proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class PopulateInputHistory {
 
     public Map<String, Object> populateSlidingWindowHistory(SlidingInput slidingInput) {
@@ -68,4 +66,65 @@ public class PopulateInputHistory {
         entry.put("inputs", inputs);
         return entry;
     }
+
+    public Map<String, Object> populateCentralProfileHistory(CentralProfileInput centralProfileInput) {
+        Map<String, Object> inputs = new LinkedHashMap<>();
+
+        MullionInput shutterA = centralProfileInput.getShutterA();
+        inputs.put("ShutterA UserIxx", shutterA.getUserIxx());
+        inputs.put("ShutterA Glass Thickness (mm)", shutterA.getGlassThickness());
+        inputs.put("ShutterA Cross sectional Area ", shutterA.getCrossSectionalArea());
+        inputs.put("ShutterA Transom to transom Distance", shutterA.getTransomToTransomDistance());
+        inputs.put("ShutterA width", shutterA.getB());
+        inputs.put("ShutterA Height", shutterA.getA());
+        inputs.put("ShutterA T1", shutterA.getT1());
+        inputs.put("ShutterA T2", shutterA.getT2());
+
+        MullionInput shutterB = centralProfileInput.getShutterB();
+        inputs.put("ShutterB UserIxx", shutterB.getUserIxx());
+        inputs.put("ShutterB Glass Thickness (mm)", shutterB.getGlassThickness());
+        inputs.put("ShutterB Cross sectional Area ", shutterB.getCrossSectionalArea());
+        inputs.put("ShutterB Transom to transom Distance", shutterB.getTransomToTransomDistance());
+        inputs.put("ShutterB width", shutterB.getB());
+        inputs.put("ShutterB Height", shutterB.getA());
+        inputs.put("ShutterB T1", shutterB.getT1());
+        inputs.put("ShutterB T2", shutterB.getT2());
+
+        Map<String, Object> entry = new LinkedHashMap<>();
+        entry.put("formName", "central Profile Input");
+        entry.put("inputs", inputs);
+        return entry;
+    }
+
+    public Map<String, Object> populateOuterProfileHistory(OuterProfileInput outerProfileInput) {
+        Map<String, Object> inputs = new LinkedHashMap<>();
+        inputs.put("Eccentricity", outerProfileInput.getEccentricity());
+        inputs.put("Leg Thickness", outerProfileInput.getLegThickness());
+        Map<String, Object> entry = new LinkedHashMap<>();
+        entry.put("formName", "Outer Profile Input");
+        entry.put("inputs", inputs);
+        return entry;
+
+    }
+
+    public Map<String, Object> populateHorizontalProfileHistory(MullionInput mullionInput) {
+        Map<String, Object> inputs = new LinkedHashMap<>();
+
+        inputs.put("UserIxx", mullionInput.getUserIxx());
+        inputs.put("Glass Thickness (mm)", mullionInput.getGlassThickness());
+        inputs.put("Cross sectional Area ", mullionInput.getCrossSectionalArea());
+        inputs.put("Transom to transom Distance", mullionInput.getTransomToTransomDistance());
+        inputs.put("width", mullionInput.getB());
+        inputs.put("Height", mullionInput.getA());
+        inputs.put("T1", mullionInput.getT1());
+        inputs.put("T2", mullionInput.getT2());
+
+        Map<String, Object> entry = new LinkedHashMap<>();
+        entry.put("formName", "Horizontal Profile Input");
+        entry.put("inputs", inputs);
+        return entry;
+
+    }
+
+
 }

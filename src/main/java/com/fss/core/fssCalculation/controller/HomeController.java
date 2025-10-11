@@ -1,10 +1,7 @@
 package com.fss.core.fssCalculation.controller;
 
 import com.fss.core.fssCalculation.constants.Constants;
-import com.fss.core.fssCalculation.controller.utility.ControllerHelper;
-import com.fss.core.fssCalculation.controller.utility.DefaultInput;
-import com.fss.core.fssCalculation.controller.utility.FlowContext;
-import com.fss.core.fssCalculation.controller.utility.StoreSessionAttribute;
+import com.fss.core.fssCalculation.controller.utility.*;
 
 import com.fss.core.fssCalculation.modal.generic.DownloadReportElement;
 import com.fss.core.fssCalculation.modal.generic.ExcelElement;
@@ -82,6 +79,10 @@ public class HomeController {
 
     @Autowired
     ControllerHelper controllerHelper;
+
+    @Autowired
+    PopulateInputHistory populateInputHistory;
+
 
     @ModelAttribute("inputHistory")
     public List<Map<String, Object>> inputHistory() {
@@ -303,7 +304,7 @@ public class HomeController {
 
     @PostMapping("/submitMullionProfile")
     public String submitMullionProfile(@ModelAttribute MullionInput mullionInput,
-                                       Model model,
+                                       Model model,@ModelAttribute("inputHistory") List<Map<String, Object>> history,
                                        HttpSession session) {
 
         String typeOfGlazing = (String) session.getAttribute("typeOfGlazing");
@@ -312,6 +313,7 @@ public class HomeController {
         Double unsupportedLength = null;
         Double stackBracket = null;
 
+        history.add(populateInputHistory.populateHorizontalProfileHistory(mullionInput));
         String activeMenu = flowContext.getActiveMenu();
         model.addAttribute("activeMenu", activeMenu);
 

@@ -82,7 +82,6 @@ public class WindowController {
             history.add(populateInputHistory.populateSlidingWindowHistory(slidingInput));
             session.setAttribute("typeOfGlazing", "Sliding window");
 
-
             // Keep input values so form can re-render with them
             model.addAttribute("sliding_input", slidingInput);
             model.addAttribute("Ixx", 9.9);
@@ -130,7 +129,7 @@ public class WindowController {
     }
 
     @PostMapping("/submitCentralProfile")
-    public String submitCentralProfile(@ModelAttribute CentralProfileInput input, Model model, HttpSession session) {
+    public String submitCentralProfile(@ModelAttribute CentralProfileInput input,@ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model, HttpSession session) {
 
         String activeMenu = flowContext.getActiveMenu();
         model.addAttribute("activeMenu", activeMenu);
@@ -138,6 +137,7 @@ public class WindowController {
         List<String> activeForms = new ArrayList<>();
         activeForms.add("show_central_profile_result");
 
+        history.add(populateInputHistory.populateCentralProfileHistory(input));
 
         boolean isCentralProfileCheckRequired = false;
         if (activeMenu.equalsIgnoreCase("sliding")) {
@@ -206,13 +206,15 @@ public class WindowController {
     }
 
     @PostMapping("/submitOuterProfile")
-    public String submitOuter(@ModelAttribute OuterProfileInput outerProfileInput, Model model) {
+    public String submitOuter(@ModelAttribute OuterProfileInput outerProfileInput, @ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model) {
 
         model.addAttribute("legBendingStress", true);
         model.addAttribute("legShearStress", true);
 
         model.addAttribute("activeMenu", "sliding");
         model.addAttribute("show_outer_profile_result", true);
+
+        history.add(populateInputHistory.populateOuterProfileHistory(outerProfileInput));
 
         DownloadReportElement downloadReportElement = new DownloadReportElement(Constants.OUTER_LEG_CHECK_EXCEL);
         downloadReportElement.getObjectList().add("");//TODO add output Object
@@ -231,13 +233,11 @@ public class WindowController {
         HashMap<String, Object> inputMap = new HashMap<>();
         inputMap.put("casement_input", casementInput);
         flowContext.setInputValuesMap(inputMap);
+        history.add(populateInputHistory.populateCasementInputHistory(casementInput));
 
         List<String> activeForms = new ArrayList<>();
 
         if (activeMenu.equalsIgnoreCase("casement")) {
-
-            history.add(populateInputHistory.populateCasementInputHistory(casementInput));
-
 
             // Keep input values so form can re-render with them
             model.addAttribute("casement_input", casementInput);
@@ -250,7 +250,6 @@ public class WindowController {
             flowContext.setActiveForm(activeForms);
 
         }
-
         controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
 
         flowContext.getDownloadFormList().clear(); //clear form
@@ -277,7 +276,7 @@ public class WindowController {
     }
 
     @PostMapping("/submitHorizontalProfile")
-    public String submitHorizontalProfile(@ModelAttribute MullionInput mullionInput, Model model) {
+    public String submitHorizontalProfile(@ModelAttribute MullionInput mullionInput,@ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model) {
 
         String activeMenu = flowContext.getActiveMenu();
         if (activeMenu == null) {
@@ -289,6 +288,8 @@ public class WindowController {
         model.addAttribute("horizontalBendingStress", true);
         model.addAttribute("horizontalShearStress", true);
         model.addAttribute("show_horizontal_profile_result", true);
+        history.add(populateInputHistory.populateHorizontalProfileHistory(mullionInput));
+
 
         DownloadReportElement downloadReportElement = new DownloadReportElement(Constants.HORIZONTAL_CHECK_EXCEL);
         downloadReportElement.getObjectList().add("");//TODO add output Object
