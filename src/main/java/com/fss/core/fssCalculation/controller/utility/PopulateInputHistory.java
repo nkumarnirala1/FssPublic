@@ -34,7 +34,6 @@ public class PopulateInputHistory {
             inputHistory.add(0, input);
         }
 
-// Save back cleanly
         session.setAttribute("inputHistory", inputHistory);
 
         List<Map<String, Object>> sessionHistory =
@@ -159,6 +158,31 @@ public class PopulateInputHistory {
         return entry;
 
     }
+
+    public Map<String, Object> populateTransomProfileHistory(TransomInput transomInput, String formName) {
+        Map<String, Object> inputs = new LinkedHashMap<>();
+
+        inputs.put("Grid Length (mm)", transomInput.getGridLength());
+        inputs.put("Glass Thickness (mm)", transomInput.getGlassThickness());
+        inputs.put("Transom Bottom Panel Height (mm)", transomInput.getTransomBottomPanelHeight());
+        inputs.put("T2", transomInput.getT2Transom());
+        inputs.put("Transom Ixx", transomInput.getTransomIxx());
+        inputs.put("Bounding Box Y", transomInput.getTransomBoundingBoxY());
+        inputs.put("Unsupported Length (mm)", transomInput.getTransomUnsupportedLength());
+        inputs.put("Wind Pressure", transomInput.getWindPressure());
+        inputs.put("Transom Top Panel Height (mm)", transomInput.getTransomTopPanelHeight());
+        inputs.put("Depth of Section (mm)", transomInput.getDepthOfSectionTransom());
+        inputs.put("T1", transomInput.getThicknessTaTransom_t1());
+        inputs.put("Transom Iyy", transomInput.getTransomIyy());
+        inputs.put("CrossSectional Area", transomInput.getTransomCrossSectionalArea());
+        inputs.put("Section Width", transomInput.getSectionWidthB());
+        Map<String, Object> entry = new LinkedHashMap<>();
+        entry.put("formName", formName);
+        entry.put("inputs", inputs);
+        return entry;
+
+    }
+
 
 
 }

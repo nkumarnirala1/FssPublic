@@ -45,7 +45,7 @@ public class WindowController {
 
         List<String> activeForms = new ArrayList<>();
 
-        if ("sliding".equalsIgnoreCase(activeMenu) || (activeMenu == null && "casement".equalsIgnoreCase(flowContext.getActiveMenu()))) {
+        if ("sliding".equalsIgnoreCase(flowContext.getActiveMenu()) || (activeMenu == null && "casement".equalsIgnoreCase(flowContext.getActiveMenu()))) {
             activeForms.add("show_window_form");
             model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
 

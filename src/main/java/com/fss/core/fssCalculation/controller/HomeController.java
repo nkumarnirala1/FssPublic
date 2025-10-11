@@ -83,8 +83,6 @@ public class HomeController {
     PopulateInputHistory populateInputHistory;
 
 
-
-
     @GetMapping({"/home", "/", "/calculate", "/calculate-deflection"})
     public String home(@RequestParam(required = false) String activeMenu, Model model, @ModelAttribute("inputHistory") List<Map<String, Object>> history) {
         if (activeMenu == null) {
@@ -304,7 +302,7 @@ public class HomeController {
 
         controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
 
-        populateInputHistory.handleInputHistory(session,  null, model);
+        populateInputHistory.handleInputHistory(session, null, model);
 
 
         return "glazing-form";
@@ -321,9 +319,15 @@ public class HomeController {
         Double unsupportedLength = null;
         Double stackBracket = null;
 
-        populateInputHistory.handleInputHistory(session, populateInputHistory.populateHorizontalProfileHistory(mullionInput, "Combined Interlock Profile Input"), model);
-
         String activeMenu = flowContext.getActiveMenu();
+
+        if ("semi-unitized".equalsIgnoreCase(activeMenu)) {
+            populateInputHistory.handleInputHistory(session, populateInputHistory.populateHorizontalProfileHistory(mullionInput, "Mullion Profile Input"), model);
+
+        } else {
+            populateInputHistory.handleInputHistory(session, populateInputHistory.populateHorizontalProfileHistory(mullionInput, "Combined Interlock Profile Input"), model);
+        }
+
         model.addAttribute("activeMenu", activeMenu);
 
         List<String> activeForms = new ArrayList<>();
@@ -449,6 +453,8 @@ public class HomeController {
         flowContext.setActiveForm(activeForms);
         controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
 
+        populateInputHistory.handleInputHistory(session, null, model);
+
         return "glazing-form";
     }
 
@@ -462,6 +468,7 @@ public class HomeController {
         Double windPressure = null;
         Double unsupportedLength = null;
         Double stackBracket = 0.0;
+        populateInputHistory.handleInputHistory(session, populateInputHistory.populateTransomProfileHistory(transomInput,"Transom Profile Input"), model);
 
         String activeMenu = flowContext.getActiveMenu();
         model.addAttribute("activeMenu", activeMenu);
