@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/unitized")
-@SessionAttributes("inputHistory")
 public class UnitizedController {
 
     @Autowired
@@ -50,11 +48,13 @@ public class UnitizedController {
         model.addAttribute("semiUnitizedInput", defaultInput.prepareSemiUnitizedInput());
         flowContext.getDownloadFormList().clear(); //clear form
 
+        populateInputHistory.handleInputHistory(session,null, model);
+
         return "glazing-form";
     }
 
     @PostMapping("/semi-unitized")
-    public String executeSemiUnitizedFlow(@ModelAttribute("semiUnitizedInput") SemiUnitizedInput semiUnitizedInput, @ModelAttribute("inputHistory") List<Map<String, Object>> history, Model model, HttpSession session) {
+    public String executeSemiUnitizedFlow(@ModelAttribute("semiUnitizedInput") SemiUnitizedInput semiUnitizedInput, Model model, HttpSession session) {
 
 
         String activeMenu = flowContext.getActiveMenu();
@@ -65,8 +65,7 @@ public class UnitizedController {
 
         List<String> activeForms = new ArrayList<>();
 
-
-        history.add(populateInputHistory.populateSemiUnitizedInputHistory(semiUnitizedInput));
+        populateInputHistory.handleInputHistory(session,populateInputHistory.populateSemiUnitizedInputHistory(semiUnitizedInput), model);
         session.setAttribute("typeOfGlazing", semiUnitizedInput.getCalculationMethod());
 
 

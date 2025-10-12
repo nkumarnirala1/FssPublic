@@ -3,7 +3,6 @@ package com.fss.core.fssCalculation.controller;
 import com.fss.core.fssCalculation.persistance.SubscriptionPlanRepository;
 import com.fss.core.fssCalculation.persistance.UserRepository;
 import com.fss.core.fssCalculation.securityconfig.SubscriptionPlan;
-import com.fss.core.fssCalculation.securityconfig.User;
 import com.fss.core.fssCalculation.service.payment.PaymentService;
 import com.razorpay.RazorpayException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
-import java.time.LocalDate;
 import java.util.Base64;
 import java.util.Map;
 
