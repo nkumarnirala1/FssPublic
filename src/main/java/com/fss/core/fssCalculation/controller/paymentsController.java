@@ -3,10 +3,13 @@ package com.fss.core.fssCalculation.controller;
 import com.fss.core.fssCalculation.persistance.SubscriptionPlanRepository;
 import com.fss.core.fssCalculation.persistance.UserRepository;
 import com.fss.core.fssCalculation.securityconfig.SubscriptionPlan;
+import com.fss.core.fssCalculation.securityconfig.User;
 import com.fss.core.fssCalculation.service.payment.PaymentService;
 import com.razorpay.RazorpayException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import java.time.LocalDate;
 import java.util.Base64;
 import java.util.Map;
 
@@ -36,28 +40,59 @@ public class paymentsController {
     private PaymentService paymentService;
 
     @GetMapping
-    public String paymentsPage() {
-        SubscriptionPlan subscriptionPlan = new SubscriptionPlan();
-        subscriptionPlan.setId((long) 1.0);
-        subscriptionPlan.setPlanname("test");
-        subscriptionPlan.setDuration("Monthly");
-        subscriptionPlan.setPrice(0.0);
+    public String paymentsPage(Model model) {
+
+        Double goldPrice = 100.0; //planService.getPriceByPlanName("Gold");
+        Double freePrice = 0.0;   //planService.getPriceByPlanName("Free");
+
+        model.addAttribute("goldPrice", goldPrice);
+        model.addAttribute("freePrice", freePrice);
 
 
         return "payments";
     }
 
     @PostMapping("/subscribe")
-    public String subscribe(@RequestParam("planId") Long planId, Model model) throws RazorpayException {
+    public String subscribe(@RequestParam("planId") Long planId,@RequestParam(value = "duration", required = false, defaultValue = "1") int duration, Model model) throws RazorpayException {
         // Fetch plan details from DB
         SubscriptionPlan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid plan ID"));
 
+
+        if("Free".equalsIgnoreCase(plan.getPlanname()))
+        {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            String username = auth.getName();
+            User user = userRepository.findByUsername(username).orElse(null);
+
+            if (user == null) {
+               return "redirect:/login?error=user_not_found";
+
+            }
+            if(user.getSubscriptionEnd()!=null)
+            {
+                model.addAttribute("comment", "You have used your Free Quota, Please upgrade to Gold plan");
+                return "payments";
+            }
+            if (!user.isSubscribed()) {
+
+                user.setSubscriptionPlan(plan);
+                user.setSubscriptionStart(LocalDate.now());
+                user.setSubscriptionEnd(LocalDate.now().plusDays(2));
+                userRepository.save(user);
+            }
+
+                return "redirect:/window/ui";
+
+        }
+
+        double totalAmount = plan.getPrice() * duration;
         // Create Razorpay order through service
-        Map<String, Object> orderDetails = paymentService.createOrder(plan.getPrice(), "");
+        Map<String, Object> orderDetails = paymentService.createOrder(totalAmount, "");
 
         model.addAttribute("plan", plan);
         model.addAttribute("order", orderDetails);
+        model.addAttribute("totalAmount", totalAmount);
 
         return "payment-page"; // -> src/main/resources/templates/payment-page.html
     }

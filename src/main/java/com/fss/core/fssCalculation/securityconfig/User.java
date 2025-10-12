@@ -37,7 +37,8 @@ public class User {
     private LocalDateTime otpExpiry;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "subscriptionplan_id")
     private SubscriptionPlan subscriptionPlan;
 
 
@@ -46,6 +47,13 @@ public class User {
     private boolean active;
 
     public boolean isSubscribed() {
-        return subscriptionEnd != null && subscriptionEnd.isAfter(LocalDate.now());
+        if (subscriptionPlan == null) return false;
+        if (subscriptionEnd == null) return false;
+        return subscriptionEnd.isAfter(LocalDate.now());
+    }
+
+    public boolean hasPlan(String planName) {
+        if (subscriptionPlan == null) return false;
+        return subscriptionPlan.getPlanname().equalsIgnoreCase(planName);
     }
 }

@@ -30,7 +30,7 @@ public class PaymentService {
 
 
         JSONObject orderRequest = new JSONObject();
-        orderRequest.put("amount", 50000); // in paise
+        orderRequest.put("amount", amount*100); // in paise
         orderRequest.put("currency", "INR");
         orderRequest.put("receipt", receiptEmail + "_receipt");
         Map<String, Object> response = new HashMap<>();

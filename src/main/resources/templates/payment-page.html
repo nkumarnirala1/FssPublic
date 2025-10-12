@@ -3,51 +3,108 @@
 <head>
     <title>Complete Payment</title>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            color: #333;
+        }
+        .payment-container {
+            max-width: 500px;
+            margin: auto;
+            padding: 25px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #12DAD1;
+        }
+        .info-row {
+            margin: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 15px;
+            border-radius: 8px;
+            border: none;
+            background-color: #12DAD1;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #0bb6aa;
+        }
+    </style>
 </head>
 <body>
-<h2>Complete Your Payment for <span th:text="${plan.planname}"></span></h2>
-<!--<p style="color:red">Planname_1 = [[${plan.planname}]]</p>-->
-<!--<p style="color:red">order.amount_1 = [[${order.amount}]]</p>-->
+<div class="payment-container">
+    <h2>Complete Your Payment</h2>
 
-<button id="rzp-button"
-        th:data-key="${order.key}"
-        th:data-amount="${order.amount}"
-        th:data-currency="${order.currency}"
-        th:data-orderid="${order.id}"
-        th:data-planname="${plan.planname}">
-    Pay Now
-</button>
+    <div class="info-row">
+        <span><strong>Plan:</strong></span>
+        <span th:text="${plan.planname}"></span>
+    </div>
+
+    <div class="info-row">
+        <span><strong>Base Rate:</strong></span>
+        <span>₹<span th:text="${plan.price}"></span></span>
+    </div>
+
+    <div class="info-row">
+        <span><strong>Final Amount:</strong></span>
+        <span>₹<span th:text="${totalAmount}"></span></span>
+    </div>
+
+    <button id="rzp-button"
+            th:data-key="${order.key}"
+            th:data-amount="${order.amount}"
+            th:data-currency="${order.currency}"
+            th:data-orderid="${order.id}"
+            th:data-planname="${plan.planname}">
+        Pay Now
+    </button>
+</div>
 
 <script>
-    var button = document.getElementById('rzp-button');
+    const button = document.getElementById('rzp-button');
 
-    var options = {
-        "key": button.getAttribute("data-key"),
-        "amount": button.getAttribute("data-amount"), // in paise
-        "currency": button.getAttribute("data-currency"),
-        "name": "NextGen Facade",
-        "description": "Subscription Payment for " + button.getAttribute("data-planname"),
-        "order_id": button.getAttribute("data-orderid"),
-        "handler": function (response) {
-            alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
-            window.location.href = "/payment/success?razorpay_payment_id=" + response.razorpay_payment_id +
-                                   "&razorpay_order_id=" + response.razorpay_order_id +
-                                   "&razorpay_signature=" + response.razorpay_signature;
-        },
-        "prefill": {
-            "name": "Test User",
-            "email": "test@example.com",
-            "contact": "9999999999"
-        },
-        "theme": {
-            "color": "#12DAD1"
-        }
-    };
-    console.log("Razorpay order options:", options);
-    button.onclick = function(e){
-        var rzp = new Razorpay(options);
-        rzp.open();
+    button.onclick = function(e) {
         e.preventDefault();
+
+        const options = {
+            "key": button.getAttribute("data-key"),
+            "amount": button.getAttribute("data-amount"), // in paise
+            "currency": button.getAttribute("data-currency"),
+            "name": "NextGen Facade",
+            "description": "Subscription Payment for " + button.getAttribute("data-planname"),
+            "order_id": button.getAttribute("data-orderid"),
+            "handler": function (response) {
+                alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+                window.location.href = "/payment/success?razorpay_payment_id=" + response.razorpay_payment_id +
+                                       "&razorpay_order_id=" + response.razorpay_order_id +
+                                       "&razorpay_signature=" + response.razorpay_signature;
+            },
+            "prefill": {
+                "name": "Test User",
+                "email": "test@example.com",
+                "contact": "9999999999"
+            },
+            "theme": {
+                "color": "#12DAD1"
+            }
+        };
+
+        console.log("Razorpay order options:", options);
+        const rzp = new Razorpay(options);
+        rzp.open();
     }
 </script>
 </body>

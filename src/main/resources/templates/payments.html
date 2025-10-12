@@ -54,6 +54,13 @@
             <div class="hero-badge">
                 <span>Professional Facade Engineering Solutions</span>
             </div>
+
+
+            <div th:if="${comment != null}" class="comment-container">
+                <p th:text="${comment}" class="comment-message"></p>
+            </div>
+
+
             <h1 class="hero-title">Choose Your Subscription Plan</h1>
             <p class="hero-subtitle">
                 Access advanced structural calculation tools, professional drawing templates,
@@ -68,10 +75,10 @@
                 <!-- Basic Plan -->
                 <div class="plan-card">
                     <div class="plan-header">
-                        <h3 class="plan-name">Starter</h3>
+                        <h3 class="plan-name">Free</h3>
                     </div>
                     <div class="plan-pricing">
-                        <span class="plan-price">₹799</span>
+                        <span class="plan-price" th:text="'₹' + ${freePrice}"></span>
                         <span class="plan-period">per month</span>
                     </div>
                     <p class="plan-description">
@@ -99,7 +106,7 @@
 
                     <div class="plan-actions">
                         <form th:action="@{/payment/subscribe}" method="post">
-                            <input type="hidden" name="planId" value="2"/> <!-- Starter Plan ID -->
+                            <input type="hidden" name="planId" value="1"/> <!-- Starter Plan ID -->
                             <button type="submit" class="btn-primary">Subscribe Now</button>
                         </form>
                     </div>
@@ -108,12 +115,11 @@
                 <!-- Pro Plan (Featured) -->
                 <div class="plan-card featured">
                     <div class="plan-header">
-                        <h3 class="plan-name">Professional</h3>
+                        <h3 class="plan-name">Gold</h3>
                         <span class="popular-badge">Most Popular</span>
                     </div>
                     <div class="plan-pricing">
-                        <span class="plan-price">₹1,499</span>
-                        <span class="plan-period">per month</span>
+                        <span class="plan-price" th:text="'₹' + ${goldPrice} + ' Monthly'"></span>
                     </div>
                     <p class="plan-description">
                         Complete facade engineering toolkit for consultants and small teams.
@@ -143,59 +149,16 @@
                     </div>
 
                     <div class="plan-actions">
-                        <form th:action="@{/subscribe}" method="post">
-                            <input type="hidden" name="planId" value="3"/> <!-- Starter Plan ID -->
+                        <form th:action="@{/payment/subscribe}" method="post">
+                            <input type="hidden" name="planId" value="2"/> <!-- Starter Plan ID -->
+                            <label for="duration-gold">Plan Period:</label>
+                            <select name="duration" id="duration-gold" required>
+                                <option value="1">Monthly</option>
+                                <option value="3">Quarterly (3 months)</option>
+                                <option value="12">Yearly (12 months)</option>
+                            </select>
                             <button type="submit" class="btn-primary">Subscribe Now</button>
                         </form>
-                        <button class="btn-secondary" onclick="openUPIPayment(149900, 'Professional Plan')">
-                            Pay via UPI
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Enterprise Plan -->
-                <div class="plan-card">
-                    <div class="plan-header">
-                        <h3 class="plan-name">Enterprise</h3>
-                    </div>
-                    <div class="plan-pricing">
-                        <span class="plan-price">₹4,999</span>
-                        <span class="plan-period">per month</span>
-                    </div>
-                    <p class="plan-description">
-                        Full-service solution for engineering firms and large construction companies.
-                    </p>
-
-                    <div class="plan-features">
-                        <div class="feature-item">
-                            <span class="feature-icon">✓</span>
-                            <span>Up to 10 team seats</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">✓</span>
-                            <span>Custom calculation modules</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">✓</span>
-                            <span>Dedicated engineer support (8h/month)</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">✓</span>
-                            <span>White-label reports with your branding</span>
-                        </div>
-                        <div class="feature-item">
-                            <span class="feature-icon">✓</span>
-                            <span>API access for integrations</span>
-                        </div>
-                    </div>
-
-                    <div class="plan-actions">
-                        <button class="btn-primary" onclick="initiatePayment('enterprise', 499900)">
-                            Subscribe Now
-                        </button>
-                        <button class="btn-secondary" onclick="openUPIPayment(499900, 'Enterprise Plan')">
-                            Pay via UPI
-                        </button>
                     </div>
                 </div>
 

@@ -140,34 +140,15 @@ public class SecurityController {
             return "redirect:/register?error=alreadyRegistered";
         }
 
-//        user.setUsername(user.getEmail().substring(0, user.getEmail().indexOf("@")));
-//        user.setRole("user");
-//
-//        userRepository.save(user);
+        user.setUsername(user.getEmail().substring(0, user.getEmail().indexOf("@")));
+        user.setRole("user");
+
+        userRepository.save(user);
 
 
-        SubscriptionPlan plan = planRepository.findById(user.getSubscriptionPlan().getId()).orElseThrow();
+   return "redirect:/login?registered=registrationSuccessfull";
 
 
-        if (plan.getPrice() == 0.0) {
-            User freeUser = new User();
-            freeUser.setEmail(user.getEmail());
-            freeUser.setPassword(user.getPassword());
-            freeUser.setSubscriptionPlan(plan);
-            freeUser.setSubscriptionStart(LocalDate.now());
-            freeUser.setSubscriptionEnd(LocalDate.now().plusMonths(1));
-            freeUser.setActive(true);
-            userRepository.save(user);
-            return "redirect:/payment/success";
-        } else {
-            Map<String, Object> order = paymentService.createOrder(plan.getPrice(), user.getEmail());
-            model.addAttribute("razorpayOrderId", order.get("id"));
-            model.addAttribute("razorpayKey", paymentService.getKeyId());
-            model.addAttribute("plan", plan);
-            model.addAttribute("email", user.getEmail());
-            model.addAttribute("password", user.getPassword());
-            return "checkout";
-        }
 
 
     }

@@ -8,8 +8,12 @@ import com.fss.core.fssCalculation.controller.utility.FlowContext;
 import com.fss.core.fssCalculation.controller.utility.PopulateInputHistory;
 import com.fss.core.fssCalculation.modal.generic.DownloadReportElement;
 import com.fss.core.fssCalculation.modal.input.*;
+import com.fss.core.fssCalculation.persistance.UserRepository;
+import com.fss.core.fssCalculation.securityconfig.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -32,10 +36,15 @@ public class WindowController {
     @Autowired
     ControllerHelper controllerHelper;
 
+    @Autowired
+    private UserRepository userRepository;
+
+
 
     // Show form
     @GetMapping({"/ui", ""})
     public String showUi(@RequestParam(required = false) String activeMenu, Model model, HttpSession session) {
+
         if (activeMenu == null && flowContext.getActiveMenu() == null) {
             flowContext.setActiveMenu("sliding"); // default landing form
         } else if (activeMenu != null) {
