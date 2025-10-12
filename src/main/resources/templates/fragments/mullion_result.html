@@ -20,7 +20,7 @@
             ❌ Profile is unsafe under shear stress
         </p>
 
-        <form th:action="@{/download-pdf}" method="get">
+        <form th:action="@{/home/download-pdf}" method="get">
             <button type="submit" class="header-btn download-btn">Download PDF</button>
         </form>
 
@@ -32,7 +32,7 @@
             <button type="submit" class="btn btn-primary checkCentralProfile-btn">Check outer profile</button>
         </form>
 
-        <form th:if="${isTransomProfileCheckRequired}" th:action="@{/checkTransom}" method="get">
+        <form th:if="${isTransomProfileCheckRequired}" th:action="@{/home/checkTransom}" method="get">
             <button type="submit" class="btn btn-primary checkCentralProfile-btn">Check Transom profile</button>
         </form>
     </div>

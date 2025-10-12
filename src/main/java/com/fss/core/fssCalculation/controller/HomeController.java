@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/home")
 public class HomeController {
 
     @Autowired
@@ -83,20 +84,7 @@ public class HomeController {
     PopulateInputHistory populateInputHistory;
 
 
-    @GetMapping({"/home", "/", "/calculate", "/calculate-deflection"})
-    public String home(@RequestParam(required = false) String activeMenu, Model model, @ModelAttribute("inputHistory") List<Map<String, Object>> history) {
-        if (activeMenu == null) {
-            activeMenu = "sliding"; // default landing form
-        }
 
-        flowContext.setActiveMenu(activeMenu);
-        flowContext.setActiveForm(new ArrayList<>(List.of("show_window_form")));
-        controllerHelper.addActiveFormsToModel(model, flowContext.getActiveForm());
-        model.addAttribute("activeMenu", activeMenu);
-        model.addAttribute("sliding_input", defaultInput.prepareSlidingWindowInput());
-
-        return "index";
-    }
 
     @PostMapping("/clearHistory")
     @ResponseBody
@@ -143,99 +131,7 @@ public class HomeController {
         return "glazing-form";
     }
 
-    @PostMapping("/calculateFully")
-    public String calculateFully(@Valid @ModelAttribute("input") GlazingInput input,
-                                 BindingResult bindingResult,
-                                 Model model,
-                                 HttpSession session) {
 
-        if (bindingResult.hasErrors()) {
-            return "glazing-form"; // Validation error
-        }
-
-        if (input.getUnsupportedLength() <= 0 || input.getGridLength() <= 0 ||
-                input.getWindPressure() <= 0 || input.getStackBracket() < 0) {
-            return handleError(model, "All input values must be positive and non-zero", input);
-        }
-
-        // Run calculations (you may adjust logic for Fully Unitized)
-        double Ixx = ixxCal.calculateRequiredIxx(
-                input.getTypeOfGlazing(),
-                input.getUnsupportedLength(),
-                input.getGridLength(),
-                input.getWindPressure(),
-                input.getStackBracket()
-        );
-
-        double deflection = deflectionCal.calculateDeflection(
-                input.getTypeOfGlazing(),
-                input.getUnsupportedLength(),
-                input.getGridLength(),
-                input.getWindPressure(),
-                input.getStackBracket(),
-                Ixx
-        );
-
-        double bendingMoment = bendingMomentCal.calculateBendingMoment(
-                input.getTypeOfGlazing(),
-                input.getUnsupportedLength(),
-                input.getGridLength(),
-                input.getWindPressure(),
-                input.getStackBracket()
-        );
-
-        BigDecimal roundedMoment = new BigDecimal(bendingMoment).setScale(2, RoundingMode.HALF_UP);
-
-        // Store results in session
-        session.setAttribute("typeOfGlazing", input.getTypeOfGlazing());
-        session.setAttribute("unsupportedLength", input.getUnsupportedLength());
-        session.setAttribute("gridLength", input.getGridLength());
-        session.setAttribute("windPressure", input.getWindPressure());
-        session.setAttribute("stackBracket", input.getStackBracket());
-        session.setAttribute("Ixx", Ixx);
-        session.setAttribute("df", deflection);
-        session.setAttribute("bm", roundedMoment);
-
-        // Prepare model for results
-        prepareModel(model, 0, Ixx, deflection, roundedMoment, Ixx);
-
-        model.addAttribute("showMullionForm", false);
-        model.addAttribute("showTransomForm", false);
-
-        return "glazing-form";
-    }
-
-    @PostMapping("/calculate-deflection")
-    public String calculateDeflectionFromUserIxx(@RequestParam double userIxx,
-                                                 Model model,
-                                                 HttpSession session) {
-        String typeOfGlazing = (String) session.getAttribute("typeOfGlazing");
-        Double gridLength = (Double) session.getAttribute("gridLength");
-        Double windPressure = (Double) session.getAttribute("windPressure");
-        Double unsupportedLength = (Double) session.getAttribute("unsupportedLength");
-        Double stackBracket = (Double) session.getAttribute("stackBracket");
-
-        if (gridLength == null || windPressure == null || unsupportedLength == null) {
-            model.addAttribute("input", defaultInput.prepareDefaultInput());
-            return "glazing-form";
-        }
-
-        addInputToModel(model, unsupportedLength, windPressure, gridLength, stackBracket, typeOfGlazing);
-
-        if (userIxx == 0) {
-            return handleError(model, "Please perform the initial Ixx calculation first", null);
-        }
-
-        double cf = deflectionCal.calculateDeflection(typeOfGlazing, unsupportedLength, gridLength, windPressure, stackBracket, userIxx);
-
-        prepareModel(model, cf, session.getAttribute("Ixx"), session.getAttribute("df"), session.getAttribute("dm"), userIxx);
-
-        session.setAttribute("userIxx", userIxx);
-        session.setAttribute("cf", cf);
-        model.addAttribute("showMullionForm", false);
-        model.addAttribute("showTransomForm", false);
-        return "glazing-form";
-    }
 
     @PostMapping("/checkMullion")
     public String checkMullionProfile(Model model, HttpSession session) {

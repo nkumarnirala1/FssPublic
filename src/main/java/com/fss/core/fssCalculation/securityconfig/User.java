@@ -44,4 +44,8 @@ public class User {
     private LocalDate subscriptionStart;
     private LocalDate subscriptionEnd;
     private boolean active;
+
+    public boolean isSubscribed() {
+        return subscriptionEnd != null && subscriptionEnd.isAfter(LocalDate.now());
+    }
 }

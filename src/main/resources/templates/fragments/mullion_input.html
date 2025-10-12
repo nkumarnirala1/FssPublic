@@ -4,7 +4,7 @@
     <div id="sliding-flow" th:classappend="${activeMenu == 'sliding' or activeMenu == 'casement' or activeMenu == 'semi-unitized'} ? '' : ' hidden'">
         <h2 th:text="${mullionProfileTitle} + ' INPUT'"> COMBINED INTERLOCK PROFILE INPUT </h2>
 
-        <form th:action="@{/submitMullionProfile}" method="post" class="profile-form-split" th:object="${mullion_input}">
+        <form th:action="@{/home/submitMullionProfile}" method="post" class="profile-form-split" th:object="${mullion_input}">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
 
             <!-- Left Column - 6 inputs -->

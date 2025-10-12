@@ -22,7 +22,7 @@
     </div>
 
     <div class="action-buttons-container">
-        <form th:if="${isMullionCheckRequired}" th:action="@{/checkMullion}" method="post">
+        <form th:if="${isMullionCheckRequired}" th:action="@{/home/checkMullion}" method="post">
             <button type="submit" class="action-btn primary-btn">
                 <span class="btn-icon">🔍</span>
                 <span class="btn-text">Check Combined Interlock Profile</span>

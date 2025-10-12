@@ -40,7 +40,7 @@
             msg.style.display = "block";
 
             try {
-                await fetch(/*[[@{/clearHistory}]]*/, {
+                await fetch(/*[[@{/home/clearHistory}]]*/, {
                     method: 'POST',
                     headers: {
                         [csrfHeader]: csrfToken,
