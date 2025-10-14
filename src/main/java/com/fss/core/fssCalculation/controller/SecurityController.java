@@ -9,12 +9,16 @@ import com.fss.core.fssCalculation.service.payment.PaymentService;
 import com.fss.core.fssCalculation.service.userservice.EmailService;
 import com.razorpay.RazorpayException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.time.LocalDate;
@@ -37,8 +41,16 @@ public class SecurityController {
     @Autowired
     private PaymentService paymentService;
 
+    @Autowired
+    private  JavaMailSender mailSender;
+
+    @Value("${admin.email}")
+    private String adminEmail;
+
     @GetMapping({"/", "/home"})
     public String home(Model model, Principal principal) {
+
+        // Todo DB call to fetch name , later on use session to avoid DB call
         if (principal != null) {
             model.addAttribute("username", principal.getName());
         }
@@ -158,5 +170,45 @@ public class SecurityController {
         return "redirect:/login?registered=registrationSuccessfull";
 
 
+    }
+
+    @PostMapping("/sendInquiry")
+    public String sendInquiry(
+            @RequestParam String name,
+            @RequestParam String email,
+            @RequestParam String phone,
+            @RequestParam String details,
+            RedirectAttributes redirectAttributes) {
+
+        try {
+            String subject = "New Inquiry from " + name;
+            String body = String.format("""
+                    You have received a new inquiry from your website:
+                    
+                    Name: %s
+                    Email: %s
+                    Phone: %s
+                    
+                    Project Details:
+                    %s
+                    
+                    """, name, email, phone, details);
+
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setTo(adminEmail);
+            message.setSubject(subject);
+            message.setText(body);
+            message.setFrom(email);
+
+            mailSender.send(message);
+
+            redirectAttributes.addFlashAttribute("message", "✅ Inquiry sent successfully!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "❌ Failed to send inquiry. Please try again.");
+            e.printStackTrace();
+        }
+
+        // Redirect back to home page or contact section
+        return "redirect:/#contact";
     }
 }
