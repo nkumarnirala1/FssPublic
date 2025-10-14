@@ -68,10 +68,10 @@ public class paymentsController {
                 return "redirect:/login?error=user_not_found";
 
             }
-//            if (user.getSubscriptionEnd() != null) {
-//                model.addAttribute("comment", "You have used your Free Quota, Please upgrade to Gold plan");
-//                return "payments";
-//            }
+            if (user.getSubscriptionEnd() != null) {
+                model.addAttribute("comment", "You have used your Free Quota, Please upgrade to Gold plan");
+                return "payments";
+            }
             if (!user.isSubscribed()) {
 
                 user.setSubscriptionPlan(plan);
