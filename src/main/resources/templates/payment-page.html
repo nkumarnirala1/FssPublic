@@ -63,6 +63,10 @@
         <span>₹<span th:text="${totalAmount}"></span></span>
     </div>
 
+    <!-- Hidden fields for planId and duration -->
+    <input type="hidden" id="planId" th:value="${plan.id}">
+    <input type="hidden" id="duration" th:value="${duration}">
+
     <button id="rzp-button"
             th:data-key="${order.key}"
             th:data-amount="${order.amount}"
@@ -79,6 +83,9 @@
     button.onclick = function(e) {
         e.preventDefault();
 
+        const planId = document.getElementById('planId').value;
+        const duration = document.getElementById('duration').value;
+
         const options = {
             "key": button.getAttribute("data-key"),
             "amount": button.getAttribute("data-amount"), // in paise
@@ -90,7 +97,9 @@
                 alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
                 window.location.href = "/payment/success?razorpay_payment_id=" + response.razorpay_payment_id +
                                        "&razorpay_order_id=" + response.razorpay_order_id +
-                                       "&razorpay_signature=" + response.razorpay_signature;
+                                       "&razorpay_signature=" + response.razorpay_signature +
+                                       "&planId=" + planId +
+                                       "&duration=" + duration;
             },
             "prefill": {
                 "name": "Test User",

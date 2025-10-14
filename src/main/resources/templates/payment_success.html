@@ -1,10 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Payment Successful</title></head>
+<head>
+    <title>Payment Successful</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 40px;
+            color: #333;
+        }
+        h2 {
+            color: #12DAD1;
+        }
+        .success-container {
+            max-width: 500px;
+            margin: auto;
+            padding: 25px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .info {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        .highlight {
+            font-weight: bold;
+            color: #0bb6aa;
+        }
+    </style>
+</head>
 <body>
-<h2>Payment Successful 🎉</h2>
-<p>Payment ID: <span th:text="${paymentId}"></span></p>
-<p>Order ID: <span th:text="${orderId}"></span></p>
-<p>Thank you for your purchase!</p>
+<div class="success-container">
+    <h2>Payment Successful 🎉</h2>
+
+    <div class="info">Payment ID: <span class="highlight" th:text="${paymentId}"></span></div>
+    <div class="info">Order ID: <span class="highlight" th:text="${orderId}"></span></div>
+
+    <div class="info">Plan: <span class="highlight" th:text="${planName}"></span></div>
+    <div class="info">Duration: <span class="highlight" th:text="${subscriptionEnd}"></span></div>
+
+    <p>Thank you for your purchase! Your subscription is now active.</p>
+</div>
 </body>
 </html>

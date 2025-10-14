@@ -84,6 +84,11 @@ public class HomeController {
     PopulateInputHistory populateInputHistory;
 
 
+    @GetMapping
+    public String home()
+    {
+        return "index";
+    }
 
 
     @PostMapping("/clearHistory")

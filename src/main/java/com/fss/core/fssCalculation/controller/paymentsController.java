@@ -53,36 +53,34 @@ public class paymentsController {
     }
 
     @PostMapping("/subscribe")
-    public String subscribe(@RequestParam("planId") Long planId,@RequestParam(value = "duration", required = false, defaultValue = "1") int duration, Model model) throws RazorpayException {
+    public String subscribe(@RequestParam("planId") Long planId, @RequestParam(value = "duration", required = false, defaultValue = "1") int duration, Model model) throws RazorpayException {
         // Fetch plan details from DB
         SubscriptionPlan plan = planRepository.findById(planId)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid plan ID"));
 
 
-        if("Free".equalsIgnoreCase(plan.getPlanname()))
-        {
+        if ("Free".equalsIgnoreCase(plan.getPlanname())) {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             String username = auth.getName();
             User user = userRepository.findByUsername(username).orElse(null);
 
             if (user == null) {
-               return "redirect:/login?error=user_not_found";
+                return "redirect:/login?error=user_not_found";
 
             }
-            if(user.getSubscriptionEnd()!=null)
-            {
-                model.addAttribute("comment", "You have used your Free Quota, Please upgrade to Gold plan");
-                return "payments";
-            }
+//            if (user.getSubscriptionEnd() != null) {
+//                model.addAttribute("comment", "You have used your Free Quota, Please upgrade to Gold plan");
+//                return "payments";
+//            }
             if (!user.isSubscribed()) {
 
                 user.setSubscriptionPlan(plan);
                 user.setSubscriptionStart(LocalDate.now());
-                user.setSubscriptionEnd(LocalDate.now().plusDays(2));
+                user.setSubscriptionEnd(LocalDate.now().plusDays(20));
                 userRepository.save(user);
             }
 
-                return "redirect:/window/ui";
+            return "redirect:/window/ui";
 
         }
 
@@ -93,6 +91,7 @@ public class paymentsController {
         model.addAttribute("plan", plan);
         model.addAttribute("order", orderDetails);
         model.addAttribute("totalAmount", totalAmount);
+        model.addAttribute("duration", duration);
 
         return "payment-page"; // -> src/main/resources/templates/payment-page.html
     }
@@ -102,12 +101,15 @@ public class paymentsController {
             @RequestParam("razorpay_payment_id") String paymentId,
             @RequestParam("razorpay_order_id") String orderId,
             @RequestParam("razorpay_signature") String signature,
+            @RequestParam(value = "planId", required = false) Long planId,
+            @RequestParam(value = "duration", required = false, defaultValue = "1") int duration,
             Model model) {
-
 
         boolean isValid = verifySignature(orderId, paymentId, signature);
 
+        // TEMP — force true for local testing (optional)
         isValid = true;
+
         if (isValid) {
             // ✅ Signature verified successfully
             model.addAttribute("status", "success");
@@ -115,17 +117,58 @@ public class paymentsController {
             model.addAttribute("paymentId", paymentId);
             model.addAttribute("orderId", orderId);
 
-            // Here you can save payment details in DB or activate user’s plan
-            // e.g., paymentService.savePayment(orderId, paymentId);
+            try {
+                // Get current logged-in user
+                Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                String username = auth.getName();
+                User user = userRepository.findByUsername(username).orElse(null);
 
-            return "payment_success"; // Thymeleaf template to show success
+                if (user == null) {
+                    model.addAttribute("message", "User not found!");
+                    return "payment_failed";
+                }
+
+                // Get subscription plan details
+                SubscriptionPlan plan = planRepository.findById(planId)
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid plan ID"));
+
+                // Update user subscription
+                user.setSubscriptionPlan(plan);
+                user.setSubscriptionStart(LocalDate.now());
+                LocalDate existingSubscriptionEndDate = user.getSubscriptionEnd();
+
+                if(!user.isSubscribed())
+                {
+                    user.setSubscriptionEnd(LocalDate.now().plusMonths(duration));
+                }
+                else
+                {
+                    user.setSubscriptionEnd(existingSubscriptionEndDate.plusMonths(duration));// if already subscribed then added extended period
+                }
+
+                userRepository.save(user);
+
+                // You can also log/save payment details to DB
+                // paymentService.savePayment(orderId, paymentId, plan, user);
+
+                model.addAttribute("planName", plan.getPlanname());
+                model.addAttribute("subscriptionEnd", user.getSubscriptionEnd());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                model.addAttribute("message", "Error while updating subscription details!");
+                return "payment_failed";
+            }
+
+            return "payment_success"; // ✅ Success page
         } else {
             // ❌ Signature mismatch — possible tampering
             model.addAttribute("status", "failed");
             model.addAttribute("message", "Payment verification failed!");
-            return "payment_failed"; // show a failure page
+            return "payment_failed";
         }
     }
+
 
     /**
      * Helper method to verify the Razorpay signature.
