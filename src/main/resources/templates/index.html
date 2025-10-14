@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>NEXTGEN FACADE</title>
@@ -36,8 +36,18 @@
         <li><a href="#testimonials">Testimonials</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li><a href="/login">Login</a></li>
-        <li><a href="/payment">Register</a></li>
+        <li th:if="${username != null}">
+            <span class="user-name">👤 <span th:text="${username}"></span></span>
+            <form th:action="@{/logout}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                <button type="submit" class="header-btn logout-btn">⏻ Logout</button>
+            </form>
+        </li>
+        <li th:if="${username == null}">
+            <a href="/login">Login</a>
+            <a href="/payment">Register</a>
+        </li>
+
     </ul>
 </nav>
 <!-- rest of your HTML stays the same... -->

@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -82,13 +83,6 @@ public class HomeController {
 
     @Autowired
     PopulateInputHistory populateInputHistory;
-
-
-    @GetMapping
-    public String home()
-    {
-        return "index";
-    }
 
 
     @PostMapping("/clearHistory")

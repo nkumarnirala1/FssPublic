@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -35,6 +36,14 @@ public class SecurityController {
     private SubscriptionPlanRepository planRepository;
     @Autowired
     private PaymentService paymentService;
+
+    @GetMapping({"/", "/home"})
+    public String home(Model model, Principal principal) {
+        if (principal != null) {
+            model.addAttribute("username", principal.getName());
+        }
+        return "index";
+    }
 
     @GetMapping("/login")
     public String loginPage() {
@@ -146,9 +155,7 @@ public class SecurityController {
         userRepository.save(user);
 
 
-   return "redirect:/login?registered=registrationSuccessfull";
-
-
+        return "redirect:/login?registered=registrationSuccessfull";
 
 
     }

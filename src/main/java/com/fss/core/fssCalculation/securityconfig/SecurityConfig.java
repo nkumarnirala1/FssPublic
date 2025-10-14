@@ -22,7 +22,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/reset-password","/reset-password/**","/validate-otp","/validate-otp/**","/forgot-password","/forgot-password/**","/register", "/register/**","/login", "/css/**", "/js/**", "/images/**").permitAll()  // allow login and static
+                        .requestMatchers("/","/home","/reset-password","/reset-password/**","/validate-otp","/validate-otp/**","/forgot-password","/forgot-password/**","/register", "/register/**","/login", "/css/**", "/js/**", "/images/**").permitAll()  // allow login and static
                         .anyRequest().authenticated()  // all other endpoints secured
                 )
                 .formLogin(form -> form
