@@ -908,21 +908,33 @@ body {
   margin-bottom: 80px;
 }
 
+/* ===== Compact Card Design Fixes ===== */
+
+/* Tighter container for better card proportions */
+.plans-section .container {
+  max-width: 1040px;
+}
+
+/* Smaller, more compact grid */
 .plans-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: var(--space-24);
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-20);
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 /* Plan Cards */
 .plan-card {
   background: var(--bg-elevated);
   border: 1px solid var(--border-primary);
-  border-radius: var(--space-20);
-  padding: var(--space-32);
+  border-radius: var(--radius-md);
+  padding: var(--space-20);
   position: relative;
   transition: all var(--duration-normal) var(--ease-standard);
   box-shadow: var(--shadow-sm);
+  max-width: 380px;
+  margin-inline: auto;
 }
 
 .plan-card:hover {
@@ -931,28 +943,31 @@ body {
   border-color: var(--brand-teal);
 }
 
+/* Remove featured card scaling */
 .plan-card.featured {
-  border: 2px solid var(--brand-teal);
-  background: linear-gradient(135deg,
-    rgba(var(--color-teal-500-rgb, 33, 128, 141), 0.05) 0%,
-    var(--bg-elevated) 100%);
-  transform: scale(1.02);
+  transform: none;
+  border-width: 1.5px;
+  background: linear-gradient(
+    135deg,
+    rgba(var(--color-teal-500-rgb, 33, 128, 141), 0.04) 0%,
+    var(--bg-elevated) 100%
+  );
 }
 
 .plan-card.featured:hover {
-  transform: translateY(-8px) scale(1.02);
+  transform: translateY(-6px);
 }
 
-/* Plan Header */
+/* Tighter header spacing */
 .plan-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: var(--space-20);
+  margin-bottom: var(--space-12);
 }
 
 .plan-name {
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
   color: var(--text-primary);
 }
@@ -960,7 +975,7 @@ body {
 .popular-badge {
   background: linear-gradient(90deg, var(--brand-teal), var(--brand-teal-light));
   color: var(--color-btn-primary-text);
-  padding: var(--space-6) var(--space-12);
+  padding: var(--space-4) var(--space-8);
   border-radius: var(--radius-full);
   font-size: var(--font-size-xs);
   font-weight: var(--font-weight-semibold);
@@ -968,62 +983,80 @@ body {
   letter-spacing: 0.5px;
 }
 
-/* Plan Pricing */
+/* Compact pricing */
 .plan-pricing {
-  margin-bottom: var(--space-16);
+  margin-bottom: var(--space-12);
 }
 
 .plan-price {
-  font-size: 42px;
+  font-size: 28px;
   font-weight: var(--font-weight-bold);
   color: var(--text-primary);
   letter-spacing: var(--letter-spacing-tight);
 }
 
 .plan-period {
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-md);
   color: var(--text-secondary);
   margin-left: var(--space-8);
 }
 
+/* Tighter content spacing */
 .plan-description {
   color: var(--text-secondary);
-  margin-bottom: var(--space-32);
-  line-height: var(--line-height-normal);
+  margin-bottom: var(--space-16);
+  line-height: 1.4;
+  font-size: var(--font-size-sm);
 }
 
 /* Plan Features */
 .plan-features {
-  margin-bottom: var(--space-32);
+  margin-bottom: var(--space-16);
 }
 
 .feature-item {
   display: flex;
   align-items: center;
   gap: var(--space-12);
-  margin-bottom: var(--space-12);
-  font-size: var(--font-size-md);
+  margin-bottom: var(--space-6);
+  font-size: var(--font-size-sm);
 }
 
 .feature-icon {
-  width: var(--space-20);
-  height: var(--space-20);
+  width: var(--space-16);
+  height: var(--space-16);
   background: var(--brand-teal);
   color: var(--color-btn-primary-text);
   border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--font-size-xs);
+  font-size: 10px;
   font-weight: var(--font-weight-semibold);
   flex-shrink: 0;
 }
 
-/* Plan Actions */
+/* Compact actions */
 .plan-actions {
   display: flex;
   flex-direction: column;
-  gap: var(--space-12);
+  gap: var(--space-8);
+}
+
+.plan-actions .form-group {
+  margin-bottom: var(--space-12);
+}
+
+.plan-actions .form-label {
+  font-size: var(--font-size-xs);
+  margin-bottom: var(--space-4);
+  font-weight: var(--font-weight-medium);
+}
+
+.plan-actions select.form-control {
+  padding: var(--space-6) var(--space-12);
+  font-size: var(--font-size-sm);
+  border-radius: var(--radius-base);
 }
 
 /* Buttons */
@@ -1031,10 +1064,10 @@ body {
   background: linear-gradient(135deg, var(--brand-teal), var(--brand-teal-light));
   color: var(--color-btn-primary-text);
   border: none;
-  padding: var(--space-16) var(--space-24);
+  padding: var(--space-12) var(--space-20);
   border-radius: var(--radius-lg);
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-medium);
   cursor: pointer;
   transition: all var(--duration-fast) var(--ease-standard);
   box-shadow: var(--shadow-sm);
@@ -1075,6 +1108,43 @@ body {
 .btn-secondary:focus-visible {
   outline: var(--focus-outline);
   outline-offset: 2px;
+}
+
+/* ===== Header Navigation Buttons ===== */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-16);
+}
+
+.nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+.nav-buttons .btn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-6);
+  white-space: nowrap;
+}
+
+.nav-buttons svg {
+  flex-shrink: 0;
+}
+
+/* ===== Select Placeholder Styling ===== */
+select.form-control:invalid {
+  color: var(--text-tertiary);
+}
+
+select.form-control option[disabled] {
+  color: var(--text-tertiary);
+}
+
+select.form-control option:not([disabled]) {
+  color: var(--text-primary);
 }
 
 /* ===== Trust Section ===== */
@@ -1141,37 +1211,46 @@ body {
   font-size: var(--font-size-sm);
 }
 
-/* ===== Responsive Design ===== */
+/* ===== Mobile Responsive Updates ===== */
 @media (max-width: 768px) {
   .header-content {
     flex-direction: column;
-    gap: var(--space-16);
+    gap: var(--space-12);
     text-align: center;
   }
 
+  .header-actions {
+    flex-direction: column;
+    gap: var(--space-12);
+    width: 100%;
+  }
+
+  .nav-buttons {
+    justify-content: center;
+  }
+
   .security-badge {
+    order: 2;
     font-size: var(--font-size-xs);
     padding: var(--space-6) var(--space-12);
+  }
+
+  .nav-buttons {
+    order: 1;
   }
 
   .hero {
     margin-bottom: 40px;
   }
 
-  .plan-card {
-    padding: var(--space-24);
-  }
-
   .plans-grid {
     grid-template-columns: 1fr;
+    max-width: 100%;
   }
 
-  .plan-card.featured {
-    transform: none;
-  }
-
-  .plan-card.featured:hover {
-    transform: translateY(-8px);
+  .plan-card {
+    max-width: 100%;
+    padding: var(--space-16);
   }
 
   .trust-features {
@@ -1185,22 +1264,23 @@ body {
     padding: 0 var(--space-16);
   }
 
+  .nav-buttons {
+    flex-direction: column;
+    gap: var(--space-6);
+    width: 100%;
+  }
+
+  .nav-buttons .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
   .brand-text {
     font-size: var(--font-size-2xl);
   }
 
   .plan-price {
-    font-size: 36px;
-  }
-
-  .plan-actions {
-    gap: var(--space-8);
-  }
-
-  .btn-primary,
-  .btn-secondary {
-    padding: var(--space-12) var(--space-20);
-    font-size: var(--font-size-md);
+    font-size: 24px;
   }
 
   .hero-title {
@@ -1276,4 +1356,3 @@ button:focus-visible {
     font-weight: 500;
     margin: 0;
 }
-
