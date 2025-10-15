@@ -1,10 +1,89 @@
+<!-- payment_success.html -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head><title>Payment Successful</title></head>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextGen Facade — Success</title>
+    <link rel="stylesheet" href="/static/css/payments.css">
+    <style>
+        /* Reuse fixed header */
+        header.header { /* same styles as above */ }
+
+        body {
+          display: flex; flex-direction: column;
+          align-items: center; justify-content: center;
+          min-height: 100vh; margin: 0;
+          padding-top: calc(var(--space-16)*2 + var(--font-size-2xl));
+          background: linear-gradient(135deg, #e8f4f8 0%, #f0f9fc 45%, #e1f2f7 100%);
+          position: relative;
+        }
+        body::before { /* same background pattern */ }
+        .success-container {
+          position: relative; z-index: 2;
+          background: rgba(255,255,255,0.95);
+          padding: 36px 32px; border-radius: 16px;
+          max-width: 400px; width: 90%;
+          box-shadow: 0 10px 30px rgba(33,128,141,0.12),0 2px 10px rgba(0,0,0,0.05);
+          text-align: center;
+        }
+        .success-container h2 {
+          font-size: 1.9em; color: #0d9488;
+          margin-bottom: 24px; font-weight: 800;
+          letter-spacing: 0.5px;
+        }
+        .success-container p {
+          font-size: 1.1em; margin: 14px 0;
+          color: #1a2b33;
+        }
+        .success-container p span {
+          font-weight: 600; color: #229ba9;
+        }
+        @media (prefers-color-scheme: dark) {
+          body {
+            background: linear-gradient(135deg,#0f1419 0%,#1a252b 70%,#111b20 100%);
+            color: #ddeef1;
+          }
+          body::before { /* dark pattern */ }
+          .success-container {
+            background: rgba(26,37,43,0.9);
+            box-shadow: 0 10px 30px rgba(18,218,209,0.18),0 4px 12px rgba(0,0,0,0.25);
+            border: 1px solid rgba(18,218,209,0.12);
+            backdrop-filter: blur(12px);
+          }
+          .success-container h2 { color: #12dad1; }
+          .success-container p { color: #ddeef1; }
+          .success-container p span { color: #0fb5aa; }
+        }
+    </style>
+</head>
 <body>
-<h2>Payment Successful 🎉</h2>
-<p>Payment ID: <span th:text="${paymentId}"></span></p>
-<p>Order ID: <span th:text="${orderId}"></span></p>
-<p>Thank you for your purchase!</p>
+<header class="header">
+    <div class="container">
+        <div class="brand">
+            <div class="brand-icon"></div>
+            <div class="brand-text">NextGen Facade</div>
+        </div>
+        <div class="header-actions">
+            <div class="security-badge">
+                <svg width="16" height="16" fill="#12DAD1" viewBox="0 0 24 24">
+                    <path d="M12 2L3 7l9 13 9-13-9-5zM12 7c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/>
+                </svg>
+                <span>Secure Payments • Razorpay Certified</span>
+            </div>
+            <div class="nav-buttons">
+                <a href="/" class="btn btn--outline">Home</a>
+                <a href="/logout" class="btn btn--secondary">Logout</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="success-container">
+    <h2>Payment Successful 🎉</h2>
+    <p>Payment ID: <span th:text="${paymentId}"></span></p>
+    <p>Order ID: <span th:text="${orderId}"></span></p>
+    <p>Thank you for your purchase!</p>
+</div>
 </body>
 </html>

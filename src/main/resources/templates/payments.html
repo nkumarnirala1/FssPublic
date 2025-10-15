@@ -5,17 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NextGen Facade — Subscription Plans</title>
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Razorpay SDK -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-
-    <!-- Stylesheets -->
     <link rel="stylesheet" th:href="@{/css/payments.css}">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
 </head>
 
@@ -35,11 +29,28 @@
                 </div>
             </div>
 
-            <div class="security-badge">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="#12DAD1">
-                    <path d="M12 2L3 7l9 13 9-13-9-5zM12 7c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/>
-                </svg>
-                <span>Secure Payments • Razorpay Certified</span>
+            <div class="header-actions">
+                <div class="security-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#12DAD1">
+                        <path d="M12 2L3 7l9 13 9-13-9-5zM12 7c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/>
+                    </svg>
+                    <span>Secure Payments • Razorpay Certified</span>
+                </div>
+
+                <div class="nav-buttons">
+                    <a href="/" class="btn btn--sm btn--outline">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                        </svg>
+                        Home
+                    </a>
+                    <a href="/logout" class="btn btn--sm btn--secondary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                        </svg>
+                        Logout
+                    </a>
+                </div>
             </div>
         </div>
     </div>
@@ -48,18 +59,15 @@
 <!-- Main Content -->
 <main class="main">
     <div class="container">
-
         <!-- Hero Section -->
         <section class="hero">
             <div class="hero-badge">
                 <span>Professional Facade Engineering Solutions</span>
             </div>
 
-
             <div th:if="${comment != null}" class="comment-container">
                 <p th:text="${comment}" class="comment-message"></p>
             </div>
-
 
             <h1 class="hero-title">Choose Your Subscription Plan</h1>
             <p class="hero-subtitle">
@@ -71,7 +79,6 @@
         <!-- Pricing Plans -->
         <section class="plans-section">
             <div class="plans-grid">
-
                 <!-- Basic Plan -->
                 <div class="plan-card">
                     <div class="plan-header">
@@ -106,20 +113,21 @@
 
                     <div class="plan-actions">
                         <form th:action="@{/payment/subscribe}" method="post">
-                            <input type="hidden" name="planId" value="1"/> <!-- Starter Plan ID -->
+                            <input type="hidden" name="planId" value="1"/>
                             <button type="submit" class="btn-primary">Subscribe Now</button>
                         </form>
                     </div>
                 </div>
 
-                <!-- Pro Plan (Featured) -->
+                <!-- Gold Plan (Featured) -->
                 <div class="plan-card featured">
                     <div class="plan-header">
                         <h3 class="plan-name">Gold</h3>
                         <span class="popular-badge">Most Popular</span>
                     </div>
                     <div class="plan-pricing">
-                        <span class="plan-price" th:text="'₹' + ${goldPrice} + ' Monthly'"></span>
+                        <span class="plan-price" th:text="'₹' + ${goldPrice}"></span>
+                        <span class="plan-period">Monthly</span>
                     </div>
                     <p class="plan-description">
                         Complete facade engineering toolkit for consultants and small teams.
@@ -150,18 +158,22 @@
 
                     <div class="plan-actions">
                         <form th:action="@{/payment/subscribe}" method="post">
-                            <input type="hidden" name="planId" value="2"/> <!-- Starter Plan ID -->
-                            <label for="duration-gold">Plan Period:</label>
-                            <select name="duration" id="duration-gold" required>
-                                <option value="1">Monthly</option>
-                                <option value="3">Quarterly (3 months)</option>
-                                <option value="12">Yearly (12 months)</option>
-                            </select>
+                            <input type="hidden" name="planId" value="2"/>
+
+                            <div class="form-group">
+                                <label for="duration-gold" class="form-label">Plan Period:</label>
+                                <select name="duration" id="duration-gold" class="form-control" required>
+                                    <option value="" disabled selected>Choose billing period</option>
+                                    <option value="1">Monthly</option>
+                                    <option value="3">Quarterly (3 months)</option>
+                                    <option value="12">Yearly (12 months)</option>
+                                </select>
+                            </div>
+
                             <button type="submit" class="btn-primary">Subscribe Now</button>
                         </form>
                     </div>
                 </div>
-
             </div>
         </section>
 
@@ -186,15 +198,14 @@
             </div>
         </section>
 
-        <!-- Disclaimer -->
-        <div class="disclaimer">
-            <p>
-                <strong>Note:</strong> This is a demo implementation. In production, always create orders
-                on your secure backend server and never expose API keys in frontend code.
-                All payments are processed securely through Razorpay's certified gateway.
-            </p>
-        </div>
-
+<!--        &lt;!&ndash; Disclaimer &ndash;&gt;-->
+<!--        <div class="disclaimer">-->
+<!--            <p>-->
+<!--                <strong>Note:</strong> This is a demo implementation. In production, always create orders-->
+<!--                on your secure backend server and never expose API keys in frontend code.-->
+<!--                All payments are processed securely through Razorpay's certified gateway.-->
+<!--            </p>-->
+<!--        </div>-->
     </div>
 </main>
 
@@ -205,7 +216,6 @@
     </div>
 </footer>
 
-<!-- JavaScript -->
 <script src="/js/payments.js"></script>
 </body>
 </html>

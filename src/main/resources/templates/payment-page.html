@@ -1,68 +1,140 @@
+<!-- payment.html -->
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Complete Payment</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NextGen Facade — Payment</title>
+    <link rel="stylesheet" href="/static/css/payments.css">
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <style>
+        /* Fixed header */
+        header.header {
+          position: fixed;
+          top: 0; left: 0; right: 0;
+          background: var(--bg-elevated);
+          backdrop-filter: blur(10px);
+          border-bottom: 1px solid var(--border-primary);
+          z-index: 100;
+        }
+        header .container {
+          max-width: var(--container-xl);
+          margin: 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: var(--space-16) var(--space-20);
+        }
+        .brand {
+          display: flex;
+          align-items: center;
+          gap: var(--space-12);
+        }
+        .brand-icon {
+          width: 32px;
+          height: 32px;
+          background: linear-gradient(135deg, var(--brand-teal), var(--brand-teal-light));
+          border-radius: var(--radius-lg);
+        }
+        .brand-text {
+          font-family: var(--font-family-base);
+          font-size: var(--font-size-2xl);
+          font-weight: var(--font-weight-bold);
+          color: var(--text-primary);
+        }
+        .header-actions {
+          display: flex;
+          align-items: center;
+          gap: var(--space-16);
+        }
+        .security-badge {
+          display: flex;
+          align-items: center;
+          gap: var(--space-8);
+          background: var(--bg-hover);
+          border: 1px solid var(--border-secondary);
+          border-radius: var(--radius-full);
+          padding: var(--space-8) var(--space-16);
+          font-size: var(--font-size-sm);
+          color: var(--text-secondary);
+        }
+        .nav-buttons {
+          display: flex;
+          gap: var(--space-8);
+        }
+        .nav-buttons .btn {
+          display: flex;
+          align-items: center;
+          gap: var(--space-6);
+          padding: var(--space-8) var(--space-12);
+          font-size: var(--font-size-sm);
+          font-weight: var(--font-weight-medium);
+          border-radius: var(--radius-base);
+          text-decoration: none;
+          color: var(--text-primary);
+          background: transparent;
+          border: 1px solid var(--border-primary);
+          transition: background var(--duration-fast);
+        }
+        .nav-buttons .btn--secondary {
+          background: var(--brand-teal);
+          color: var(--color-btn-primary-text);
+          border: none;
+        }
+        .nav-buttons .btn:hover {
+          background: var(--bg-hover);
+        }
         body {
-            font-family: Arial, sans-serif;
-            margin: 40px;
-            color: #333;
-        }
-        .payment-container {
-            max-width: 500px;
-            margin: auto;
-            padding: 25px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-        }
-        h2 {
-            text-align: center;
-            color: #12DAD1;
-        }
-        .info-row {
-            margin: 15px 0;
-            display: flex;
-            justify-content: space-between;
-            font-size: 16px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 15px;
-            border-radius: 8px;
-            border: none;
-            background-color: #12DAD1;
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        button:hover {
-            background-color: #0bb6aa;
+          padding-top: calc(var(--space-16)*2 + var(--font-size-2xl));
         }
     </style>
 </head>
 <body>
+<header class="header">
+    <div class="container">
+        <div class="brand">
+            <div class="brand-icon"></div>
+            <div class="brand-text">NextGen Facade</div>
+        </div>
+        <div class="header-actions">
+            <div class="security-badge">
+                <svg width="16" height="16" fill="#12DAD1" viewBox="0 0 24 24">
+                    <path d="M12 2L3 7l9 13 9-13-9-5zM12 7c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2z"/>
+                </svg>
+                <span>Secure Payments • Razorpay Certified</span>
+            </div>
+            <div class="nav-buttons">
+                <a href="/" class="btn btn--outline">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                    </svg>
+                    Home
+                </a>
+                <a href="/logout" class="btn btn--secondary">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                    </svg>
+                    Logout
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+
 <div class="payment-container">
     <h2>Complete Your Payment</h2>
-
     <div class="info-row">
         <span><strong>Plan:</strong></span>
         <span th:text="${plan.planname}"></span>
     </div>
-
     <div class="info-row">
         <span><strong>Base Rate:</strong></span>
         <span>₹<span th:text="${plan.price}"></span></span>
     </div>
-
     <div class="info-row">
         <span><strong>Final Amount:</strong></span>
         <span>₹<span th:text="${totalAmount}"></span></span>
     </div>
-
     <button id="rzp-button"
             th:data-key="${order.key}"
             th:data-amount="${order.amount}"
@@ -74,38 +146,22 @@
 </div>
 
 <script>
-    const button = document.getElementById('rzp-button');
-
-    button.onclick = function(e) {
-        e.preventDefault();
-
-        const options = {
-            "key": button.getAttribute("data-key"),
-            "amount": button.getAttribute("data-amount"), // in paise
-            "currency": button.getAttribute("data-currency"),
-            "name": "NextGen Facade",
-            "description": "Subscription Payment for " + button.getAttribute("data-planname"),
-            "order_id": button.getAttribute("data-orderid"),
-            "handler": function (response) {
-                alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
-                window.location.href = "/payment/success?razorpay_payment_id=" + response.razorpay_payment_id +
-                                       "&razorpay_order_id=" + response.razorpay_order_id +
-                                       "&razorpay_signature=" + response.razorpay_signature;
-            },
-            "prefill": {
-                "name": "Test User",
-                "email": "test@example.com",
-                "contact": "9999999999"
-            },
-            "theme": {
-                "color": "#12DAD1"
-            }
-        };
-
-        console.log("Razorpay order options:", options);
-        const rzp = new Razorpay(options);
-        rzp.open();
-    }
+    const btn = document.getElementById('rzp-button');
+    btn.onclick = e => {
+      e.preventDefault();
+      const options = {
+        key: btn.dataset.key,
+        amount: btn.dataset.amount,
+        currency: btn.dataset.currency,
+        name: "NextGen Facade",
+        description: "Subscription Payment for " + btn.dataset.planname,
+        order_id: btn.dataset.orderid,
+        handler: resp => window.location.href = `/payment/success?paymentId=${resp.razorpay_payment_id}&orderId=${resp.razorpay_order_id}`,
+        prefill: { name:"",email:"",contact:"" },
+        theme: { color:"#12DAD1" }
+      };
+      new Razorpay(options).open();
+    };
 </script>
 </body>
 </html>
