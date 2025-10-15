@@ -1,8 +1,162 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Payment Failed</title></head>
+<head>
+    <title>Payment Failed</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --brand-teal: #12DAD1;
+            --accent-copper: #E68161;
+            --bg-elevated: #fff;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', Arial, sans-serif;
+            color: #19343b;
+            background: linear-gradient(120deg,
+                #e6faf7 0%,
+                #f4f8fa 45%,
+                #fcfcf9 70%,
+                #fff 100%);
+            position: relative;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        body::before, body::after {
+            content: "";
+            position: absolute;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.11;
+        }
+        body::before {
+            top: 0; left: -6vw;
+            width: 60vw; height: 60vh;
+            background: linear-gradient(115deg, #12dad1 25%, #afe6dd 75%);
+            clip-path: polygon(0 0, 100% 0, 75% 100%, 0 85%);
+        }
+        body::after {
+            bottom: 0; right: -4vw;
+            width: 48vw; height: 36vh;
+            background: linear-gradient(103deg, #E68161 10%, #fff 90%);
+            clip-path: polygon(85% 0, 100% 85%, 0 100%, 0 30%);
+        }
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(120deg,
+                    #192728 0%,
+                    #19343b 50%,
+                    #262828 100%);
+                color: #F5F5F5;
+            }
+            body::before {
+                background: linear-gradient(115deg, #12dad1 30%, #328189 70%);
+                opacity: 0.18;
+            }
+            body::after {
+                background: linear-gradient(103deg, #E68161 15%, #1a2326 95%);
+                opacity: 0.14;
+            }
+            .header, .fail-container {
+                background: #262828 !important;
+                color: #F5F5F5 !important;
+                border-color: #444 !important;
+            }
+            .header-content, .brand-text, .nav-buttons .btn {color: #F5F5F5 !important;}
+            .btn--sm.btn--outline {
+                border: 1px solid #12DAD1 !important;
+                color: #FAF9F7 !important;
+                background: rgba(19,212,209,0.14);
+            }
+            .btn--sm.btn--secondary {
+                background: #2d6a73 !important;
+                color: #fff !important;
+            }
+        }
+        .header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            background: var(--bg-elevated);
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 4px 16px rgba(19,52,59,0.04);
+            z-index: 100; backdrop-filter: blur(10px);
+        }
+        .container.header-content {
+            max-width: 900px;
+            margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 18px 0;
+        }
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand-icon { width: 44px; height: 44px; background: linear-gradient(135deg, #12dad1, #AFE6DD); border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 1px 6px rgba(33,128,141,0.12);}
+        .brand-text { font-size: 1.4rem; font-weight: bold; letter-spacing: -0.01em; }
+        .nextgen { color: #12DAD1; }
+        .facade { color: #E68161; }
+        .nav-buttons { display: flex; gap: 8px; }
+        .btn {
+            display: flex; align-items: center; gap: 6px;
+            padding: 6px 16px; border-radius: 6px;
+            font-size: 15px; font-weight: 600;
+            line-height: 1.4; cursor: pointer;
+            transition: all 0.15s cubic-bezier(0.16,1,0.3,1);
+            border: none; text-decoration: none; background: none;
+        }
+        .btn--sm.btn--outline {
+            background: rgba(19,212,209,0.07);
+            color: #18404B;
+            border: 1px solid #12DAD1;
+        }
+        .btn--sm.btn--outline svg {color: #12DAD1 !important;}
+        .btn--sm.btn--secondary {background: #12dad1; color: #fff;}
+        .btn--sm.btn--secondary:hover {background: #0bb6aa;}
+        .btn--sm.btn--secondary svg {color: #fff;}
+        .main { margin-top: 78px; display: flex; justify-content: center; align-items: flex-start;}
+        .fail-container {
+            max-width: 500px; margin: 40px auto 0 auto;
+            padding: 25px; border: 1px solid #ddd; border-radius: 12px;
+            background: var(--bg-elevated); box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            text-align: center; position: relative; z-index: 1;
+        }
+        h2 { color: #e81a26; }
+        p { margin-top: 22px; font-size: 17px; color: #18404B; font-weight: 600;}
+        @media (prefers-color-scheme: dark) {
+            .fail-container p {color: #FAF9F7 !important;}
+        }
+    </style>
+</head>
 <body>
-<h2 style="color:red;">Payment Verification Failed ❌</h2>
-<p th:text="${message}"></p>
+<header class="header">
+    <div class="container header-content">
+        <div class="brand">
+            <div class="brand-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="#12DAD1" aria-label="NextGen Facade Logo">
+                    <path d="M3 3h18v2H3V3zm2 4h14v2H5V7zm-2 4h18v2H3v-2zm2 4h14v2H5v-2z"/>
+                </svg>
+            </div>
+            <span class="brand-text">
+        <span class="nextgen">NextGen</span> <span class="facade">Facade</span>
+      </span>
+        </div>
+        <nav class="nav-buttons">
+            <a href="/" class="btn btn--sm btn--outline">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                Home
+            </a>
+            <a href="/logout" class="btn btn--sm btn--secondary">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.59L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/>
+                </svg>
+                Logout
+            </a>
+        </nav>
+    </div>
+</header>
+<main class="main">
+    <div class="fail-container">
+        <h2>Payment Verification Failed ❌</h2>
+        <p th:text="${message}"></p>
+    </div>
+</main>
 </body>
 </html>
