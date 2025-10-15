@@ -102,6 +102,39 @@ body{
   border-bottom-color:var(--accent-copper);
   background:#1C1F25;
 }
+.user-action-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-name {
+  color: var(--brand-teal);
+  font-weight: 700;
+  font-size: 1.09rem;
+  padding-right: 5px;
+  letter-spacing: 0.2px;
+}
+
+.logout-btn.header-btn {
+  margin-left: 5px;
+  padding: 6px 22px;
+  background: #e63946;
+  color: #0E1116;
+  border: none;
+  border-radius: 22px;
+  font-weight: 600;
+  font-size: 1.06rem;
+  cursor: pointer;
+  box-shadow: 0 1px 8px #0ea7a120;
+  transition: background .18s, color .15s;
+  min-width: 92px;
+}
+.logout-btn.header-btn:hover{
+  background: #b71c1c;
+  color: #fff;
+}
+
 
 /* ===== Hero ===== */
 .hero-section{

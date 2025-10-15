@@ -36,9 +36,9 @@
         <li><a href="#testimonials">Testimonials</a></li>
         <li><a href="#about">About</a></li>
         <li><a href="#contact">Contact</a></li>
-        <li th:if="${username != null}">
+        <li th:if="${username != null}" class="user-action-group">
             <span class="user-name">👤 <span th:text="${username}"></span></span>
-            <form th:action="@{/logout}" method="post">
+            <form th:action="@{/logout}" method="post" style="margin:0;">
                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                 <button type="submit" class="header-btn logout-btn">⏻ Logout</button>
             </form>
