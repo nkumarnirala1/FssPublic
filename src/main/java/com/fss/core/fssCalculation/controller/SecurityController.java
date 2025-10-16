@@ -164,10 +164,16 @@ public class SecurityController {
         user.setUsername(user.getEmail().substring(0, user.getEmail().indexOf("@")));
         user.setRole("user");
 
-        userRepository.save(user);
+        try {
+            userRepository.save(user);
+        }
+        catch (Exception ex)
+        {
+            return "redirect:/login?error=unable to save";
+        }
 
 
-        return "redirect:/login?registered=registrationSuccessfull";
+        return "redirect:/login?registered=registration successful";
 
 
     }
