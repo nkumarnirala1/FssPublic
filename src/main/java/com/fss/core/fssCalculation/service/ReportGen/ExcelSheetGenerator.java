@@ -76,7 +76,11 @@ public class ExcelSheetGenerator {
                 }
             }
 
-            // Write all changes once
+            for (int i = workbook.getNumberOfSheets() - 1; i >= 0; i--) {
+                if (!sheetNameList.contains(workbook.getSheetName(i))) {
+                    workbook.removeSheetAt(i);
+                }
+            }
             workbook.write(bos);
         }
 
@@ -85,23 +89,23 @@ public class ExcelSheetGenerator {
 
     public Map<String, ArrayList<ExcelElement>> enrichElements(ArrayList<String> mullionDesignList, HttpSession session) throws IOException {
 
-        Map<String, ArrayList<ExcelElement>> mapOfexcelElementArrayList = new HashMap<>();
+        Map<String, ArrayList<ExcelElement>> sheetwiseOutputExcelElementMapList = new HashMap<>();
 
-        Map<String, Map<String, List<String>>> sheetWiseCellMap = new HashMap<>();
+        Map<String, Map<String, List<String>>> sheetWiseElemetToCellMapping = new HashMap<>();
         // transformation
         for (String sheetName : mullionDesignList) {
-            sheetWiseCellMap.put(sheetName, new HashMap<>());
-            mapOfexcelElementArrayList.put(sheetName, new ArrayList<>());
+            sheetWiseElemetToCellMapping.put(sheetName, new HashMap<>());
+            sheetwiseOutputExcelElementMapList.put(sheetName, new ArrayList<>());
         }
 
-        sheetWiseCellMap = excelCellMap.loadMappings(mullionDesignList, sheetWiseCellMap);
+        sheetWiseElemetToCellMapping = excelCellMap.loadMappings(mullionDesignList, sheetWiseElemetToCellMapping);
 
-        for (Map.Entry<String, ArrayList<ExcelElement>> singleSheet : mapOfexcelElementArrayList.entrySet()) {
+        for (Map.Entry<String, ArrayList<ExcelElement>> singleSheet : sheetwiseOutputExcelElementMapList.entrySet()) {
 
             ArrayList<ExcelElement> excelElementArrayList = singleSheet.getValue();
             String sheetName = singleSheet.getKey();
 
-            for (Map.Entry<String, List<String>> entry : sheetWiseCellMap.get(sheetName).entrySet()) {
+            for (Map.Entry<String, List<String>> entry : sheetWiseElemetToCellMapping.get(sheetName).entrySet()) {
 
                 String name = entry.getKey();
                 List<String> valueList = entry.getValue();
@@ -118,7 +122,7 @@ public class ExcelSheetGenerator {
                 }
             }
         }
-        return mapOfexcelElementArrayList;
+        return sheetwiseOutputExcelElementMapList;
     }
 
     public static int[] getRowAndColumn(String cell) {
