@@ -9,14 +9,6 @@
                 <!-- Left Column: 5 Inputs -->
                 <div class="form-column-left">
                     <div class="form-group">
-                        <label for="casement_calculationMethod">Calculation Method</label>
-                        <select id="casement_calculationMethod" th:field="*{calculationMethod}" required>
-                            <option value="" disabled>Select calculation Method</option>
-                            <option value="combined">Combined</option>
-                            <option value="a+b">A+B</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
                         <label for="casement_unsupportedLength">Unsupported Length/Horizontal Profile (mm)</label>
                         <input type="number" id="casement_unsupportedLength" name="casement_unsupportedLength"
                                th:value="*{unsupportedLength}" placeholder="Enter length in mm" required/>
@@ -59,14 +51,6 @@
                         <input type="number" step="0.01" id="casement_settingBlockLocation" th:field="*{settingBlockLocation}" placeholder="Location" required/>
                     </div>
 
-                    <div class="form-group">
-                        <label for="casement_centralMeetingProfile">Central Meeting Profile</label>
-                        <select id="casement_centralMeetingProfile" th:field="*{centralMeetingProfile}" required>
-                            <option value="" disabled selected>Select Yes/No</option>
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
-                        </select>
-                    </div>
                 </div>
             </div>
             <!-- Button at bottom center -->
