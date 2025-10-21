@@ -15,7 +15,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final UserRepository userRepository;
 
 
-   private final PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     public CustomUserDetailsService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -25,9 +25,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        if(username.contains("@"))
-        {
-            username= username.substring(0, username.indexOf('@'));
+        if (username.contains("@")) {
+            username = username.substring(0, username.indexOf('@'));
         }
 
         User user = userRepository.findByUsername(username)
