@@ -25,25 +25,48 @@ public class SubscriptionInterceptor implements HandlerInterceptor {
 
         System.out.println("🚀 Interceptor hit for: " + request.getRequestURI());
 
-        // If user is not logged in, continue (security handles auth)
-        if (auth == null || auth.getName().equals("anonymousUser")) {
+        if (auth == null || auth.getPrincipal().equals("anonymousUser")) {
             return true;
         }
 
-        // Check subscription
-        String username = auth.getName();
+        String username = null;
+
+        Object principal = auth.getPrincipal();
+
+        // ✅ Case 1: Form Login (principal is org.springframework.security.core.userdetails.User)
+        if (principal instanceof org.springframework.security.core.userdetails.User springUser) {
+            username = springUser.getUsername();  // already matches DB username
+        }
+
+        // ✅ Case 2: OAuth2 Login (principal is DefaultOAuth2User)
+        else if (principal instanceof org.springframework.security.oauth2.core.user.DefaultOAuth2User oauthUser) {
+            String email = (String) oauthUser.getAttributes().get("email");
+            if (email != null) {
+                // your usernames = part before @
+                username = email.split("@")[0];
+            }
+        }
+
+        if (username == null) {
+            // Cannot map principal to DB user
+            response.sendRedirect("/login?error=principal_not_mapped");
+            return false;
+        }
+
+        // ------------------- Fetch DB user -------------------
         User user = userRepository.findByUsername(username).orElse(null);
         if (user == null) {
             response.sendRedirect("/login?error=user_not_found");
             return false;
         }
 
+        // ------------------- Check subscription -------------------
         if (!user.isSubscribed()) {
-            // Redirect to subscription page if not subscribed
             response.sendRedirect("/payment");
             return false;
         }
 
         return true;
     }
+
 }
