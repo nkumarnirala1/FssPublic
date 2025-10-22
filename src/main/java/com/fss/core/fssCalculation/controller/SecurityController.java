@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,6 +44,9 @@ public class SecurityController {
 
     @Autowired
     private  JavaMailSender mailSender;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Value("${admin.email}")
     private String adminEmail;
@@ -108,10 +112,28 @@ public class SecurityController {
 
         User user = userOpt.get();
 
+
+
         if (user.getOtp() != null &&
                 user.getOtp().equals(otp) &&
                 user.getOtpExpiry().isAfter(LocalDateTime.now())) {
 
+            if(!user.isActive())
+            {
+                user.setActive(true);
+                try {
+                    userRepository.save(user);
+                    return "redirect:/login?registered=registration successful";
+
+                }
+                catch (Exception ex)
+                {
+                    return "redirect:/validate-otp?email=" + user.getEmail();
+
+                }
+
+
+            }
             // OTP is valid → redirect to reset password page
             return "redirect:/reset-password?email=" + email;
         }
@@ -138,7 +160,7 @@ public class SecurityController {
         }
 
         User user = userOpt.get();
-        user.setPassword(password); // 🔒 encode with BCryptPasswordEncoder in real case
+        user.setPassword(passwordEncoder.encode(password)); // 🔒 encode with BCryptPasswordEncoder in real case
         user.setOtp(null);
         user.setOtpExpiry(null);
         userRepository.save(user);
@@ -162,7 +184,13 @@ public class SecurityController {
         }
 
         user.setUsername(user.getEmail().substring(0, user.getEmail().indexOf("@")));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setRole("user");
+        user.setActive(false);
+        // Generate OTP
+        String otp = String.valueOf(100000 + new Random().nextInt(900000));
+        user.setOtp(otp);
+        user.setOtpExpiry(LocalDateTime.now().plusMinutes(5)); // 5 min expiry
 
         try {
             userRepository.save(user);
@@ -172,8 +200,8 @@ public class SecurityController {
             return "redirect:/login?error=unable to save";
         }
 
-
-        return "redirect:/login?registered=registration successful";
+        emailService.sendEmail(user.getEmail(), "Nextgen Facade account validation Code", "Your OTP is: " + otp);
+        return "redirect:/validate-otp?email=" + user.getEmail();
 
 
     }

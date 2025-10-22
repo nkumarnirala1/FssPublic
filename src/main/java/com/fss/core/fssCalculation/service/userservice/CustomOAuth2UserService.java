@@ -74,7 +74,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         newUser.setEmail(email);
         newUser.setFullname(fullName);
         newUser.setPassword(null);          // OAuth users have no local password
-        newUser.setRole("USER");            // default role
+        newUser.setRole("user");            // default role
         newUser.setActive(true);            // active by default
         newUser.setOtp(null);
         newUser.setOtpExpiry(null);
